@@ -2075,7 +2075,6 @@
 		05E004FF10CCE13100F5C304 /* bg_paid_back_of_shelf.png in Resources */ = {isa = PBXBuildFile; fileRef = 05E004FE10CCE13100F5C304 /* bg_paid_back_of_shelf.png */; };
 		05E205F00F15DAAE0090D9EA /* NSDataBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 05E205EF0F15DAAE0090D9EA /* NSDataBase64.m */; };
 		05E206260F15E2BA0090D9EA /* EncryptDecrypt.mm in Sources */ = {isa = PBXBuildFile; fileRef = 05E206250F15E2BA0090D9EA /* EncryptDecrypt.mm */; };
-		05E206290F15E2FC0090D9EA /* libSystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E206280F15E2FC0090D9EA /* libSystem.dylib */; };
 		05E3BCAB0FA2E9970075C674 /* btn_mygames.png in Resources */ = {isa = PBXBuildFile; fileRef = 05E3BCA70FA2E9970075C674 /* btn_mygames.png */; };
 		05E3BCAC0FA2E9970075C674 /* btn_getupdated_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 05E3BCA80FA2E9970075C674 /* btn_getupdated_active.png */; };
 		05E3BCAD0FA2E9970075C674 /* btn_getupdated.png in Resources */ = {isa = PBXBuildFile; fileRef = 05E3BCA90FA2E9970075C674 /* btn_getupdated.png */; };
@@ -4015,7 +4014,6 @@
 				05CB8E9A0DD7ACF000C88E18 /* AudioToolbox.framework in Frameworks */,
 				051163830DFD057E00293278 /* QuartzCore.framework in Frameworks */,
 				05F31C200F0E034000A00612 /* SystemConfiguration.framework in Frameworks */,
-				05E206290F15E2FC0090D9EA /* libSystem.dylib in Frameworks */,
 				05164CA90F25A9360041CBAF /* Security.framework in Frameworks */,
 				05B094FA0F53BBF5003C32F9 /* AVFoundation.framework in Frameworks */,
 				05AEA5250F87568D00FB53C8 /* CoreLocation.framework in Frameworks */,
@@ -8105,6 +8103,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Manomio LLC";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "C64" */;
@@ -10516,29 +10515,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Manomio LLC";
 				COPY_PHASE_STRIP = YES;
-				GCC_AUTO_VECTORIZATION = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/iphone/frameworks/Additional/**";
 				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = _DISTRIBUTION;
 				GCC_STRICT_ALIASING = YES;
 				GCC_THREADSAFE_STATICS = NO;
-				GCC_THUMB_SUPPORT = NO;
 				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LLVM_VECTORIZE_LOOPS = YES;
 				OTHER_CFLAGS = (
 					"-finline-functions",
 					"-fno-PIE",
@@ -10546,7 +10543,6 @@
 					"-falign-loops=16",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PREBINDING = YES;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BC0233DF-D34C-4805-8345-9FDA0E3294A2";
 				SDKROOT = iphoneos;
@@ -10572,7 +10568,6 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10623,25 +10618,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "~/iphone/frameworks/Additional/**";
 				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_STRICT_ALIASING = YES;
 				GCC_THREADSAFE_STATICS = NO;
-				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				LIBRARY_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PREBINDING = NO;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -10667,7 +10657,6 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10683,28 +10672,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Manomio LLC";
 				COPY_PHASE_STRIP = YES;
-				GCC_AUTO_VECTORIZATION = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/iphone/frameworks/Additional/**";
 				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				GCC_STRICT_ALIASING = YES;
 				GCC_THREADSAFE_STATICS = NO;
-				GCC_THUMB_SUPPORT = NO;
 				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LLVM_VECTORIZE_LOOPS = YES;
 				OTHER_CFLAGS = (
 					"-finline-functions",
 					"-fno-PIE",
@@ -10712,7 +10699,6 @@
 					"-falign-loops=16",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PREBINDING = YES;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8DB26B8A-8B3B-4B9F-AD10-DBD452419A5D";
 				SDKROOT = iphoneos;
@@ -10738,7 +10724,6 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10768,7 +10753,6 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10784,25 +10768,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "~/iphone/frameworks/Additional/**";
 				GCC_CHAR_IS_UNSIGNED_CHAR = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				GCC_STRICT_ALIASING = YES;
 				GCC_THREADSAFE_STATICS = NO;
-				GCC_THUMB_SUPPORT = NO;
 				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				ONLY_ACTIVE_ARCH = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = (
 					"-finline-functions",
 					"-fno-PIE",
@@ -10810,7 +10791,6 @@
 					"-falign-loops=16",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PREBINDING = YES;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
