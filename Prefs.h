@@ -30,7 +30,7 @@
 const int SNAPSHOT_SIZE_1 = 0x9200L;
 const int SNAPSHOT_SIZE_2 = 0x8f00L;
 
-class NSString;
+//class NSString;
 
 // Drive types
 enum {

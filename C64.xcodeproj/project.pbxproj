@@ -1141,9 +1141,7 @@
 		050D66931112AC18003DCBF8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B094F90F53BBF5003C32F9 /* AVFoundation.framework */; };
 		050D66941112AC18003DCBF8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051009590F85AD0900337C12 /* CoreLocation.framework */; };
 		050D66961112AC18003DCBF8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C339CA0FD79FBD000758D4 /* CFNetwork.framework */; };
-		050D66971112AC18003DCBF8 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C339D20FD79FD8000758D4 /* libz.1.2.3.dylib */; };
 		050D66981112AC18003DCBF8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 057DF03C109820B500D4D8D7 /* StoreKit.framework */; };
-		050D66991112AC18003DCBF8 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0521E903109E39DA0041C9F9 /* PLBlocks.framework */; };
 		050D669A1112AC18003DCBF8 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05589F3A10F6FA7100078235 /* libsqlite3.0.dylib */; };
 		050D669B1112AC18003DCBF8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05589F3C10F6FA8300078235 /* MapKit.framework */; };
 		050D66A61112AC58003DCBF8 /* libpureftpd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 050D66A41112AC43003DCBF8 /* libpureftpd.a */; };
@@ -1196,7 +1194,6 @@
 		051D45E10F5525C600A9EA17 /* ls-fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 051D45E00F5525C600A9EA17 /* ls-fire.png */; };
 		051D46610F553B0C00A9EA17 /* GameShelfController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 051D46600F553B0C00A9EA17 /* GameShelfController.mm */; };
 		051E0FDB0EF2293B00BBA9E7 /* overlay2.png in Resources */ = {isa = PBXBuildFile; fileRef = 051E0FDA0EF2293B00BBA9E7 /* overlay2.png */; };
-		0521E904109E39DA0041C9F9 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0521E903109E39DA0041C9F9 /* PLBlocks.framework */; };
 		0521E944109E3EC00041C9F9 /* MMStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0521E93E109E3EC00041C9F9 /* MMStoreManager.m */; };
 		0521E9BE109E5CE30041C9F9 /* MMDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0521E9B8109E5CE30041C9F9 /* MMDownloadManager.m */; };
 		0521E9DC109E60430041C9F9 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0521E9C8109E60430041C9F9 /* ASIAuthenticationDialog.m */; };
@@ -2040,7 +2037,6 @@
 		05C339C10FD79F17000758D4 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C339A80FD79F17000758D4 /* SBJsonParser.m */; };
 		05C339C20FD79F17000758D4 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C339AA0FD79F17000758D4 /* SBJsonWriter.m */; };
 		05C339CE0FD79FBD000758D4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C339CA0FD79FBD000758D4 /* CFNetwork.framework */; };
-		05C339D30FD79FD8000758D4 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C339D20FD79FD8000758D4 /* libz.1.2.3.dylib */; };
 		05C33A880FD7AB84000758D4 /* C64Defaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C33A870FD7AB84000758D4 /* C64Defaults.m */; };
 		05C3A88D0F6A49340085E55E /* SimpleGameListController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 05C3A88C0F6A49340085E55E /* SimpleGameListController.mm */; };
 		05C67AE70EEE3F0F00F91503 /* GoodiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C67AE60EEE3F0F00F91503 /* GoodiesViewController.m */; };
@@ -2253,6 +2249,8 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		5521B24F14B387BE00C3EEC8 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5521B24E14B387BE00C3EEC8 /* libz.1.dylib */; };
+		5521B25614B38DB600C3EEC8 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5521B25514B38DB600C3EEC8 /* MainWindow-iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2378,7 +2376,6 @@
 		051D465F0F553B0C00A9EA17 /* GameShelfController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameShelfController.h; sourceTree = "<group>"; };
 		051D46600F553B0C00A9EA17 /* GameShelfController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameShelfController.mm; sourceTree = "<group>"; };
 		051E0FDA0EF2293B00BBA9E7 /* overlay2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlay2.png; path = keys/overlay2.png; sourceTree = "<group>"; };
-		0521E903109E39DA0041C9F9 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = "/Users/stuartcarnie/Documents/projects/xcode/iPhone/frameworks/Additional/plblocks-1.0/iPhone Runtime/PLBlocks.framework"; sourceTree = "<absolute>"; };
 		0521E93D109E3EC00041C9F9 /* MMStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMStoreManager.h; sourceTree = "<group>"; };
 		0521E93E109E3EC00041C9F9 /* MMStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMStoreManager.m; sourceTree = "<group>"; };
 		0521E9B7109E5CE30041C9F9 /* MMDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDownloadManager.h; sourceTree = "<group>"; };
@@ -3736,7 +3733,6 @@
 		05C339A90FD79F17000758D4 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		05C339AA0FD79F17000758D4 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		05C339CA0FD79FBD000758D4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		05C339D20FD79FD8000758D4 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		05C33A860FD7AA4F000758D4 /* C64Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = C64Defaults.h; sourceTree = "<group>"; };
 		05C33A870FD7AB84000758D4 /* C64Defaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = C64Defaults.m; sourceTree = "<group>"; };
 		05C3A88B0F6A49340085E55E /* SimpleGameListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleGameListController.h; sourceTree = "<group>"; };
@@ -3977,6 +3973,8 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iFrodo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iFrodo_Prefix.pch; sourceTree = "<group>"; };
+		5521B24E14B387BE00C3EEC8 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = usr/lib/libz.1.dylib; sourceTree = SDKROOT; };
+		5521B25514B38DB600C3EEC8 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -3999,9 +3997,7 @@
 				050D66931112AC18003DCBF8 /* AVFoundation.framework in Frameworks */,
 				050D66941112AC18003DCBF8 /* CoreLocation.framework in Frameworks */,
 				050D66961112AC18003DCBF8 /* CFNetwork.framework in Frameworks */,
-				050D66971112AC18003DCBF8 /* libz.1.2.3.dylib in Frameworks */,
 				050D66981112AC18003DCBF8 /* StoreKit.framework in Frameworks */,
-				050D66991112AC18003DCBF8 /* PLBlocks.framework in Frameworks */,
 				050D669A1112AC18003DCBF8 /* libsqlite3.0.dylib in Frameworks */,
 				050D669B1112AC18003DCBF8 /* MapKit.framework in Frameworks */,
 			);
@@ -4011,6 +4007,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5521B24F14B387BE00C3EEC8 /* libz.1.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */,
@@ -4023,9 +4020,7 @@
 				05B094FA0F53BBF5003C32F9 /* AVFoundation.framework in Frameworks */,
 				05AEA5250F87568D00FB53C8 /* CoreLocation.framework in Frameworks */,
 				05C339CE0FD79FBD000758D4 /* CFNetwork.framework in Frameworks */,
-				05C339D30FD79FD8000758D4 /* libz.1.2.3.dylib in Frameworks */,
 				057DF03D109820B500D4D8D7 /* StoreKit.framework in Frameworks */,
-				0521E904109E39DA0041C9F9 /* PLBlocks.framework in Frameworks */,
 				05589F3B10F6FA7100078235 /* libsqlite3.0.dylib in Frameworks */,
 				05589F3D10F6FA8300078235 /* MapKit.framework in Frameworks */,
 			);
@@ -7990,6 +7985,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				5521B25414B38DB300C3EEC8 /* iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -8048,13 +8044,20 @@
 				1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
-				05C339D20FD79FD8000758D4 /* libz.1.2.3.dylib */,
+				5521B24E14B387BE00C3EEC8 /* libz.1.dylib */,
 				057DF03C109820B500D4D8D7 /* StoreKit.framework */,
-				0521E903109E39DA0041C9F9 /* PLBlocks.framework */,
 				05589F3A10F6FA7100078235 /* libsqlite3.0.dylib */,
 				05589F3C10F6FA8300078235 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5521B25414B38DB300C3EEC8 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				5521B25514B38DB600C3EEC8 /* MainWindow-iPad.xib */,
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -8106,7 +8109,11 @@
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "C64" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -9288,6 +9295,7 @@
 				05314F5E10FA4FA400C29730 /* OFDashboardTabNowPlayingPortrait.png in Resources */,
 				05314F5F10FA4FA400C29730 /* OFDashboardTabNowPlayingPortraitHit.png in Resources */,
 				05FD5C1810FC4713002DFF8A /* openfeinttab.png in Resources */,
+				5521B25614B38DB600C3EEC8 /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10526,7 +10534,7 @@
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -10541,7 +10549,7 @@
 				PREBINDING = YES;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BC0233DF-D34C-4805-8345-9FDA0E3294A2";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos;
 			};
 			name = "Distribution-App Store";
 		};
@@ -10554,6 +10562,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../frameworks/Additional/plblocks-1.0/iPhone Runtime\"",
 				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iFrodo_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -10563,6 +10572,7 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10570,6 +10580,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Distribution-App Store";
 		};
@@ -10622,7 +10633,7 @@
 				GCC_STRICT_ALIASING = YES;
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -10633,7 +10644,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -10646,6 +10657,7 @@
 					"\"$(SRCROOT)/../../../frameworks/Additional/plblocks-1.0/iPhone Runtime\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iFrodo_Prefix.pch;
@@ -10655,6 +10667,7 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10662,6 +10675,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -10686,7 +10700,7 @@
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -10701,7 +10715,7 @@
 				PREBINDING = YES;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8DB26B8A-8B3B-4B9F-AD10-DBD452419A5D";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos;
 			};
 			name = "Distribution-Ad Hoc";
 		};
@@ -10714,6 +10728,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../frameworks/Additional/plblocks-1.0/iPhone Runtime\"",
 				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iFrodo_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -10723,6 +10738,7 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10730,6 +10746,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Distribution-Ad Hoc";
 		};
@@ -10741,6 +10758,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../frameworks/Additional/plblocks-1.0/iPhone Runtime\"",
 				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iFrodo_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -10750,6 +10768,7 @@
 					"CONFIG_$(CONFIGURATION)",
 				);
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -10757,6 +10776,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -10777,7 +10797,7 @@
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -10793,7 +10813,7 @@
 				PREBINDING = YES;
 				PRODUCT_NAME = C64;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

@@ -24,13 +24,13 @@
 @implementation NSArray(BlocksAdditions)
 
 - (NSArray*)map:(id (^)(id obj))block {
-	NSMutableArray *new = [NSMutableArray array];
+	NSMutableArray *newArray = [NSMutableArray array];
 	for(id obj in self)
 	{
 		id newObj = block(obj);
-		[new addObject: newObj ? newObj : [NSNull null]];
+		[newArray addObject: newObj ? newObj : [NSNull null]];
 	}
-	return new;
+	return newArray;
 }
 
 - (id)firstUsingBlock:(BOOL(^)(id obj))block {
