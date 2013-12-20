@@ -50,7 +50,7 @@ static GameDisabledList* g_gameIgnoreList = nil;
 	
 	self.inactiveGames = [NSMutableArray arrayWithContentsOfFile:INACTIVE_GAMES_FILE];
 	if (!_inactiveGames)
-		self.inactiveGames = [NSArray array];
+		self.inactiveGames = @[];
 	
 	return self;
 }

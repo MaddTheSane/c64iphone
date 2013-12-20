@@ -49,36 +49,36 @@ NSString* kPublisherNotes = @"publisher_notes";
 
 
 - (NSString*)imagePath {
-	return [_mmData objectForKey:kCoverImageKey];
+	return _mmData[kCoverImageKey];
 }
 
 - (NSString*)productIdentifier {
 	if (_product)
 		return _product.productIdentifier;
 	
-	return [_mmData objectForKey:kProductIdentifierKey];
+	return _mmData[kProductIdentifierKey];
 }
 
 - (NSString*)title {
 	if (_product)
 		return _product.localizedTitle;
 	
-	return [_mmData objectForKey:kTitleKey];
+	return _mmData[kTitleKey];
 }
 
 - (NSString*)productDescription {
 	if (_product)
 		return _product.localizedDescription;
 	
-	return [_mmData objectForKey:kDescriptionKey];
+	return _mmData[kDescriptionKey];
 }
 
 - (NSString*)status {
-	return [_mmData objectForKey:kStatus];
+	return _mmData[kStatus];
 }
 
 - (NSString*)publisherNotes {
-	NSString* str = [_mmData objectForKey:kPublisherNotes];
+	NSString* str = _mmData[kPublisherNotes];
 	return [str stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
 }
 
@@ -86,11 +86,11 @@ NSString* kPublisherNotes = @"publisher_notes";
 	if (_product)
 		return NO;
 	
-	return [[_mmData objectForKey:kIsFree] isEqual:@"Yes"];
+	return [_mmData[kIsFree] isEqual:@"Yes"];
 }
 
 - (NSString*)description {
-	return [_mmData objectForKey:kTitleKey];
+	return _mmData[kTitleKey];
 }
 
 #pragma mark -

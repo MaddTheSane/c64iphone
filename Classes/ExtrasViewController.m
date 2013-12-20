@@ -33,8 +33,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	NSArray *upImages = [NSArray arrayWithObjects:@"btn_settings_off.png", @"btn_info_off.png", nil];
-	NSArray *downImages = [NSArray arrayWithObjects:@"btn_settings_on.png", @"btn_info_on.png", nil];
+	NSArray *upImages = @[@"btn_settings_off.png", @"btn_info_off.png"];
+	NSArray *downImages = @[@"btn_settings_on.png", @"btn_info_on.png"];
 	MMToolbar *tb = [[MMToolbar alloc] initWithFrame:kToolbarFrame upImages:upImages downImages:downImages];
 	tb.delegate = self;
 	tb.selectedIndex = 0;

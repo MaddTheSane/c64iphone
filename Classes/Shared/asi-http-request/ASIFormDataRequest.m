@@ -72,7 +72,7 @@
 		BOOL isDirectory = NO;
 		BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:(NSString *)data isDirectory:&isDirectory];
 		if (!fileExists || isDirectory) {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No file exists at %@",data],NSLocalizedDescriptionKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"No file exists at %@",data]}]];
 		}
 
 		// If the caller didn't specify a custom file name, we'll use the file name of the file we were passed
@@ -87,8 +87,10 @@
 		}
 	}
 	
-	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", contentType, @"contentType", fileName, @"fileName", nil];
-	[[self fileData] setObject:fileInfo forKey:key];
+	NSDictionary *fileInfo = @{@"data": data,
+							   @"contentType": contentType,
+							   @"fileName": fileName};
+	[self fileData][key] = fileInfo;
 	[self setRequestMethod: @"POST"];
 }
 
@@ -106,8 +108,10 @@
 		contentType = @"application/octet-stream";
 	}
 	
-	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", contentType, @"contentType", fileName, @"fileName", nil];
-	[[self fileData] setObject:fileInfo forKey:key];
+	NSDictionary *fileInfo = @{@"data": data,
+							   @"contentType": contentType,
+							   @"fileName": fileName};
+	[self fileData][key] = fileInfo;
 	[self setRequestMethod: @"POST"];
 }
 
@@ -152,7 +156,7 @@
 	int i=0;
 	while (key = [e nextObject]) {
 		[self appendPostData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key] dataUsingEncoding:[self stringEncoding]]];
-		[self appendPostData:[[[self postData] objectForKey:key] dataUsingEncoding:[self stringEncoding]]];
+		[self appendPostData:[[self postData][key] dataUsingEncoding:[self stringEncoding]]];
 		i++;
 		if (i != [[self postData] count] || [[self fileData] count] > 0) { //Only add the boundary if this is not the last item in the post body
 			[self appendPostData:endItemBoundary];
@@ -163,10 +167,10 @@
 	e = [fileData keyEnumerator];
 	i=0;
 	while (key = [e nextObject]) {
-		NSDictionary *fileInfo = [[self fileData] objectForKey:key];
-		id file = [fileInfo objectForKey:@"data"];
-		NSString *contentType = [fileInfo objectForKey:@"contentType"];
-		NSString *fileName = [fileInfo objectForKey:@"fileName"];
+		NSDictionary *fileInfo = [self fileData][key];
+		id file = fileInfo[@"data"];
+		NSString *contentType = fileInfo[@"contentType"];
+		NSString *fileName = fileInfo[@"fileName"];
 		
 		[self appendPostData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, fileName] dataUsingEncoding:[self stringEncoding]]];
 		[self appendPostData:[[NSString stringWithFormat:@"Content-Type: %@; charset=%@\r\n\r\n", contentType, charset] dataUsingEncoding:[self stringEncoding]]];
@@ -205,7 +209,7 @@
 	int i=0;
 	int count = [[self postData] count]-1;
 	while (key = [e nextObject]) {
-        NSString *data = [NSString stringWithFormat:@"%@=%@%@", [self encodeURL:key], [self encodeURL:[[self postData] objectForKey:key]],(i<count ?  @"&" : @"")]; 
+        NSString *data = [NSString stringWithFormat:@"%@=%@%@", [self encodeURL:key], [self encodeURL:[self postData][key]],(i<count ?  @"&" : @"")]; 
 		[self appendPostData:[data dataUsingEncoding:[self stringEncoding]]];
 		i++;
 	}

@@ -47,7 +47,7 @@
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
     /* Run the button's block */
     if (buttonIndex >= 0 && buttonIndex < [_blocks count]) {
-        void (^b)() = [_blocks objectAtIndex: buttonIndex];
+        void (^b)() = _blocks[buttonIndex];
         b();
     }
 	

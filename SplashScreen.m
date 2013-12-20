@@ -93,7 +93,7 @@ NSString *kWelcomeImageAnimationKeyPath = @"transform.scale";
 {
 	NSString* keyPath = [((CAKeyframeAnimation *)theAnimation) keyPath];
 	if ([keyPath isEqualToString:kWelcomeImageAnimationKeyPath]) {
-		[welcomeImage.layer setValue:[NSNumber numberWithFloat:1.0] forKeyPath:kWelcomeImageAnimationKeyPath];
+		[welcomeImage.layer setValue:@1.0f forKeyPath:kWelcomeImageAnimationKeyPath];
 		
 		_buttonTimer = [NSTimer scheduledTimerWithTimeInterval:kButtonAnimationRate target:self selector:@selector(toggleButton) userInfo:nil repeats:YES];
 	}
@@ -101,7 +101,7 @@ NSString *kWelcomeImageAnimationKeyPath = @"transform.scale";
 
 - (void)animateWelcomeImage {
 	[CATransaction begin];
-	[CATransaction setValue:[NSNumber numberWithFloat:kWelcomeAnimationDuration] forKey:kCATransactionAnimationDuration];
+	[CATransaction setValue:@(kWelcomeAnimationDuration) forKey:kCATransactionAnimationDuration];
 	
 	CAKeyframeAnimation * animation;
 	animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
@@ -118,14 +118,14 @@ NSString *kWelcomeImageAnimationKeyPath = @"transform.scale";
 	float heightAtRest = 1.0;
     while (bounceHeight > 0.01) {
         // Bounce up
-		[values addObject:[NSNumber numberWithFloat:heightAtRest + bounceHeight]];
+		[values addObject:@(heightAtRest + bounceHeight)];
 		[timings addObject:GetTiming(kCAMediaTimingFunctionEaseOut)];
 		
         // Reduce the height of the bounce by the spring's tension
 		bounceHeight *= kTension;
 
         // Bounce down
-		[values addObject:[NSNumber numberWithFloat:heightAtRest - bounceHeight]];
+		[values addObject:@(heightAtRest - bounceHeight)];
 		[timings addObject:GetTiming(kCAMediaTimingFunctionEaseIn)];
 
 		// Reduce the height of the bounce by the spring's tension

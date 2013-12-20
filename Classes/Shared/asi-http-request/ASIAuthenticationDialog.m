@@ -57,7 +57,7 @@ NSLock *dialogLock = nil;
 	[table setDelegate:self];
 	[table setDataSource:self];
 	[[self loginDialog] addSubview:table];
-	[[self loginDialog] showInView:[[[UIApplication sharedApplication] windows] objectAtIndex:0]];
+	[[self loginDialog] showInView:[[UIApplication sharedApplication] windows][0]];
 	[[self loginDialog] setFrame:CGRectMake(0,0,320,480)];
 	
 	// Setup the title (Couldn't figure out how to put this in the same toolbar as the buttons)
@@ -112,7 +112,7 @@ NSLock *dialogLock = nil;
 	
 	// Force reload the table content, and focus the first field to show the keyboard
 	[table reloadData];
-	[[[[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] subviews] objectAtIndex:2] becomeFirstResponder];
+	[[[table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] subviews][2] becomeFirstResponder];
 	
 }
 
@@ -124,8 +124,8 @@ NSLock *dialogLock = nil;
 
 - (void)loginWithCredentialsFromDialog:(id)sender
 {
-	NSString *username = [[[[[[[self loginDialog] subviews] objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] subviews] objectAtIndex:2] text];
-	NSString *password = [[[[[[[self loginDialog] subviews] objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] subviews] objectAtIndex:2] text];
+	NSString *username = [[[[[self loginDialog] subviews][0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] subviews][2] text];
+	NSString *password = [[[[[self loginDialog] subviews][0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] subviews][2] text];
 	
 	if ([self type] == ASIProxyAuthenticationType) {
 		[[self request] setProxyUsername:username];
@@ -138,7 +138,7 @@ NSLock *dialogLock = nil;
 	// Handle NTLM domains
 	NSString *scheme = ([self type] == ASIStandardAuthenticationType) ? [[self request] authenticationScheme] : [[self request] proxyAuthenticationScheme];
 	if ([scheme isEqualToString:(NSString *)kCFHTTPAuthenticationSchemeNTLM]) {
-		NSString *domain = [[[[[[[self loginDialog] subviews] objectAtIndex:0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]] subviews] objectAtIndex:2] text];
+		NSString *domain = [[[[[self loginDialog] subviews][0] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]] subviews][2] text];
 		if ([self type] == ASIProxyAuthenticationType) {
 			[[self request] setProxyDomain:domain];
 		} else {

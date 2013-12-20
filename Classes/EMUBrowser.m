@@ -35,7 +35,7 @@
 - (id)initWithBasePath:(NSString *)theBasePath {
 	NSAssert(theBasePath != nil, @"theBasePath cannot be nil");
 
-	self.extensions = [NSArray arrayWithObjects:@"d64", @"D64", @"t64", @"T64", nil];
+	self.extensions = @[@"d64", @"D64", @"t64", @"T64"];
 	self.basePath = theBasePath;
 	
 	return [super init];
@@ -44,7 +44,7 @@
 - (NSMutableArray*)getFiles {
 	NSMutableArray* list = [[NSMutableArray alloc] init];
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
+	NSString *documentsDirectory = paths[0];
 	NSString *romsPath = [documentsDirectory stringByAppendingPathComponent:@"roms"];
 	[list addObjectsFromArray:[self getFilesForPath:romsPath]];
 	

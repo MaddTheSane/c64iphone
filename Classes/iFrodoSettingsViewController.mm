@@ -52,7 +52,7 @@ enum {
 
 - (void)viewDidLoad {
 	self.title = @"Settings";
-	sections = [NSArray arrayWithObjects:@"General", @"Drive", @"Controllers", @"Emulation", @"SID", @"Audio Latency", @"Debug", nil];
+	sections = @[@"General", @"Drive", @"Controllers", @"Emulation", @"SID", @"Audio Latency", @"Debug"];
 	prefs = new Prefs();
 	prefs->Load(Frodo::prefs_path());
 	
@@ -64,7 +64,7 @@ enum {
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [sections objectAtIndex:section];
+	return sections[section];
 }
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {

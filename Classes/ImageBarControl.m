@@ -95,7 +95,7 @@ CGSize getSizeFromImage(UIButton *button) {
 		_selectedButton.selected = NO;
 	}
 	_selectedSegment = value;
-	_selectedButton = [_segments objectAtIndex:_selectedSegment];
+	_selectedButton = _segments[_selectedSegment];
 	_selectedButton.selected = YES;
 }
 
@@ -103,8 +103,8 @@ CGSize getSizeFromImage(UIButton *button) {
 	int count = [items count];
 	float totalWidth = 0;
 	for (int i=0; i<count; i+=2) {
-		NSString *image = [items objectAtIndex:i];
-		NSString *selectedImage = [items objectAtIndex:i+1];
+		NSString *image = items[i];
+		NSString *selectedImage = items[i+1];
 		UIButton *button = [self createToolButtonWithImage:image andSelectedImage:selectedImage];
 		button.tag = i/2;
 		totalWidth += getSizeFromImage(button).width;

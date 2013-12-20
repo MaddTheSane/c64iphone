@@ -50,25 +50,25 @@
 	
 	NSMutableArray *sections = [[NSMutableArray alloc] init];
 	for (int i = 0; i < 27; i++) {
-		EMUFileGroup *g = [[EMUFileGroup alloc] initWithSectionName:[indexTitles objectAtIndex:i]];
+		EMUFileGroup *g = [[EMUFileGroup alloc] initWithSectionName:indexTitles[i]];
 		[sections addObject:g];
 	}
 	
 	for (GameInfo *info in [GamePack globalGamePack].gameInfoList) {
 		unichar c = [[info gameTitle] characterAtIndex:0];
 		if (isdigit(c)) {
-			EMUFileGroup *g = (EMUFileGroup*)[sections objectAtIndex:26];
+			EMUFileGroup *g = (EMUFileGroup*)sections[26];
 			[g.files addObject:info];
 		} else {
 			c = toupper(c) - 65;
-			EMUFileGroup *g = (EMUFileGroup*)[sections objectAtIndex:c];
+			EMUFileGroup *g = (EMUFileGroup*)sections[c];
 			[g.files addObject:info];
 		}
 	}
 	
 	int i = 0;
 	while (i < sections.count) {
-		if ([[[sections objectAtIndex:i] files] count] == 0) {
+		if ([[sections[i] files] count] == 0) {
 			[sections removeObjectAtIndex:i];
 			[indexTitles removeObjectAtIndex:i];
 		} else {
@@ -129,7 +129,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	EMUFileGroup *g = (EMUFileGroup*)[roms objectAtIndex:section];
+	EMUFileGroup *g = (EMUFileGroup*)roms[section];
 	return g.sectionName;
 }
 
@@ -143,7 +143,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    EMUFileGroup *g = (EMUFileGroup*)[roms objectAtIndex:section];
+    EMUFileGroup *g = (EMUFileGroup*)roms[section];
     return g.files.count;
 }
 
@@ -155,8 +155,8 @@
 #define CELL_ID @"DiskCell"
 
 - (GameInfo*)gameInfoFromIndexPath:(NSIndexPath *)indexPath {
-	EMUFileGroup *g = (EMUFileGroup*)[roms objectAtIndex:indexPath.section];
-	GameInfo *gi = (GameInfo *)[g.files objectAtIndex:indexPath.row];
+	EMUFileGroup *g = (EMUFileGroup*)roms[indexPath.section];
+	GameInfo *gi = (GameInfo *)(g.files)[indexPath.row];
 	return gi;
 }
 

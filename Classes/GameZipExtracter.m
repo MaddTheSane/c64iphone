@@ -78,10 +78,10 @@
 			if (ze.Attributes & S_IFDIR) {
 				NSString *filePath = [name substringToIndex:[name length] - 1];
 				files = [[NSMutableArray alloc] init];
-				[packs setObject:files forKey:filePath];
+				packs[filePath] = files;
 			} else {
 				NSString *filePath = [name stringByDeletingLastPathComponent];
-				files = [packs objectForKey:filePath];
+				files = packs[filePath];
 				if (files)
 					[files addObject:fileName];
 				else
@@ -91,7 +91,7 @@
 		}
 	}
 	
-	self.images = [packs objectForKey:@"images"];
+	self.images = packs[@"images"];
 	if (images) {
 		[packs removeObjectForKey:@"images"];
 	}

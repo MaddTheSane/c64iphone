@@ -145,7 +145,7 @@ const double kButtonYPosition = 0.0;
 		buttonJoystick.tag = ControlsStateJoystick;
 	}
 	
-	currentButtons = [NSArray arrayWithObjects:buttonControls, buttonJoystick, nil];
+	currentButtons = @[buttonControls, buttonJoystick];
 }
 
 - (void)ensureStandardModeButtons {
@@ -172,7 +172,7 @@ const double kButtonYPosition = 0.0;
 		buttonJoystick.tag = ControlsStateJoystick;
 	}	
 
-	currentButtons = [NSArray arrayWithObjects:buttonAlpha, buttonNumeric, buttonFunction, buttonJoystick, nil];
+	currentButtons = @[buttonAlpha, buttonNumeric, buttonFunction, buttonJoystick];
 }
 
 const int UIControlStateAllNormal = (UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled);

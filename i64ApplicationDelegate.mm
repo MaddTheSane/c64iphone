@@ -82,7 +82,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	res = AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
 	res = AudioSessionSetActive(true);
 	
-	emulator = [mainController.viewControllers objectAtIndex:kEmulationViewControllerIndex];
+	emulator = (mainController.viewControllers)[kEmulationViewControllerIndex];
 	
 	//[self initializeOpenfeint];
 	[self performSelectorInBackground:@selector(reportAppOpenToAdMob) withObject:nil];
@@ -159,7 +159,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)reportAppOpenToAdMob {
 	@autoreleasepool { // we're in a new thread here, so we need our own autorelease pool
 	// Have we already reported an app open?
-		NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
 		NSString *appOpenPath = [documentsDirectory stringByAppendingPathComponent:@"admob_app_open"];
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		if(![fileManager fileExistsAtPath:appOpenPath]) {

@@ -41,9 +41,9 @@
 - (void)viewDidLoad {
 	self.title = @"Browser";
 	
-	self.indexTitles = [NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", 
+	self.indexTitles = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", 
 						@"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V",
-						@"W", @"X", @"Y", @"Z", @"#", nil];
+						@"W", @"X", @"Y", @"Z", @"#"];
 	
 	NSMutableArray *sections = [[NSMutableArray alloc] init];
 	for (int i = 0; i < 26; i++) {
@@ -58,11 +58,11 @@
 	for (EMUFileInfo* f in files) {
 		unichar c = [[f fileName] characterAtIndex:0];
 		if (isdigit(c)) {
-			EMUFileGroup *g = (EMUFileGroup*)[sections objectAtIndex:26];
+			EMUFileGroup *g = (EMUFileGroup*)sections[26];
 			[g.files addObject:f];
 		} else {
 			c = toupper(c) - 65;
-			EMUFileGroup *g = (EMUFileGroup*)[sections objectAtIndex:c];
+			EMUFileGroup *g = (EMUFileGroup*)sections[c];
 			[g.files addObject:f];
 		}
 	}
@@ -96,7 +96,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	EMUFileGroup *g = (EMUFileGroup*)[self.roms objectAtIndex:section];
+	EMUFileGroup *g = (EMUFileGroup*)(self.roms)[section];
 	return g.sectionName;
 }
 
@@ -109,7 +109,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
-	EMUFileGroup *g = (EMUFileGroup*)[self.roms objectAtIndex:section];
+	EMUFileGroup *g = (EMUFileGroup*)(self.roms)[section];
     return g.files.count;
 }
 
@@ -125,8 +125,8 @@
 	
 	[[GamePack globalGamePack] clearCurrentGame];
 	
-	EMUFileGroup *g = (EMUFileGroup*)[self.roms objectAtIndex:indexPath.section];
-	prefs->ChangeRom([[g.files objectAtIndex:indexPath.row] path]);
+	EMUFileGroup *g = (EMUFileGroup*)(self.roms)[indexPath.section];
+	prefs->ChangeRom([(g.files)[indexPath.row] path]);
 	prefs->Save(Frodo::prefs_path());
 	
 	if (Frodo::Instance && Frodo::Instance->TheC64) {
@@ -158,8 +158,8 @@
 	else
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	
-	EMUFileGroup *g = (EMUFileGroup*)[self.roms objectAtIndex:indexPath.section];
-	cell.textLabel.text = [(EMUFileInfo *)[g.files objectAtIndex:indexPath.row] fileName];
+	EMUFileGroup *g = (EMUFileGroup*)(self.roms)[indexPath.section];
+	cell.textLabel.text = [(EMUFileInfo *)(g.files)[indexPath.row] fileName];
 	
     return cell;
 }

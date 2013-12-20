@@ -70,7 +70,7 @@
 				currentProgress += increment;
 				[delegate setProgress:currentProgress];
 				
-				NSArray		*files = [ext.packs objectForKey:key];
+				NSArray		*files = (ext.packs)[key];
 				NSString	*gameInfoFile = [ext findFileNamed:@"gameInfo.plist" inArray:files];
 				if (gameInfoFile == nil) {
 					NSLog(@"Incorrect install archive, missing gameInfo.plist");

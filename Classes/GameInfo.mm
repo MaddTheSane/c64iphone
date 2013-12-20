@@ -120,7 +120,7 @@
 	}
 	
 	
-	self = [self initWithDictionary:[temp objectAtIndex:0]];
+	self = [self initWithDictionary:temp[0]];
 	
 	// sets the base path
 	self.basePath = [gameInfoPath stringByDeletingLastPathComponent];
@@ -157,7 +157,7 @@
 	prefs.ConfigureOptimizations();
 	
 	if ([self.paths count] != 0) {		
-		NSString *romPath = [basePath stringByAppendingPathComponent:[self.paths objectAtIndex:0]];
+		NSString *romPath = [basePath stringByAppendingPathComponent:(self.paths)[0]];
 		prefs.ChangeRom(romPath);
 	}
 	
@@ -253,7 +253,7 @@
 }
 
 - (void)setUseTrainer:(BOOL)v {
-	NSNumber *n = [NSNumber numberWithBool:v];
+	NSNumber *n = @(v);
 	[[GamePack globalGamePack] setValue:n forKey:@"useTrainer" forGameId:gameId];
 }
 

@@ -46,9 +46,8 @@
 	_cellBackground = [UIImage imageNamed:@"shelf2.png"];
 	
 	// load image bar
-	NSArray *items = [NSArray arrayWithObjects:
-					  @"tab_paid_off.png", @"tab_paid_on.png", 
-					  @"tab_free_off.png", @"tab_free_on.png", nil];
+	NSArray *items = @[@"tab_paid_off.png", @"tab_paid_on.png", 
+					  @"tab_free_off.png", @"tab_free_on.png"];
 	_imageBar = [[ImageBarControl alloc] initWithItems:items];
 	[self.topBar addSubview:_imageBar];
 	_imageBar.center = CGPointMake(160, 16);
@@ -58,7 +57,7 @@
     [self.view addSubview:_activityIndicator];
 	_activityIndicator.center = CGPointMake(160, 240);
 	
-	self.products = [NSArray array];
+	self.products = @[];
 	
 #if !defined(_DISTRIBUTION)
 	UIControl* refreshButton = (UIControl*)[self.view viewWithTag:1000];
@@ -128,16 +127,16 @@ NSMutableArray* selectMatching(NSArray* src, BOOL(^pred)(id item)) {
 		
 		int remaining = 3 - [freeItems count];
 		while (remaining-- > 0) {
-			[freeItems addObject:[NSArray array]];
+			[freeItems addObject:@[]];
 		}
 		
 		remaining = 3 - [paidItems count];
 		while (remaining-- > 0) {
-			[paidItems addObject:[NSArray array]];
+			[paidItems addObject:@[]];
 		}
 		
 		_allProducts = [NSMutableArray arrayWithObjects:paidItems, freeItems, nil];
-		self.products = [_allProducts objectAtIndex:_imageBar.selectedSegmentIndex];
+		self.products = _allProducts[_imageBar.selectedSegmentIndex];
 		[self.tableView reloadData];
 		[_activityIndicator stopAnimating];
 	}];
@@ -155,7 +154,7 @@ NSMutableArray* selectMatching(NSArray* src, BOOL(^pred)(id item)) {
 }
 
 - (void)imageBarValueChanged:(ImageBarControl*)bar {
-	self.products = [_allProducts objectAtIndex:bar.selectedSegmentIndex];
+	self.products = _allProducts[bar.selectedSegmentIndex];
 	[self.tableView reloadData];
 
 }
@@ -202,7 +201,7 @@ NSMutableArray* selectMatching(NSArray* src, BOOL(^pred)(id item)) {
     }
     
 	NSUInteger row = indexPath.row;
-	[cell setProductArray:[_products objectAtIndex:row]];
+	[cell setProductArray:_products[row]];
 	
     return cell;
 }

@@ -151,11 +151,11 @@ static BOOL isiPhoneOS2;
 		sessionCredentialsLock = [[NSRecursiveLock alloc] init];
 		delegateAuthenticationLock = [[NSRecursiveLock alloc] init];
 		bandwidthUsageTracker = [[NSMutableArray alloc] initWithCapacity:5];
-		ASIRequestTimedOutError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIRequestTimedOutErrorType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"The request timed out",NSLocalizedDescriptionKey,nil]];	
-		ASIAuthenticationError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIAuthenticationErrorType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Authentication needed",NSLocalizedDescriptionKey,nil]];
-		ASIRequestCancelledError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIRequestCancelledErrorType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"The request was cancelled",NSLocalizedDescriptionKey,nil]];
-		ASIUnableToCreateRequestError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIUnableToCreateRequestErrorType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unable to create request (bad url?)",NSLocalizedDescriptionKey,nil]];
-		ASITooMuchRedirectionError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASITooMuchRedirectionErrorType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"The request failed because it redirected too many times",NSLocalizedDescriptionKey,nil]];	
+		ASIRequestTimedOutError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIRequestTimedOutErrorType userInfo:@{NSLocalizedDescriptionKey: @"The request timed out"}];	
+		ASIAuthenticationError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIAuthenticationErrorType userInfo:@{NSLocalizedDescriptionKey: @"Authentication needed"}];
+		ASIRequestCancelledError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIRequestCancelledErrorType userInfo:@{NSLocalizedDescriptionKey: @"The request was cancelled"}];
+		ASIUnableToCreateRequestError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIUnableToCreateRequestErrorType userInfo:@{NSLocalizedDescriptionKey: @"Unable to create request (bad url?)"}];
+		ASITooMuchRedirectionError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASITooMuchRedirectionErrorType userInfo:@{NSLocalizedDescriptionKey: @"The request failed because it redirected too many times"}];	
 
 #if TARGET_OS_IPHONE
 		isiPhoneOS2 = ((floorf([[[UIDevice currentDevice] systemVersion] floatValue]) == 2.0) ? YES : NO);
@@ -220,7 +220,7 @@ static BOOL isiPhoneOS2;
 	if (!requestHeaders) {
 		[self setRequestHeaders:[NSMutableDictionary dictionaryWithCapacity:1]];
 	}
-	[requestHeaders setObject:value forKey:header];
+	requestHeaders[header] = value;
 }
 
 // This function will be called either just before a request starts, or when postLength is needed, whichever comes first
@@ -251,7 +251,7 @@ static BOOL isiPhoneOS2;
 		}
 		[self setPostLength:[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:&err] fileSize]];
 		if (err) {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to get attributes for file at path '%@'", path],NSLocalizedDescriptionKey, error, NSUnderlyingErrorKey, nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to get attributes for file at path '%@'", path], NSUnderlyingErrorKey: error}]];
 			return;
 		}
 		
@@ -384,7 +384,7 @@ static BOOL isiPhoneOS2;
 
 - (BOOL)isResponseCompressed
 {
-	NSString *encoding = [[self responseHeaders] objectForKey:@"Content-Encoding"];
+	NSString *encoding = [self responseHeaders][@"Content-Encoding"];
 	return encoding && [encoding rangeOfString:@"gzip"].location != NSNotFound;
 }
 
@@ -455,7 +455,7 @@ static BOOL isiPhoneOS2;
 			
 			NSString *header;
 			for (header in [self requestHeaders]) {
-				CFHTTPMessageSetHeaderFieldValue(request, (__bridge CFStringRef)header, (__bridge CFStringRef)[[self requestHeaders] objectForKey:header]);
+				CFHTTPMessageSetHeaderFieldValue(request, (__bridge CFStringRef)header, (__bridge CFStringRef)[self requestHeaders][header]);
 			}
 			
 			[self loadRequest];
@@ -463,7 +463,7 @@ static BOOL isiPhoneOS2;
 			
 		} @catch (NSException *exception) {
 			NSError *underlyingError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIUnhandledExceptionError userInfo:[exception userInfo]];
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIUnhandledExceptionError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[exception name],NSLocalizedDescriptionKey,[exception reason],NSLocalizedFailureReasonErrorKey,underlyingError,NSUnderlyingErrorKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIUnhandledExceptionError userInfo:@{NSLocalizedDescriptionKey: [exception name],NSLocalizedFailureReasonErrorKey: [exception reason],NSUnderlyingErrorKey: underlyingError}]];
 		}	
 	
 	}
@@ -485,34 +485,34 @@ static BOOL isiPhoneOS2;
 		if ([self username] && [self password] && ![self domain]) {
 			
 			// If we have stored credentials, is this server asking for basic authentication? If we don't have credentials, we'll assume basic
-			if (!credentials || (__bridge CFStringRef)[credentials objectForKey:@"AuthenticationScheme"] == kCFHTTPAuthenticationSchemeBasic) {
+			if (!credentials || (__bridge CFStringRef)credentials[@"AuthenticationScheme"] == kCFHTTPAuthenticationSchemeBasic) {
 				[self addBasicAuthenticationHeaderWithUsername:[self username] andPassword:[self password]];
 			}
 		}
 		
-		if (credentials && ![[self requestHeaders] objectForKey:@"Authorization"]) {
+		if (credentials && ![self requestHeaders][@"Authorization"]) {
 			
 			// When the Authentication key is set, the credentials were stored after an authentication challenge, so we can let CFNetwork apply them
 			// (credentials for Digest and NTLM will always be stored like this)
-			if ([credentials objectForKey:@"Authentication"]) {
+			if (credentials[@"Authentication"]) {
 				
 				// If we've already talked to this server and have valid credentials, let's apply them to the request
-				if (!CFHTTPMessageApplyCredentialDictionary(request, (__bridge CFHTTPAuthenticationRef)[credentials objectForKey:@"Authentication"], (__bridge CFDictionaryRef)[credentials objectForKey:@"Credentials"], NULL)) {
-					[[self class] removeAuthenticationCredentialsFromSessionStore:[credentials objectForKey:@"Credentials"]];
+				if (!CFHTTPMessageApplyCredentialDictionary(request, (__bridge CFHTTPAuthenticationRef)credentials[@"Authentication"], (__bridge CFDictionaryRef)credentials[@"Credentials"], NULL)) {
+					[[self class] removeAuthenticationCredentialsFromSessionStore:credentials[@"Credentials"]];
 				}
 				
 				// If the Authentication key is not set, these credentials were stored after a username and password set on a previous request passed basic authentication
 				// When this happens, we'll need to create the Authorization header ourselves
 			} else {
-				NSDictionary *usernameAndPassword = [credentials objectForKey:@"Credentials"];
-				[self addBasicAuthenticationHeaderWithUsername:[usernameAndPassword objectForKey:(NSString *)kCFHTTPAuthenticationUsername] andPassword:[usernameAndPassword objectForKey:(NSString *)kCFHTTPAuthenticationPassword]];
+				NSDictionary *usernameAndPassword = credentials[@"Credentials"];
+				[self addBasicAuthenticationHeaderWithUsername:usernameAndPassword[(NSString *)kCFHTTPAuthenticationUsername] andPassword:usernameAndPassword[(NSString *)kCFHTTPAuthenticationPassword]];
 			}
 		}
 		if ([self useSessionPersistance]) {
 			credentials = [self findSessionProxyAuthenticationCredentials];
 			if (credentials) {
-				if (!CFHTTPMessageApplyCredentialDictionary(request, (__bridge CFHTTPAuthenticationRef)[credentials objectForKey:@"Authentication"], (__bridge CFDictionaryRef)[credentials objectForKey:@"Credentials"], NULL)) {
-					[[self class] removeProxyAuthenticationCredentialsFromSessionStore:[credentials objectForKey:@"Credentials"]];
+				if (!CFHTTPMessageApplyCredentialDictionary(request, (__bridge CFHTTPAuthenticationRef)credentials[@"Authentication"], (__bridge CFDictionaryRef)credentials[@"Credentials"], NULL)) {
+					[[self class] removeProxyAuthenticationCredentialsFromSessionStore:credentials[@"Credentials"]];
 				}
 			}
 		}
@@ -564,7 +564,7 @@ static BOOL isiPhoneOS2;
 	}
 	
 	// Build and set the user agent string if the request does not already have a custom user agent specified
-	if (![[self requestHeaders] objectForKey:@"User-Agent"]) {
+	if (![self requestHeaders][@"User-Agent"]) {
 		NSString *userAgentString = [ASIHTTPRequest defaultUserAgentString];
 		if (userAgentString) {
 			[self addRequestHeader:@"User-Agent" value:userAgentString];
@@ -587,7 +587,7 @@ static BOOL isiPhoneOS2;
 		NSError *err = nil;
 		[self setPartialDownloadSize:[[[NSFileManager defaultManager] attributesOfItemAtPath:[self temporaryFileDownloadPath] error:&err] fileSize]];
 		if (err) {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to get attributes for file at path '%@'",[self temporaryFileDownloadPath]],NSLocalizedDescriptionKey,error,NSUnderlyingErrorKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to get attributes for file at path '%@'",[self temporaryFileDownloadPath]],NSUnderlyingErrorKey: error}]];
 			return;
 		}
 		[self addRequestHeader:@"Range" value:[NSString stringWithFormat:@"bytes=%llu-",[self partialDownloadSize]]];
@@ -654,7 +654,7 @@ static BOOL isiPhoneOS2;
 
 	if (!readStream) {
 		[[self cancelledLock] unlock];
-		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unable to create read stream",NSLocalizedDescriptionKey,nil]]];
+		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:@{NSLocalizedDescriptionKey: @"Unable to create read stream"}]];
         return;
     }
 
@@ -695,9 +695,9 @@ static BOOL isiPhoneOS2;
 			proxies = (__bridge_transfer NSArray *)CFNetworkCopyProxiesForURL((__bridge CFURLRef)[self url], (__bridge CFDictionaryRef)proxySettings);
 			
 			// Now check to see if the proxy settings contained a PAC url, we need to run the script to get the real list of proxies if so
-			NSDictionary *settings = [proxies objectAtIndex:0];
-			if ([settings objectForKey:(NSString *)kCFProxyAutoConfigurationURLKey]) {
-				proxies = [ASIHTTPRequest proxiesForURL:[self url] fromPAC:[settings objectForKey:(NSString *)kCFProxyAutoConfigurationURLKey]];
+			NSDictionary *settings = proxies[0];
+			if (settings[(NSString *)kCFProxyAutoConfigurationURLKey]) {
+				proxies = [ASIHTTPRequest proxiesForURL:[self url] fromPAC:settings[(NSString *)kCFProxyAutoConfigurationURLKey]];
 			}
 		}
 		
@@ -705,19 +705,19 @@ static BOOL isiPhoneOS2;
 			CFRelease(readStream);
 			readStream = NULL;
 			[[self cancelledLock] unlock];
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unable to obtain information on proxy servers needed for request",NSLocalizedDescriptionKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:@{NSLocalizedDescriptionKey: @"Unable to obtain information on proxy servers needed for request"}]];
 			return;			
 		}
 		// I don't really understand why the dictionary returned by CFNetworkCopyProxiesForURL uses different key names from CFNetworkCopySystemProxySettings/SCDynamicStoreCopyProxies
 		// and why its key names are documented while those we actually need to use don't seem to be (passing the kCF* keys doesn't seem to work)
 		if ([proxies count] > 0) {
-			NSDictionary *settings = [proxies objectAtIndex:0];
-			[self setProxyHost:[settings objectForKey:(NSString *)kCFProxyHostNameKey]];
-			[self setProxyPort:[[settings objectForKey:(NSString *)kCFProxyPortNumberKey] intValue]];
+			NSDictionary *settings = proxies[0];
+			[self setProxyHost:settings[(NSString *)kCFProxyHostNameKey]];
+			[self setProxyPort:[settings[(NSString *)kCFProxyPortNumberKey] intValue]];
 		}
 	}
 	if ([self proxyHost] && [self proxyPort]) {
-		NSMutableDictionary *proxyToUse = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self proxyHost],kCFStreamPropertyHTTPProxyHost,[NSNumber numberWithInt:[self proxyPort]],kCFStreamPropertyHTTPProxyPort,nil];
+		NSMutableDictionary *proxyToUse = [NSMutableDictionary dictionaryWithObjectsAndKeys:[self proxyHost],kCFStreamPropertyHTTPProxyHost,@([self proxyPort]),kCFStreamPropertyHTTPProxyPort,nil];
 		::CFReadStreamSetProperty(readStream, kCFStreamPropertyHTTPProxy, (__bridge CFMutableDictionaryRef)proxyToUse);
 	}
 	
@@ -727,7 +727,7 @@ static BOOL isiPhoneOS2;
         CFRelease(readStream);
         readStream = NULL;
 		[[self cancelledLock] unlock];
-		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unable to setup read stream",NSLocalizedDescriptionKey,nil]]];
+		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:@{NSLocalizedDescriptionKey: @"Unable to setup read stream"}]];
         return;
     }
     
@@ -741,7 +741,7 @@ static BOOL isiPhoneOS2;
         CFRelease(readStream);
         readStream = NULL;
 		[[self cancelledLock] unlock];
-		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unable to start HTTP connection",NSLocalizedDescriptionKey,nil]]];
+		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileBuildingRequestType userInfo:@{NSLocalizedDescriptionKey: @"Unable to start HTTP connection"}]];
         return;
     }
 	[[self cancelledLock] unlock];
@@ -753,7 +753,7 @@ static BOOL isiPhoneOS2;
 			
 			//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 			if ([ASIHTTPRequest isiPhoneOS2]) {
-				amount = [[NSNumber numberWithUnsignedLongLong:postLength] doubleValue]; 
+				amount = [@(postLength) doubleValue]; 
 			} else {
 				amount = (double)postLength;
 			}
@@ -894,7 +894,7 @@ static BOOL isiPhoneOS2;
 			NSError *removeError = nil;
 			[[NSFileManager defaultManager] removeItemAtPath:[self temporaryFileDownloadPath] error:&removeError];
 			if (removeError) {
-				[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to delete file at path '%@'",[self temporaryFileDownloadPath]],NSLocalizedDescriptionKey,removeError,NSUnderlyingErrorKey,nil]]];
+				[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to delete file at path '%@'",[self temporaryFileDownloadPath]],NSUnderlyingErrorKey: removeError}]];
 			}
 		}
 		[self setTemporaryFileDownloadPath:nil];
@@ -907,7 +907,7 @@ static BOOL isiPhoneOS2;
 		NSError *removeError = nil;
 		[[NSFileManager defaultManager] removeItemAtPath:[self postBodyFilePath] error:&removeError];
 		if (removeError) {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to delete file at path '%@'",[self postBodyFilePath]],NSLocalizedDescriptionKey,removeError,NSUnderlyingErrorKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to delete file at path '%@'",[self postBodyFilePath]], NSUnderlyingErrorKey: removeError}]];
 		}
 		[self setPostBodyFilePath:nil];
 	}
@@ -915,7 +915,7 @@ static BOOL isiPhoneOS2;
 		NSError *removeError = nil;
 		[[NSFileManager defaultManager] removeItemAtPath:[self compressedPostBodyFilePath] error:&removeError];
 		if (removeError) {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to delete file at path '%@'",[self compressedPostBodyFilePath]],NSLocalizedDescriptionKey,removeError,NSUnderlyingErrorKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to delete file at path '%@'",[self compressedPostBodyFilePath]], NSUnderlyingErrorKey: removeError}]];
 		}
 		[self setCompressedPostBodyFilePath:nil];
 	}
@@ -938,7 +938,6 @@ static BOOL isiPhoneOS2;
 
 - (void)updateProgressIndicators
 {
-	
 	//Only update progress if this isn't a HEAD request used to preset the content-length
 	if (!mainRequest) {
 		if ([self showAccurateProgress] || ([self complete] && ![self updatedProgress])) {
@@ -946,7 +945,6 @@ static BOOL isiPhoneOS2;
 			[self updateDownloadProgress];
 		}
 	}
-	
 }
 
 
@@ -1063,7 +1061,7 @@ static BOOL isiPhoneOS2;
 		double progress;
 		//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 		if ([ASIHTTPRequest isiPhoneOS2]) {
-			progress = [[NSNumber numberWithUnsignedLongLong:(totalBytesSent-uploadBufferSize)/(postLength-uploadBufferSize)] doubleValue]; 
+			progress = [@((totalBytesSent-uploadBufferSize)/(postLength-uploadBufferSize)) doubleValue]; 
 		} else {
 			progress = (double)(1.0*(totalBytesSent-uploadBufferSize)/(postLength-uploadBufferSize));
 		}
@@ -1136,7 +1134,7 @@ static BOOL isiPhoneOS2;
 				double progress;
 				//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 				if ([ASIHTTPRequest isiPhoneOS2]) {
-					progress = [[NSNumber numberWithUnsignedLongLong:bytesReadSoFar/(contentLength+partialDownloadSize)] doubleValue]; 
+					progress = [@(bytesReadSoFar/(contentLength+partialDownloadSize)) doubleValue]; 
 				} else {
 					progress = (double)(1.0*bytesReadSoFar/(contentLength+partialDownloadSize));
 				}
@@ -1301,14 +1299,14 @@ static BOOL isiPhoneOS2;
 			if (!requestAuthentication && [self username] && [self password] && [self useSessionPersistance]) {
 				
 				NSMutableDictionary *newCredentials = [NSMutableDictionary dictionaryWithCapacity:2];
-				[newCredentials setObject:[self username] forKey:(NSString *)kCFHTTPAuthenticationUsername];
-				[newCredentials setObject:[self password] forKey:(NSString *)kCFHTTPAuthenticationPassword];
+				newCredentials[(NSString *)kCFHTTPAuthenticationUsername] = [self username];
+				newCredentials[(NSString *)kCFHTTPAuthenticationPassword] = [self password];
 				
 				// Store the credentials in the session 
 				NSMutableDictionary *sessionCredentials = [NSMutableDictionary dictionary];
-				[sessionCredentials setObject:newCredentials forKey:@"Credentials"];
-				[sessionCredentials setObject:[self url] forKey:@"URL"];
-				[sessionCredentials setObject:(NSString *)kCFHTTPAuthenticationSchemeBasic forKey:@"AuthenticationScheme"];
+				sessionCredentials[@"Credentials"] = newCredentials;
+				sessionCredentials[@"URL"] = [self url];
+				sessionCredentials[@"AuthenticationScheme"] = (NSString *)kCFHTTPAuthenticationSchemeBasic;
 				[[self class] storeAuthenticationCredentialsInSessionStore:sessionCredentials];
 			}
 			
@@ -1327,7 +1325,7 @@ static BOOL isiPhoneOS2;
 			
 			// Handle response text encoding
 			// If the Content-Type header specified an encoding, we'll use that, otherwise we use defaultStringEncoding (which defaults to NSISOLatin1StringEncoding)
-			NSString *contentType = [[self responseHeaders] objectForKey:@"Content-Type"];
+			NSString *contentType = [self responseHeaders][@"Content-Type"];
 			NSStringEncoding encoding = [self defaultResponseEncoding];
 			if (contentType) {
 
@@ -1398,7 +1396,7 @@ static BOOL isiPhoneOS2;
 
 - (void)saveProxyCredentialsToKeychain:(NSDictionary *)newCredentials
 {
-	NSURLCredential *authenticationCredentials = [NSURLCredential credentialWithUser:[newCredentials objectForKey:(NSString *)kCFHTTPAuthenticationUsername] password:[newCredentials objectForKey:(NSString *)kCFHTTPAuthenticationPassword] persistence:NSURLCredentialPersistencePermanent];
+	NSURLCredential *authenticationCredentials = [NSURLCredential credentialWithUser:newCredentials[(NSString *)kCFHTTPAuthenticationUsername] password:newCredentials[(NSString *)kCFHTTPAuthenticationPassword] persistence:NSURLCredentialPersistencePermanent];
 	if (authenticationCredentials) {
 		[ASIHTTPRequest saveCredentials:authenticationCredentials forProxy:[self proxyHost] port:[self proxyPort] realm:[self proxyAuthenticationRealm]];
 	}	
@@ -1407,7 +1405,7 @@ static BOOL isiPhoneOS2;
 
 - (void)saveCredentialsToKeychain:(NSDictionary *)newCredentials
 {
-	NSURLCredential *authenticationCredentials = [NSURLCredential credentialWithUser:[newCredentials objectForKey:(NSString *)kCFHTTPAuthenticationUsername] password:[newCredentials objectForKey:(NSString *)kCFHTTPAuthenticationPassword] persistence:NSURLCredentialPersistencePermanent];
+	NSURLCredential *authenticationCredentials = [NSURLCredential credentialWithUser:newCredentials[(NSString *)kCFHTTPAuthenticationUsername] password:newCredentials[(NSString *)kCFHTTPAuthenticationPassword] persistence:NSURLCredentialPersistencePermanent];
 	
 	if (authenticationCredentials) {
 		[ASIHTTPRequest saveCredentials:authenticationCredentials forHost:[[self url] host] port:[[[self url] port] intValue] protocol:[[self url] scheme] realm:[self authenticationRealm]];
@@ -1429,11 +1427,11 @@ static BOOL isiPhoneOS2;
 			}
 			if (useSessionPersistance) {
 				NSMutableDictionary *sessionProxyCredentials = [NSMutableDictionary dictionary];
-				[sessionProxyCredentials setObject:(__bridge id)proxyAuthentication forKey:@"Authentication"];
-				[sessionProxyCredentials setObject:newCredentials forKey:@"Credentials"];
-				[sessionProxyCredentials setObject:[self proxyHost] forKey:@"Host"];
-				[sessionProxyCredentials setObject:[NSNumber numberWithInt:[self proxyPort]] forKey:@"Port"];
-				[sessionProxyCredentials setObject:[self proxyAuthenticationScheme] forKey:@"AuthenticationScheme"];
+				sessionProxyCredentials[@"Authentication"] = (__bridge id)proxyAuthentication;
+				sessionProxyCredentials[@"Credentials"] = newCredentials;
+				sessionProxyCredentials[@"Host"] = [self proxyHost];
+				sessionProxyCredentials[@"Port"] = @([self proxyPort]);
+				sessionProxyCredentials[@"AuthenticationScheme"] = [self proxyAuthenticationScheme];
 				[[self class] storeProxyAuthenticationCredentialsInSessionStore:sessionProxyCredentials];
 			}
 			[self setProxyCredentials:newCredentials];
@@ -1460,12 +1458,12 @@ static BOOL isiPhoneOS2;
 			if (useSessionPersistance) {
 				
 				NSMutableDictionary *sessionCredentials = [NSMutableDictionary dictionary];
-				[sessionCredentials setObject:(__bridge id)requestAuthentication forKey:@"Authentication"];
-				[sessionCredentials setObject:newCredentials forKey:@"Credentials"];
-				[sessionCredentials setObject:[self url] forKey:@"URL"];
-				[sessionCredentials setObject:[self authenticationScheme] forKey:@"AuthenticationScheme"];
+				sessionCredentials[@"Authentication"] = (__bridge id)requestAuthentication;
+				sessionCredentials[@"Credentials"] = newCredentials;
+				sessionCredentials[@"URL"] = [self url];
+				sessionCredentials[@"AuthenticationScheme"] = [self authenticationScheme];
 				if ([self authenticationRealm]) {
-					[sessionCredentials setObject:[self authenticationRealm] forKey:@"AuthenticationRealm"];
+					sessionCredentials[@"AuthenticationRealm"] = [self authenticationRealm];
 				}
 				[[self class] storeAuthenticationCredentialsInSessionStore:sessionCredentials];
 
@@ -1488,7 +1486,7 @@ static BOOL isiPhoneOS2;
 		if (![self proxyDomain]) {
 			[self setProxyDomain:@""];
 		}
-		[newCredentials setObject:[self proxyDomain] forKey:(NSString *)kCFHTTPAuthenticationAccountDomain];
+		newCredentials[(NSString *)kCFHTTPAuthenticationAccountDomain] = [self proxyDomain];
 	}
 	
 	NSString *user = nil;
@@ -1521,8 +1519,8 @@ static BOOL isiPhoneOS2;
 	// If we have a username and password, let's apply them to the request and continue
 	if (user && pass) {
 		
-		[newCredentials setObject:user forKey:(NSString *)kCFHTTPAuthenticationUsername];
-		[newCredentials setObject:pass forKey:(NSString *)kCFHTTPAuthenticationPassword];
+		newCredentials[(NSString *)kCFHTTPAuthenticationUsername] = user;
+		newCredentials[(NSString *)kCFHTTPAuthenticationPassword] = pass;
 		return newCredentials;
 	}
 	return nil;
@@ -1538,7 +1536,7 @@ static BOOL isiPhoneOS2;
 		if (!domain) {
 			[self setDomain:@""];
 		}
-		[newCredentials setObject:domain forKey:(NSString *)kCFHTTPAuthenticationAccountDomain];
+		newCredentials[(NSString *)kCFHTTPAuthenticationAccountDomain] = domain;
 	}
 	
 	// First, let's look at the url to see if the username and password were included
@@ -1574,8 +1572,8 @@ static BOOL isiPhoneOS2;
 	// If we have a username and password, let's apply them to the request and continue
 	if (user && pass) {
 		
-		[newCredentials setObject:user forKey:(NSString *)kCFHTTPAuthenticationUsername];
-		[newCredentials setObject:pass forKey:(NSString *)kCFHTTPAuthenticationPassword];
+		newCredentials[(NSString *)kCFHTTPAuthenticationUsername] = user;
+		newCredentials[(NSString *)kCFHTTPAuthenticationPassword] = pass;
 		return newCredentials;
 	}
 	return nil;
@@ -1663,7 +1661,7 @@ static BOOL isiPhoneOS2;
 	// If we haven't got a CFHTTPAuthenticationRef by now, something is badly wrong, so we'll have to give up
 	if (!proxyAuthentication) {
 		[self cancelLoad];
-		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Failed to get authentication object from response headers",NSLocalizedDescriptionKey,nil]]];
+		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:@{NSLocalizedDescriptionKey: @"Failed to get authentication object from response headers"}]];
 		return;
 	}
 	
@@ -1701,7 +1699,7 @@ static BOOL isiPhoneOS2;
 			// Now we've acquired the lock, it may be that the session contains credentials we can re-use for this request
 			if ([self useSessionPersistance]) {
 				NSDictionary *credentials = [self findSessionProxyAuthenticationCredentials];
-				if (credentials && [self applyProxyCredentials:[credentials objectForKey:@"Credentials"]]) {
+				if (credentials && [self applyProxyCredentials:credentials[@"Credentials"]]) {
 					[delegateAuthenticationLock unlock];
 					[self startRequest];
 					return;
@@ -1741,7 +1739,7 @@ static BOOL isiPhoneOS2;
 			
 		// Something went wrong, we'll have to give up
 		} else {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Failed to apply proxy credentials to request",NSLocalizedDescriptionKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:@{NSLocalizedDescriptionKey: @"Failed to apply proxy credentials to request"}]];
 		}
 		
 	// Are a user name & password needed?
@@ -1759,7 +1757,7 @@ static BOOL isiPhoneOS2;
 		// Now we've acquired the lock, it may be that the session contains credentials we can re-use for this request
 		if ([self useSessionPersistance]) {
 			NSDictionary *credentials = [self findSessionProxyAuthenticationCredentials];
-			if (credentials && [self applyProxyCredentials:[credentials objectForKey:@"Credentials"]]) {
+			if (credentials && [self applyProxyCredentials:credentials[@"Credentials"]]) {
 				[delegateAuthenticationLock unlock];
 				[self startRequest];
 				return;
@@ -1776,7 +1774,7 @@ static BOOL isiPhoneOS2;
 				[self startRequest];
 			} else {
 				[delegateAuthenticationLock unlock];
-				[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Failed to apply proxy credentials to request",NSLocalizedDescriptionKey,nil]]];
+				[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:@{NSLocalizedDescriptionKey: @"Failed to apply proxy credentials to request"}]];
 			}
 			
 			return;
@@ -1871,7 +1869,7 @@ static BOOL isiPhoneOS2;
 	
 	if (!requestAuthentication) {
 		[self cancelLoad];
-		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Failed to get authentication object from response headers",NSLocalizedDescriptionKey,nil]]];
+		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:@{NSLocalizedDescriptionKey: @"Failed to get authentication object from response headers"}]];
 		return;
 	}
 	
@@ -1907,7 +1905,7 @@ static BOOL isiPhoneOS2;
 			// Now we've acquired the lock, it may be that the session contains credentials we can re-use for this request
 			if ([self useSessionPersistance]) {
 				NSDictionary *credentials = [self findSessionAuthenticationCredentials];
-				if (credentials && [self applyCredentials:[credentials objectForKey:@"Credentials"]]) {
+				if (credentials && [self applyCredentials:credentials[@"Credentials"]]) {
 					[delegateAuthenticationLock unlock];
 					[self startRequest];
 					return;
@@ -1947,7 +1945,7 @@ static BOOL isiPhoneOS2;
 			[self failWithError:ASIAuthenticationError];
 			
 		} else {
-			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Failed to apply credentials to request",NSLocalizedDescriptionKey,nil]]];
+			[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:@{NSLocalizedDescriptionKey: @"Failed to apply credentials to request"}]];
 		}
 		
 		// Are a user name & password needed?
@@ -1965,7 +1963,7 @@ static BOOL isiPhoneOS2;
 		// Now we've acquired the lock, it may be that the session contains credentials we can re-use for this request
 		if ([self useSessionPersistance]) {
 			NSDictionary *credentials = [self findSessionAuthenticationCredentials];
-			if (credentials && [self applyCredentials:[credentials objectForKey:@"Credentials"]]) {
+			if (credentials && [self applyCredentials:credentials[@"Credentials"]]) {
 				[delegateAuthenticationLock unlock];
 				[self startRequest];
 				return;
@@ -1983,7 +1981,7 @@ static BOOL isiPhoneOS2;
 				[self startRequest];
 			} else {
 				[delegateAuthenticationLock unlock];
-				[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Failed to apply credentials to request",NSLocalizedDescriptionKey,nil]]];
+				[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIInternalErrorWhileApplyingCredentialsType userInfo:@{NSLocalizedDescriptionKey: @"Failed to apply credentials to request"}]];
 			}
 			return;
 		}
@@ -2170,7 +2168,7 @@ static BOOL isiPhoneOS2;
 		if ([self isResponseCompressed]) {
 			int decompressionStatus = [ASIHTTPRequest uncompressZippedDataFromFile:[self temporaryFileDownloadPath] toFile:[self downloadDestinationPath]];
 			if (decompressionStatus != Z_OK) {
-				fileError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Decompression of %@ failed with code %i",[self temporaryFileDownloadPath],decompressionStatus],NSLocalizedDescriptionKey,nil]];
+				fileError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Decompression of %@ failed with code %i",[self temporaryFileDownloadPath],decompressionStatus]}];
 			}
 				
 			[self removeTemporaryDownloadFile];
@@ -2181,7 +2179,7 @@ static BOOL isiPhoneOS2;
 			if ([[NSFileManager defaultManager] fileExistsAtPath:[self downloadDestinationPath]]) {
 				[[NSFileManager defaultManager] removeItemAtPath:[self downloadDestinationPath] error:&moveError];
 				if (moveError) {
-					fileError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Unable to remove file at path '%@'",[self downloadDestinationPath]],NSLocalizedDescriptionKey,moveError,NSUnderlyingErrorKey,nil]];
+					fileError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Unable to remove file at path '%@'",[self downloadDestinationPath]],NSUnderlyingErrorKey: moveError}];
 				}
 			}
 					
@@ -2189,7 +2187,7 @@ static BOOL isiPhoneOS2;
 			if (!fileError) {
 				[[NSFileManager defaultManager] moveItemAtPath:[self temporaryFileDownloadPath] toPath:[self downloadDestinationPath] error:&moveError];
 				if (moveError) {
-					fileError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to move file from '%@' to '%@'",[self temporaryFileDownloadPath],[self downloadDestinationPath]],NSLocalizedDescriptionKey,moveError,NSUnderlyingErrorKey,nil]];
+					fileError = [NSError errorWithDomain:NetworkRequestErrorDomain code:ASIFileManagementError userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to move file from '%@' to '%@'",[self temporaryFileDownloadPath],[self downloadDestinationPath]],NSUnderlyingErrorKey: moveError}];
 				}
 				[self setTemporaryFileDownloadPath:nil];
 			}
@@ -2226,7 +2224,7 @@ static BOOL isiPhoneOS2;
 			}
 		}
 		
-		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIConnectionFailureErrorType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:reason,NSLocalizedDescriptionKey,underlyingError,NSUnderlyingErrorKey,nil]]];
+		[self failWithError:[NSError errorWithDomain:NetworkRequestErrorDomain code:ASIConnectionFailureErrorType userInfo:@{NSLocalizedDescriptionKey: reason,NSUnderlyingErrorKey: underlyingError}]];
 	}
 	
 }
@@ -2263,7 +2261,7 @@ static BOOL isiPhoneOS2;
 + (void)storeProxyAuthenticationCredentialsInSessionStore:(NSDictionary *)credentials
 {
 	[sessionCredentialsLock lock];
-	[self removeProxyAuthenticationCredentialsFromSessionStore:[credentials objectForKey:@"Credentials"]];
+	[self removeProxyAuthenticationCredentialsFromSessionStore:credentials[@"Credentials"]];
 	[[[self class] sessionProxyCredentialsStore] addObject:credentials];
 	[sessionCredentialsLock unlock];
 }
@@ -2271,7 +2269,7 @@ static BOOL isiPhoneOS2;
 + (void)storeAuthenticationCredentialsInSessionStore:(NSDictionary *)credentials
 {
 	[sessionCredentialsLock lock];
-	[self removeAuthenticationCredentialsFromSessionStore:[credentials objectForKey:@"Credentials"]];
+	[self removeAuthenticationCredentialsFromSessionStore:credentials[@"Credentials"]];
 	[[[self class] sessionCredentialsStore] addObject:credentials];
 	[sessionCredentialsLock unlock];
 }
@@ -2282,8 +2280,8 @@ static BOOL isiPhoneOS2;
 	NSMutableArray *sessionCredentialsList = [[self class] sessionProxyCredentialsStore];
 	int i;
 	for (i=0; i<[sessionCredentialsList count]; i++) {
-		NSDictionary *theCredentials = [sessionCredentialsList objectAtIndex:i];
-		if ([theCredentials objectForKey:@"Credentials"] == credentials) {
+		NSDictionary *theCredentials = sessionCredentialsList[i];
+		if (theCredentials[@"Credentials"] == credentials) {
 			[sessionCredentialsList removeObjectAtIndex:i];
 			[sessionCredentialsLock unlock];
 			return;
@@ -2298,8 +2296,8 @@ static BOOL isiPhoneOS2;
 	NSMutableArray *sessionCredentialsList = [[self class] sessionCredentialsStore];
 	int i;
 	for (i=0; i<[sessionCredentialsList count]; i++) {
-		NSDictionary *theCredentials = [sessionCredentialsList objectAtIndex:i];
-		if ([theCredentials objectForKey:@"Credentials"] == credentials) {
+		NSDictionary *theCredentials = sessionCredentialsList[i];
+		if (theCredentials[@"Credentials"] == credentials) {
 			[sessionCredentialsList removeObjectAtIndex:i];
 			[sessionCredentialsLock unlock];
 			return;
@@ -2313,7 +2311,7 @@ static BOOL isiPhoneOS2;
 	[sessionCredentialsLock lock];
 	NSMutableArray *sessionCredentialsList = [[self class] sessionProxyCredentialsStore];
 	for (NSDictionary *theCredentials in sessionCredentialsList) {
-		if ([[theCredentials objectForKey:@"Host"] isEqualToString:[self proxyHost]] && [[theCredentials objectForKey:@"Port"] intValue] == [self proxyPort]) {
+		if ([theCredentials[@"Host"] isEqualToString:[self proxyHost]] && [theCredentials[@"Port"] intValue] == [self proxyPort]) {
 			[sessionCredentialsLock unlock];
 			return theCredentials;
 		}
@@ -2329,9 +2327,9 @@ static BOOL isiPhoneOS2;
 	NSMutableArray *sessionCredentialsList = [[self class] sessionCredentialsStore];
 	// Find an exact match (same url)
 	for (NSDictionary *theCredentials in sessionCredentialsList) {
-		if ([[theCredentials objectForKey:@"URL"] isEqual:[self url]]) {
+		if ([theCredentials[@"URL"] isEqual:[self url]]) {
 			// /Just a sanity check to ensure we never choose credentials from a different realm. Can't really do more than that, as either this request or the stored credentials may not have a realm when the other does
-			if (![self responseStatusCode] || (![theCredentials objectForKey:@"AuthenticationRealm"] || [[theCredentials objectForKey:@"AuthenticationRealm"] isEqualToString:[self authenticationRealm]])) {
+			if (![self responseStatusCode] || (!theCredentials[@"AuthenticationRealm"] || [theCredentials[@"AuthenticationRealm"] isEqualToString:[self authenticationRealm]])) {
 				[sessionCredentialsLock unlock];
 				return theCredentials;
 			}
@@ -2340,11 +2338,11 @@ static BOOL isiPhoneOS2;
 	// Find a rough match (same host, port, scheme)
 	NSURL *requestURL = [self url];
 	for (NSDictionary *theCredentials in sessionCredentialsList) {
-		NSURL *theURL = [theCredentials objectForKey:@"URL"];
+		NSURL *theURL = theCredentials[@"URL"];
 		
 		// Port can be nil!
 		if ([[theURL host] isEqualToString:[requestURL host]] && ([theURL port] == [requestURL port] || [[theURL port] isEqualToNumber:[requestURL port]]) && [[theURL scheme] isEqualToString:[requestURL scheme]]) {
-			if (![self responseStatusCode] || (![theCredentials objectForKey:@"AuthenticationRealm"] || [[theCredentials objectForKey:@"AuthenticationRealm"] isEqualToString:[self authenticationRealm]])) {
+			if (![self responseStatusCode] || (!theCredentials[@"AuthenticationRealm"] || [theCredentials[@"AuthenticationRealm"] isEqualToString:[self authenticationRealm]])) {
 				[sessionCredentialsLock unlock];
 				return theCredentials;
 			}
@@ -2425,7 +2423,7 @@ static BOOL isiPhoneOS2;
 	int i;
 	int max = [[ASIHTTPRequest sessionCookies] count];
 	for (i=0; i<max; i++) {
-		cookie = [[ASIHTTPRequest sessionCookies] objectAtIndex:i];
+		cookie = [ASIHTTPRequest sessionCookies][i];
 		if ([[cookie domain] isEqualToString:[newCookie domain]] && [[cookie path] isEqualToString:[newCookie path]] && [[cookie name] isEqualToString:[newCookie name]]) {
 			[[ASIHTTPRequest sessionCookies] removeObjectAtIndex:i];
 			break;
@@ -2890,7 +2888,7 @@ static BOOL isiPhoneOS2;
 		}
 	}
 	//NSLog(@"Used: %qi",bandwidthUsedInLastSecond);
-	[bandwidthUsageTracker addObject:[NSNumber numberWithUnsignedLong:bandwidthUsedInLastSecond]];
+	[bandwidthUsageTracker addObject:@(bandwidthUsedInLastSecond)];
 	bandwidthMeasurementDate = [NSDate dateWithTimeIntervalSinceNow:1];
 	bandwidthUsedInLastSecond = 0;
 	

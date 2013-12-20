@@ -329,7 +329,7 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 	if ([keyboardView.subviews count] == 0)
 		return;
 	
-	UIView *view = [keyboardView.subviews objectAtIndex:0];
+	UIView *view = (keyboardView.subviews)[0];
 	[view removeFromSuperview];
 }
 

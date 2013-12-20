@@ -43,9 +43,8 @@
 	
 	_gameBrowserController.detailsDelegate = self;
 	
-	NSArray *items = [NSArray arrayWithObjects:
-					  @"btn_mygames.png", @"btn_mygames_active.png", 
-					  @"btn_getupdated.png", @"btn_getupdated_active.png", nil];
+	NSArray *items = @[@"btn_mygames.png", @"btn_mygames_active.png", 
+					  @"btn_getupdated.png", @"btn_getupdated_active.png"];
 	_imageBar = [[ImageBarControl alloc] initWithItems:items];
 	[self.view addSubview:_imageBar];
 	_imageBar.center = CGPointMake(160, 15);
@@ -56,7 +55,7 @@
 }
 
 - (void)showDetails:(NSInteger)index {
-    GameInfo *info = [[GamePack globalGamePack].gameInfoList objectAtIndex:index];
+    GameInfo *info = ([GamePack globalGamePack].gameInfoList)[index];
     GameDetailsController *view = [[GameDetailsController alloc] initWithGameId:info.gameId isShopView:NO];    
     [self.navigationController pushViewController:view animated:YES];
 }

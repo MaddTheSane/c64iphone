@@ -220,7 +220,7 @@ static NSMutableDictionary		*sharedDictionary	= nil;
 }
 
 - (void) setObject: (id) anObject forKey: (NSString *) aKey {
-	[sharedDictionary setObject:anObject forKey:aKey];
+	sharedDictionary[aKey] = anObject;
 }
 
 - (void) removeObjectForKey: (NSString *) aKey {
@@ -228,7 +228,7 @@ static NSMutableDictionary		*sharedDictionary	= nil;
 }
 
 - (id) objectForKey: (NSString *) aKey {
-	return [sharedDictionary objectForKey:aKey];
+	return sharedDictionary[aKey];
 }
 
 - (NSMutableDictionary *) securedDictionary {

@@ -57,9 +57,9 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 
 
 + (KeyboardView*)createFromLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath {
-	NSArray* rows = [layout objectForKey:@"rows"];
+	NSArray* rows = layout[@"rows"];
 	if (!rows) {
-		DLog(@"%@", [NSString stringWithFormat:@"Unable to find rows key in layout %@", [layout objectForKey:@"layout-name"]]);
+		DLog(@"%@", [NSString stringWithFormat:@"Unable to find rows key in layout %@", layout[@"layout-name"]]);
 		return nil;
 	}
 	
@@ -124,7 +124,7 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 			if (topLeft) {
 				NSArray *elements = [topLeft componentsSeparatedByCharactersInSet:commaSet];
 				if ([elements count] == 2) {
-					topLeftPoint = CGPointMake([[elements objectAtIndex:0] floatValue], [[elements objectAtIndex:1] floatValue]);
+					topLeftPoint = CGPointMake([elements[0] floatValue], [elements[1] floatValue]);
 				}
 			}
 			

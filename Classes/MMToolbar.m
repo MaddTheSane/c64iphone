@@ -42,7 +42,7 @@ const double kButtonYPosition = 0.0;
 	
 	NSUInteger count = [upImages count];
 	for (int i = 0; i < count; i++) {
-		UIButton *btn = [self addToolButtonWithImage:[upImages objectAtIndex:i] andSelectedImage:[downImages objectAtIndex:i]];
+		UIButton *btn = [self addToolButtonWithImage:upImages[i] andSelectedImage:downImages[i]];
 		btn.tag = i;
 	}
 	
@@ -53,7 +53,7 @@ const double kButtonYPosition = 0.0;
 	assert(index >= 0 && index < [self.subviews count]);
 	
 	[self unsetAllButtons];
-	[[self.subviews objectAtIndex:index] setSelected:YES];
+	[(self.subviews)[index] setSelected:YES];
 }
 
 - (void)layoutSubviews {

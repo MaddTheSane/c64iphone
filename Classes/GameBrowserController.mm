@@ -102,7 +102,7 @@
 		cell.backgroundView = [[UIImageView alloc] initWithImage:cellImage];
 	}
 	
-	GameInfo *info = [gamePack.gameInfoList objectAtIndex:row];
+	GameInfo *info = (gamePack.gameInfoList)[row];
 	//[cell setGameTitle:info.gameTitle row:row coverArtPath:info.coverArtPath];
 	[cell setGameInfo:info row:row];
 		
@@ -120,7 +120,7 @@
 #pragma mark Actions
 
 - (IBAction)runGame:(UIButton*)sender {
-	GameInfo *info = [gamePack.gameInfoList objectAtIndex:sender.tag];
+	GameInfo *info = (gamePack.gameInfoList)[sender.tag];
 	
 	[info launchGame];
 }

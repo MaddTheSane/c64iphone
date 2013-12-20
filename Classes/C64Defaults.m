@@ -46,11 +46,11 @@ static C64Defaults *g_c64Defaults;
 	//NSString* defVersion = [defaults stringForKey:kSettingDefaultsVersion];
 	//if ([currentVersion isEqualToString:defVersion]) return;
 		
-	NSDictionary* resourceDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], kSettingFullScreenModeDisplaySkin, 
-								  [NSNumber numberWithBool:NO], kSettingIsJoystickOnRight,
-								  [NSNumber numberWithFloat:30.0], kSettingTouchStickDeadZone,
-								  [NSNumber numberWithInt:1], kSettingControlsMode,
-								  nil];
+	NSDictionary* resourceDict = @{
+								kSettingFullScreenModeDisplaySkin: @NO,
+								   kSettingIsJoystickOnRight: @NO,
+								   kSettingTouchStickDeadZone: @30.0f,
+								   kSettingControlsMode: @1};
 	
 	[defaults registerDefaults:resourceDict];
 	

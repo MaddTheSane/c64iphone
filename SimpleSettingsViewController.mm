@@ -45,7 +45,7 @@ typedef struct tagPrefs {
 	changed				= NO;
 	opaque_prefs		= new tagPrefs();
 	opaque_prefs->prefs = new Prefs();
-	self.version.text	= [NSString stringWithFormat:@"v%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+	self.version.text	= [NSString stringWithFormat:@"v%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"]];
 	
 #if defined(_ARM_ARCH_7)
 	UILabel* speedLabel = (UILabel*)[self.view viewWithTag:1000];
@@ -104,6 +104,5 @@ typedef struct tagPrefs {
 		delete opaque_prefs;
 	}
 }
-
 
 @end

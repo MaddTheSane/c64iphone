@@ -55,7 +55,7 @@
 				 
 				 NSMutableDictionary *products = [NSMutableDictionary dictionaryWithCapacity:[results count]];
 				 for (NSArray* result in results) {
-					 [products setValue:[result objectAtIndex:1] forKey:[result objectAtIndex:0]];
+					 [products setValue:result[1] forKey:result[0]];
 				 }
 				 self.mmProducts = products;
 				 
@@ -77,8 +77,8 @@
 	NSMutableArray *pl = [NSMutableArray arrayWithCapacity:[validProducts count]];
 	
     for (NSString *prodId in validProducts) {
-		NSMutableDictionary *prodDict = [_mmProducts objectForKey:prodId];
-		[prodDict setObject:prodId forKey:kProductIdentifierKey];
+		NSMutableDictionary *prodDict = _mmProducts[prodId];
+		prodDict[kProductIdentifierKey] = prodId;
 		MMProduct *mmprod = [[MMProduct alloc] initWithDictionary:prodDict andProduct:nil];
 		[pl addObject:mmprod];
 	}
@@ -107,15 +107,15 @@
 	NSMutableArray *pl = [NSMutableArray arrayWithCapacity:[validProducts count] + [invalidProductsIds count]];
 	
     for (SKProduct *prod in validProducts) {
-		NSDictionary *prodDict = [_mmProducts objectForKey:prod.productIdentifier];
+		NSDictionary *prodDict = _mmProducts[prod.productIdentifier];
 		MMProduct *mmprod = [[MMProduct alloc] initWithDictionary:prodDict andProduct:prod];
 		[pl addObject:mmprod];
 	}
 	
 	// add invalid product IDs
 	for (NSString *prodId in invalidProductsIds) {
-		NSMutableDictionary *prodDict = [_mmProducts objectForKey:prodId];
-		[prodDict setObject:prodId forKey:kProductIdentifierKey];
+		NSMutableDictionary *prodDict = _mmProducts[prodId];
+		prodDict[kProductIdentifierKey] = prodId;
 		MMProduct *mmprod = [[MMProduct alloc] initWithDictionary:prodDict andProduct:nil];
 		[pl addObject:mmprod];
 	}

@@ -76,7 +76,7 @@
 
 - (IBAction)didSelectProduct:(UIControl*)sender {
 	NSUInteger item = sender.tag - kImageTag;
-	[self.delegate presentProductDetails:[_products objectAtIndex:item]];
+	[self.delegate presentProductDetails:_products[item]];
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {

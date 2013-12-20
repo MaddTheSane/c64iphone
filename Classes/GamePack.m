@@ -63,18 +63,17 @@ GamePack	*g_GamePack;
 #define GAME_ENTRY(basePath, image, md5) [NSArray arrayWithObjects:@basePath "gameInfo.plist", @basePath image, md5, nil]
 
 - (void)loadFixedBundledGameInfos:(NSString*)path {
-	NSArray *gameList = [NSArray arrayWithObjects:GAME_ENTRY("Arctic Shipwreck/", "ARCTICSW.T64", @"727990fe9b25a80147b4360ca398ca91"),
+	NSArray *gameList = @[GAME_ENTRY("Arctic Shipwreck/", "ARCTICSW.T64", @"727990fe9b25a80147b4360ca398ca91"),
 						 GAME_ENTRY("DragonsDen/", "DRAGONSD.D64", @"289e5a0122fa6b1f02d868eeda6b43f8"),
 						 GAME_ENTRY("International Basketball/", "International Basketball.T64", @"ef52f3ab96c489e72b70f34b22863271"),
 						 GAME_ENTRY("International Soccer/", "International Soccer.t64", @"9630ff8b6d24fde84fc3757efda62317"),
 						 GAME_ENTRY("International Tennis/", "International Tennis.T64", @"20c6d1f52f63423aa1e78c60a16e491f"),
 						 GAME_ENTRY("Jack Attack/", "Jack Attack.t64", @"4b9c9e28ded01bc706a84c2a263e2c6f"),
 						 GAME_ENTRY("jupiterlander/", "Jupiter Lander.d64", @"5551159df0dca4e648ef42527376232a"),
-						 GAME_ENTRY("lemans/", "lemans.t64", @"de976ee01511e273069746cacce26224"),
-						 nil];
+						 GAME_ENTRY("lemans/", "lemans.t64", @"de976ee01511e273069746cacce26224")];
 	
 	for (NSArray *gameData in gameList) {
-		NSString *imagePath = [path stringByAppendingPathComponent:[gameData objectAtIndex:1]];
+		NSString *imagePath = [path stringByAppendingPathComponent:gameData[1]];
 		NSData *data = [NSData dataWithContentsOfFile:imagePath];
 		unsigned char md5_result[CC_MD5_DIGEST_LENGTH];
 		CC_MD5([data bytes], [data length], md5_result);
@@ -89,10 +88,10 @@ GamePack	*g_GamePack;
 							 md5_result[12], md5_result[13],
 							 md5_result[14], md5_result[15]];
 		
-		if ([md5_str compare:[gameData objectAtIndex:2] options:NSCaseInsensitiveSearch] != 0)
+		if ([md5_str compare:gameData[2] options:NSCaseInsensitiveSearch] != 0)
 			continue;
 		
-		NSString *file = [gameData objectAtIndex:0];
+		NSString *file = gameData[0];
 		
 		GameInfo *info = [[GameInfo alloc] initWithContentsOfGameInfoFile:[path stringByAppendingPathComponent:file] isBundlePath:YES];
 		[gameInfoList addObject:info];
@@ -160,17 +159,17 @@ GamePack	*g_GamePack;
 }
 
 - (id)getValue:(NSString*)key forGameId:(NSString*)gameId {
-	NSDictionary* gamePrefs = [self.gameInfoPrefs objectForKey:gameId];
+	NSDictionary* gamePrefs = (self.gameInfoPrefs)[gameId];
 	if (!gamePrefs) return nil;
 	
-	return [gamePrefs objectForKey:key];
+	return gamePrefs[key];
 }
 
 - (void)setValue:value forKey:(NSString*)key forGameId:(NSString*)gameId {
-	NSDictionary* gamePrefs = [self.gameInfoPrefs objectForKey:gameId];
+	NSDictionary* gamePrefs = (self.gameInfoPrefs)[gameId];
 	if (!gamePrefs) {
 		gamePrefs = [NSMutableDictionary dictionary];
-		[self.gameInfoPrefs setObject:gamePrefs forKey:gameId];
+		(self.gameInfoPrefs)[gameId] = gamePrefs;
 	}
 	
 	[gamePrefs setValue:value forKey:key];

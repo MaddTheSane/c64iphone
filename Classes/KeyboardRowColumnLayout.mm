@@ -46,9 +46,9 @@
 	int x = 0;
 	int xstart = 0;
 	for (int i = 0; i < self.widths.count; i++) {
-		int width = [(NSNumber*)[widths objectAtIndex:i] intValue];
+		int width = [(NSNumber*)widths[i] intValue];
 		x = xstart;
-		NSArray *keys = [columns objectAtIndex:i];
+		NSArray *keys = columns[i];
 		if (keys.count > 0) {
 			for(KeyView *key in keys) {
 				[key setFrame:CGRectMake(x, 0, key.normalWidth, key.normalHeight)];

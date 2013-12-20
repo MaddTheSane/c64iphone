@@ -245,7 +245,7 @@
 	double progress;
 	//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 	if ([ASIHTTPRequest isiPhoneOS2]) {
-		progress = [[NSNumber numberWithUnsignedLongLong:[self uploadProgressBytes]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self uploadProgressTotalBytes]] doubleValue]; 
+		progress = [@([self uploadProgressBytes]) doubleValue]/[@([self uploadProgressTotalBytes]) doubleValue]; 
 	} else {
 		progress = ([self uploadProgressBytes]*1.0)/([self uploadProgressTotalBytes]*1.0);
 	}
@@ -272,7 +272,7 @@
 	double progress;
 	//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 	if ([ASIHTTPRequest isiPhoneOS2]) {
-		progress = [[NSNumber numberWithUnsignedLongLong:[self downloadProgressBytes]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self downloadProgressTotalBytes]] doubleValue]; 
+		progress = [@([self downloadProgressBytes]) doubleValue]/[@([self downloadProgressTotalBytes]) doubleValue]; 
 	} else {
 		progress = ([self downloadProgressBytes]*1.0)/([self downloadProgressTotalBytes]*1.0);
 	}

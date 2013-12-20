@@ -63,7 +63,7 @@
 	for(NSDictionary *layout in layouts) {
 		KeyboardView *kview = [KeyboardView createFromLayout:layout andBasePath:[[NSBundle mainBundle] bundlePath]];
 		kview.delegate = self;
-		[keyboardViews setObject:kview forKey:[layout valueForKey:@"layout-name"]];
+		keyboardViews[[layout valueForKey:@"layout-name"]] = kview;
 		if (first) {
 			first		= NO;
 			self.currentView = kview;
@@ -74,7 +74,7 @@
 - (void)setKeyboardLayout:(NSString*)layout {
 	[self.currentView removeFromSuperview];
 	
-	self.currentView = [keyboardViews objectForKey:layout];
+	self.currentView = keyboardViews[layout];
 	self.currentView.frame = kKeyboardViewFrame;
 	[self addSubview:self.currentView];
 }
