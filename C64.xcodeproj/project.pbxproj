@@ -10416,6 +10416,7 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = _INTERNAL;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -10423,6 +10424,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64ftp;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -10444,6 +10446,7 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = _INTERNAL;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -10451,6 +10454,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64ftp;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -10508,6 +10512,7 @@
 					"\"$(SRCROOT)/../../../libraries/pure-ftpd/iphone\"",
 				);
 				PRODUCT_NAME = C64ftp;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Distribution-App Store";
 		};
