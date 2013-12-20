@@ -229,11 +229,13 @@ void DigitalRenderer::WriteRegister(uint16 adr, uint8 byte)
 		case 18:
 			pv->wave = (byte >> 4) & 0xf;
 			if ((byte & 1) != pv->gate)
+			{
 				if (byte & 1)	// Gate turned on
 					pv->eg_state = EG_ATTACK;
 				else			// Gate turned off
 					if (pv->eg_state != EG_IDLE)
 						pv->eg_state = EG_RELEASE;
+			}
 			pv->gate = byte & 1;
 			pv->mod_by->sync = byte & 2;
 			pv->ring = byte & 4;
@@ -555,7 +557,7 @@ void DigitalRenderer::calc_buffer(int16 *buf, long count)
 #ifdef EMUL_MOS8580
 						output = SawRectTable[v->count >> 16];
 #else
-						output = (v->count >> 16) & 0x7F == 0x7F ? 0x7878 : 0x0000;
+						output = ((v->count >> 16) & 0x7F) == 0x7F ? 0x7878 : 0x0000;
 #endif
 					else
 						output = 0;

@@ -50,7 +50,6 @@
 	[self.view addSubview:_imageBar];
 	_imageBar.center = CGPointMake(160, 15);
 	[_imageBar addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
-	[_imageBar release];
 	
 	_gameBrowserController.view.frame = kInnerViewFrame;
 	[self.view insertSubview:_gameBrowserController.view atIndex:0];
@@ -60,7 +59,6 @@
     GameInfo *info = [[GamePack globalGamePack].gameInfoList objectAtIndex:index];
     GameDetailsController *view = [[GameDetailsController alloc] initWithGameId:info.gameId isShopView:NO];    
     [self.navigationController pushViewController:view animated:YES];
-    [view release];
 }
 
 - (void)valueChanged:(ImageBarControl*)sender {
@@ -76,12 +74,6 @@
 
 	self.gameBrowserController.view.hidden = gameBrowserHidden;
 	self.newsletterSignUpViewController.view.hidden = !gameBrowserHidden;
-}
-
-- (void)dealloc {
-	self.gameBrowserController = nil;
-	self.newsletterSignUpViewController = nil;
-    [super dealloc];
 }
 
 @end

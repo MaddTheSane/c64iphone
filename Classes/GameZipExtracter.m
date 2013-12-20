@@ -38,11 +38,11 @@
 	PKIFileVerification *pki = [MMDigitalVerification sharedManomioPublicKey];	
 	BOOL pki_result = [pki verifyData:data withSignature:signature];
 	if (!pki_result) {
-		[[[[UIAlertView alloc] initWithTitle:@"Invalid Data" 
+		[[[UIAlertView alloc] initWithTitle:@"Invalid Data" 
 									 message:@"Unable to verify install data." 
 									delegate:nil 
 						   cancelButtonTitle:@"OK" 
-						   otherButtonTitles:nil] autorelease] show];
+						   otherButtonTitles:nil] show];
 		return self;
 	}
 	
@@ -60,36 +60,35 @@
 	
 	// Find out how many items are in the archive.
 	ze.Index = (DWORD)-1;
-	if ((UnzipGetItem(huz, &ze))) goto bad2;
+	NSMutableArray *files;
+
+	if ((UnzipGetItem(huz, &ze)))
+		goto bad2;
 	numitems = ze.Index;
 
-	NSMutableArray *files;
 	// Unzip each item, using the name stored (in the zip) for that item.
 	for (ze.Index = 0; ze.Index < numitems; ze.Index++) {		
 		if (UnzipGetItem(huz, &ze))
 			break;
 
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
+			NSString *name = cStringToNSStringNoCopy(ze.Name);
+			NSString *fileName = [basePath stringByAppendingPathComponent:name];
 
-		NSString *name = cStringToNSStringNoCopy(ze.Name);
-		NSString *fileName = [basePath stringByAppendingPathComponent:name];
-
-		if (ze.Attributes & S_IFDIR) {
-			NSString *filePath = [name substringToIndex:[name length] - 1];
-			files = [[NSMutableArray alloc] init];
-			[packs setObject:files forKey:filePath];
-			[files release];
-		} else {
-			NSString *filePath = [name stringByDeletingLastPathComponent];
-			files = [packs objectForKey:filePath];
-			if (files)
-				[files addObject:fileName];
-			else
-				NSLog(@"Invalid archive path - not found in dictionary, %@", filePath);
+			if (ze.Attributes & S_IFDIR) {
+				NSString *filePath = [name substringToIndex:[name length] - 1];
+				files = [[NSMutableArray alloc] init];
+				[packs setObject:files forKey:filePath];
+			} else {
+				NSString *filePath = [name stringByDeletingLastPathComponent];
+				files = [packs objectForKey:filePath];
+				if (files)
+					[files addObject:fileName];
+				else
+					NSLog(@"Invalid archive path - not found in dictionary, %@", filePath);
+			}
+			UnzipItemToFile(huz, [fileName cStringUsingEncoding:NSASCIIStringEncoding], &ze);
 		}
-		UnzipItemToFile(huz, [fileName cStringUsingEncoding:[NSString defaultCStringEncoding]], &ze);
-		[name release];
-		[pool release];
 	}
 	
 	self.images = [packs objectForKey:@"images"];
@@ -115,12 +114,7 @@ bad2:
 - (void)dealloc {
 	if (self.basePath) {
 		[[NSFileManager defaultManager] removeItemAtPath:self.basePath error:nil];
-		[basePath release];
 	}
-	[packs release];
-	[images release];
-
-	[super dealloc];
 }
 
 #pragma mark -
@@ -154,14 +148,13 @@ bad2:
 			if (UnzipGetItem(huz, &ze))
 				break;
 			
-			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+			@autoreleasepool {
 			
-			NSString *name = cStringToNSStringNoCopy(ze.Name);
-			NSString *fileName = [basePath stringByAppendingPathComponent:name];
-			[files addObject:fileName];
-			UnzipItemToFile(huz, [fileName cStringUsingEncoding:[NSString defaultCStringEncoding]], &ze);
-			[name release];
-			[pool release];
+				NSString *name = cStringToNSStringNoCopy(ze.Name);
+				NSString *fileName = [basePath stringByAppendingPathComponent:name];
+				[files addObject:fileName];
+				UnzipItemToFile(huz, [fileName cStringUsingEncoding:[NSString defaultCStringEncoding]], &ze);
+			}
 		}
 	}
 	@finally {

@@ -39,7 +39,6 @@
 	tb.delegate = self;
 	tb.selectedIndex = 0;
 	[self.view addSubview:tb];
-	[tb release];
 	
 	activeController = ss = [[SimpleSettingsViewController alloc] initWithNibName:@"SimpleSettings" bundle:nil];
 	[self.content addSubview:ss.view];
@@ -91,13 +90,5 @@
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
-
-
-- (void)dealloc {
-	self.ss = nil;
-	self.info = nil;
-    [super dealloc];
-}
-
 
 @end

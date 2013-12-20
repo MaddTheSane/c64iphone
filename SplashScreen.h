@@ -32,10 +32,10 @@
 	AVAudioPlayer		*clickSound;
 }
 
-@property (nonatomic, retain)	UIImageView		*baseImage;
-@property (nonatomic, retain)	UIImageView		*welcomeImage;
-@property (nonatomic, retain)	UIImageView		*button1;
-@property (nonatomic, retain)	UIImageView		*button2;
-@property (nonatomic, retain)	UIImageView		*button_on;
+@property (nonatomic, strong)	UIImageView		*baseImage;
+@property (nonatomic, strong)	UIImageView		*welcomeImage;
+@property (nonatomic, strong)	UIImageView		*button1;
+@property (nonatomic, strong)	UIImageView		*button2;
+@property (nonatomic, strong)	UIImageView		*button_on;
 
 @end

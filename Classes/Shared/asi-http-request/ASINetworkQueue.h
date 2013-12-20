@@ -11,7 +11,7 @@
 @interface ASINetworkQueue : NSOperationQueue {
 	
 	// Delegate will get didFail + didFinish messages (if set)
-	id delegate;
+	id __weak delegate;
 
 	// Will be called when a request completes with the request as the argument
 	SEL requestDidFinishSelector;
@@ -23,7 +23,7 @@
 	SEL queueDidFinishSelector;
 	
 	// Upload progress indicator, probably an NSProgressIndicator or UIProgressView
-	id uploadProgressDelegate;
+	id __weak uploadProgressDelegate;
 	
 	// Total amount uploaded so far for all requests in this queue
 	unsigned long long uploadProgressBytes;
@@ -32,7 +32,7 @@
 	unsigned long long uploadProgressTotalBytes;
 
 	// Download progress indicator, probably an NSProgressIndicator or UIProgressView
-	id downloadProgressDelegate;
+	id __weak downloadProgressDelegate;
 	
 	// Total amount downloaded so far for all requests in this queue
 	unsigned long long downloadProgressBytes;
@@ -96,16 +96,16 @@
 - (BOOL)isNetworkActive;
 
 
-@property (assign,setter=setUploadProgressDelegate:) id uploadProgressDelegate;
-@property (assign,setter=setDownloadProgressDelegate:) id downloadProgressDelegate;
+@property (weak, nonatomic, setter=setUploadProgressDelegate:) id uploadProgressDelegate;
+@property (weak, nonatomic, setter=setDownloadProgressDelegate:) id downloadProgressDelegate;
 
-@property (assign) SEL requestDidFinishSelector;
-@property (assign) SEL requestDidFailSelector;
-@property (assign) SEL queueDidFinishSelector;
-@property (assign) BOOL shouldCancelAllRequestsOnFailure;
-@property (assign) id delegate;
-@property (assign) BOOL showAccurateProgress;
-@property (assign, readonly) int requestsCount;
-@property (retain) NSDictionary *userInfo;
+@property SEL requestDidFinishSelector;
+@property SEL requestDidFailSelector;
+@property SEL queueDidFinishSelector;
+@property BOOL shouldCancelAllRequestsOnFailure;
+@property (weak) id delegate;
+@property BOOL showAccurateProgress;
+@property (readonly) int requestsCount;
+@property (strong) NSDictionary *userInfo;
 
 @end

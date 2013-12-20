@@ -53,7 +53,7 @@ static MailingListAlert *instance;
 	firstTime = NO;
 	// --------- Remove this after testing
 	
-	_controller = [controller retain];
+	_controller = controller;
 	// check if this is the first launch
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL hasBeenLaunched = [defaults boolForKey:kdHasBeenLaunched];
@@ -69,12 +69,10 @@ static MailingListAlert *instance;
 										  cancelButtonTitle:@"No" 
 										  otherButtonTitles:@"Yes", nil];
 	[alert show];
-	[alert release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == 0) {
-		[_controller release];
 		return;
 	}
 	
@@ -83,7 +81,6 @@ static MailingListAlert *instance;
 																						 url:[NSURL URLWithString:@"http://c64.manomio.com/index.php/iphone/register/"]];
 	
 	[_controller presentModalViewController:view animated:YES];
-	[view release];
 }
 
 @end

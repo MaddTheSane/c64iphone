@@ -66,7 +66,6 @@
 			[g.files addObject:f];
 		}
 	}
-	[browser release];
 	self.roms = sections;
 }
 
@@ -151,7 +150,7 @@
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_ID];
 	if (cell == nil)
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CELL_ID] autorelease];
+		cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CELL_ID];
 	
     cell.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	if ([indexPath compare:self.selectedIndexPath] == NSOrderedSame)
@@ -165,16 +164,9 @@
     return cell;
 }
 
-
 - (void)dealloc {
 	if (prefs)
 		delete prefs;
-	
-	self.roms = nil;
-	self.indexTitles = nil;
-	self.selectedIndexPath = nil;
-	[super dealloc];
 }
-
 
 @end

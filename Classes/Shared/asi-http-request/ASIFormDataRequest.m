@@ -13,8 +13,8 @@
 @interface ASIFormDataRequest ()
 - (void)buildMultipartFormDataPostBody;
 - (void)buildURLEncodedPostBody;
-@property (retain) NSMutableDictionary *postData;
-@property (retain) NSMutableDictionary *fileData;
+@property (strong) NSMutableDictionary *postData;
+@property (strong) NSMutableDictionary *fileData;
 @end
 
 @implementation ASIFormDataRequest
@@ -22,7 +22,7 @@
 #pragma mark utilities
 - (NSString*)encodeURL:(NSString *)string
 {
-	NSString *newString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"), CFStringConvertNSStringEncodingToEncoding([self stringEncoding])) autorelease];
+	NSString *newString = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"), CFStringConvertNSStringEncodingToEncoding([self stringEncoding]));
 	if (newString) {
 		return newString;
 	}
@@ -33,7 +33,7 @@
 
 + (id)requestWithURL:(NSURL *)newURL
 {
-	return [[[self alloc] initWithURL:newURL] autorelease];
+	return [[self alloc] initWithURL:newURL];
 }
 
 - (id)initWithURL:(NSURL *)newURL
@@ -44,12 +44,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[postData release];
-	[fileData release];
-	[super dealloc];
-}
 
 #pragma mark setup request
 

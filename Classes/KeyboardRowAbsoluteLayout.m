@@ -22,18 +22,14 @@
 @implementation KeyboardRowAbsoluteLayout
 
 - (id)initWithFrame:(CGRect)frame andKeys:(NSArray*)keys {
-    self = [super initWithFrame:frame];
-	
-	for (UIView *key in keys) {
-		[self addSubview:key];
+    if(self = [super initWithFrame:frame]) {
+		
+		for (UIView *key in keys) {
+			[self addSubview:key];
+		}
+		
 	}
-
     return self;
 }
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 @end

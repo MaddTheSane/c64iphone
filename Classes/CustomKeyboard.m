@@ -32,7 +32,6 @@
 		kview.frame			= kKeyboardViewFrame;
 		kview.delegate		= self;
 		[self addSubview:kview];
-		[kview release];
 	}
     return self;
 }
@@ -46,11 +45,5 @@
 - (void)keyUp:(int)keyCode {
 	[delegate keyUp:keyCode];
 }
-
-- (void)dealloc {
-	self.delegate = nil;
-    [super dealloc];
-}
-
 
 @end

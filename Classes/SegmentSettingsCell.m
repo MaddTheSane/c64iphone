@@ -31,11 +31,4 @@
     return self;
 }
 
-- (void)dealloc {
-	self.label = nil;
-	self.theSegment = nil;
-    [super dealloc];
-}
-
-
 @end

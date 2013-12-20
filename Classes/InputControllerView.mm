@@ -90,14 +90,6 @@ void OnInitialized(Frodo *pFrodo) {
 		fireImage.hidden = YES;
 	}
 }
-
-- (void)dealloc {
-	if (fireImage)
-		[fireImage release];
-	
-	[super dealloc];
-}
-
 @end
 
 @interface InputControllerView()
@@ -137,9 +129,7 @@ const int kButtonWidthLandscape			= 200;
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[button release];
 	delete _stickVector;
-    [super dealloc];
 }
 
 - (void)defaultsChanged:(NSNotification*)notification {

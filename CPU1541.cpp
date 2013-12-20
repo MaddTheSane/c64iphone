@@ -450,10 +450,12 @@ void MOS6502_1541::write_byte(uint16 adr, uint8 byte)
 				if ((via2_prb ^ byte) & 8)	// Bit 3: Drive LED
 					the_display->UpdateLEDs(byte & 8 ? 1 : 0);
 				if ((via2_prb ^ byte) & 3)	// Bits 0/1: Stepper motor
+				{
 					if ((via2_prb & 3) == ((byte+1) & 3))
 						the_job->MoveHeadOut();
 					else if ((via2_prb & 3) == ((byte-1) & 3))
 						the_job->MoveHeadIn();
+				}
 				via2_prb = byte & 0xef;
 				break;
 			case 1:
@@ -468,21 +470,21 @@ void MOS6502_1541::write_byte(uint16 adr, uint8 byte)
 				break;
 			case 4:
 			case 6:
-				via2_t1l = via2_t1l & 0xff00 | byte;
+				via2_t1l = (via2_t1l & 0xff00) | byte;
 				break;
 			case 5:
-				via2_t1l = via2_t1l & 0xff | (byte << 8);
+				via2_t1l = (via2_t1l & 0xff) | (byte << 8);
 				via2_ifr &= 0xbf;
 				via2_t1c = via2_t1l;
 				break;
 			case 7:
-				via2_t1l = via2_t1l & 0xff | (byte << 8);
+				via2_t1l = (via2_t1l & 0xff) | (byte << 8);
 				break;
 			case 8:
-				via2_t2l = via2_t2l & 0xff00 | byte;
+				via2_t2l = (via2_t2l & 0xff00) | byte;
 				break;
 			case 9:
-				via2_t2l = via2_t2l & 0xff | (byte << 8);
+				via2_t2l = (via2_t2l & 0xff) | (byte << 8);
 				via2_ifr &= 0xdf;
 				via2_t2c = via2_t2l;
 				break;

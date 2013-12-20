@@ -20,7 +20,6 @@
 #import <Foundation/Foundation.h>
 #import "MainTabBarController.h"
 #import "ProgressReportProtocol.h"
-#import "OpenFeintDelegate.h"
 
 #ifdef _INTERNAL
 @class FTPDService;
@@ -29,7 +28,7 @@
 @class MMStoreObserver;
 @class EmulationViewController;
 
-@interface i64ApplicationDelegate : NSObject<UIApplicationDelegate, UITabBarControllerDelegate, OpenFeintDelegate> {
+@interface i64ApplicationDelegate : NSObject<UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow					*window;
 	IBOutlet UITabBarController			*mainController;
 	UINavigationController				*gameBrowser;
@@ -42,7 +41,7 @@
 #endif
 }
 
-@property (nonatomic, retain)	IBOutlet UINavigationController		*gameBrowser;
+@property (nonatomic, strong)	IBOutlet UINavigationController		*gameBrowser;
 @property (nonatomic)			BOOL								splashScreenActive;	
 
 - (void)launchEmulator;

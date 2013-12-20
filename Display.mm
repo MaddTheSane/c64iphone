@@ -402,8 +402,8 @@ BOOL showingRequester;
 
 long int ShowRequester(const char *a, const char *b, const char *)
 {
-	NSString *msg = [NSString stringWithCString:a];
-	NSString *buttonText = [NSString stringWithCString:b];
+	NSString *msg = @(a);
+	NSString *buttonText = @(b);
 	
 	RequesterDelegate *theDelegate = [[RequesterDelegate alloc] init];
 	// open an alert with just an OK button
@@ -414,9 +414,5 @@ long int ShowRequester(const char *a, const char *b, const char *)
 	[alert show];
 	while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false) == kCFRunLoopRunTimedOut && showingRequester == YES) {
 	}
-	[alert release];
-	[msg release];
-	[buttonText release];
-	[theDelegate release];
 	return 1;
 }

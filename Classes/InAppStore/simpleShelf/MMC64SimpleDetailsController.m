@@ -26,7 +26,7 @@
 
 @interface MMC64SimpleDetailsController()
 
-@property (nonatomic, retain) GameDetailsController* moreDetailsController;
+@property (nonatomic, strong) GameDetailsController* moreDetailsController;
 
 @end
 
@@ -39,18 +39,6 @@
 }
 */
 
-- (void)dealloc {
-	self.coverArtImage = nil;
-	self.buyButton = nil;
-	self.productTitle = nil;
-	self.productDescription = nil;
-	self.publisherNotes = nil;
-	self.price = nil;
-
-	self.moreDetailsController = nil;
-    [super dealloc];
-}
-
 - (void)updatePrice {
 	if (_product.product) {
 		// TODO: add shared number formatter
@@ -59,7 +47,6 @@
 		[numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 		[numberFormatter setLocale:_product.product.priceLocale];
 		NSString *formattedString = [numberFormatter stringFromNumber:_product.product.price];
-		[numberFormatter release];
 		
 		[_price setText:formattedString];		
 	} else {

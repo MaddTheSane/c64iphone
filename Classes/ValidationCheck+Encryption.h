@@ -79,7 +79,7 @@ static inline BOOL is_app_enc() {
 static void check10(NSTimeInterval delay) {
 	return;		// TODO: Why is this not working on device?
 	if (!is_app_enc()) {
-		[FlurryAPI logEvent:@"CPU:C3"];
+		//[FlurryAPI logEvent:@"CPU:C3"];
 		NSString *method = rot47(@"E6C>:?2E6");
 		const char* term = [method cStringUsingEncoding:[NSString defaultCStringEncoding]];
 		[[UIApplication sharedApplication] performSelector:sel_getUid(term) withObject:[UIApplication sharedApplication] afterDelay:delay];

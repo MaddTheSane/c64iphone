@@ -55,8 +55,7 @@
 																 errorDescription:&errorDesc];
 	
 	if (!layouts) {
-		DLog(errorDesc);
-		[errorDesc release];
+		DLog(@"%@", errorDesc);
 		return;
 	}
 
@@ -69,7 +68,6 @@
 			first		= NO;
 			self.currentView = kview;
 		}
-		[kview release];
 	}
 }
 
@@ -81,12 +79,6 @@
 	[self addSubview:self.currentView];
 }
 
-- (void)dealloc {
-	self.currentView = nil;
-	[keyboardViews release];
-	self.delegate = nil;
-    [super dealloc];
-}
 
 #pragma mark UIEnhancedKeyboardDelegate
 

@@ -73,31 +73,25 @@ bool Frodo::load_rom_files(void)
 		path = [mainBundle pathForResource:@"Kernal.ROM" ofType:nil];
 		data = [NSData dataWithContentsOfFile:path];
 		if ([data length] != 0x2000){
-			[data release];
 			throw "Unable to load 'Kernal ROM'";
 		}
 		[data getBytes:TheC64->Kernal];
-		[data release];
 			
 		// Load Char ROM
 		path = [mainBundle pathForResource:@"Char.ROM" ofType:nil];
 		data = [NSData dataWithContentsOfFile:path];
 		if ([data length] != 0x1000){
-			[data release];
 			throw "Unable to load 'Char ROM'";
 		}
 		[data getBytes:TheC64->Char];
-		[data release];
 		
 		// Load 1541 ROM
 		path = [mainBundle pathForResource:@"1541.ROM" ofType:nil];
 		data = [NSData dataWithContentsOfFile:path];
 		if ([data length] != 0x4000){
-			[data release];
 			throw "Unable to load '1541 ROM'";
 		}
 		[data getBytes:TheC64->ROM1541];
-		[data release];
 		
 	}
 	catch (const char * str) {
@@ -109,7 +103,7 @@ bool Frodo::load_rom_files(void)
 
 const char* Frodo::prefs_path() {
 	if (s_path == nil)
-		s_path = [[DOCUMENTS_FOLDER stringByAppendingPathComponent:@"frodo.prefs"] retain];
+		s_path = [DOCUMENTS_FOLDER stringByAppendingPathComponent:@"frodo.prefs"];
 	return [s_path cStringUsingEncoding:[NSString defaultCStringEncoding]];
 }
 

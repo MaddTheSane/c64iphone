@@ -33,7 +33,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 	static char *decodingTable = NULL;
 	if (decodingTable == NULL)
 	{
-		decodingTable = malloc(256);
+		decodingTable = (char*)malloc(256);
 		if (decodingTable == NULL)
 			return nil;
 		memset(decodingTable, CHAR_MAX, 256);
@@ -45,7 +45,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 	const char *characters = [string cStringUsingEncoding:NSASCIIStringEncoding];
 	if (characters == NULL)     //  Not an ASCII string!
 		return nil;
-	char *bytes = malloc((([string length] + 3) / 4) * 3);
+	char *bytes = (char*)malloc((([string length] + 3) / 4) * 3);
 	if (bytes == NULL)
 		return nil;
 	NSUInteger length = 0;
@@ -94,7 +94,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 	if ([self length] == 0)
 		return @"";
 	
-    char *characters = malloc((([self length] + 2) / 3) * 4);
+    char *characters = (char*)malloc((([self length] + 2) / 3) * 4);
 	if (characters == NULL)
 		return nil;
 	NSUInteger length = 0;
@@ -119,7 +119,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		else characters[length++] = '=';     
 	}
 	
-	return [[[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
+	return [[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES];
 }
 
 @end

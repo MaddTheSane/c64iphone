@@ -30,8 +30,8 @@
 	UIViewController				*activeController;
 }
 
-@property (nonatomic, retain)	IBOutlet UIView							*content;
-@property (nonatomic, retain)			 SimpleSettingsViewController	*ss;
-@property (nonatomic, retain)			 InfoViewController				*info;
+@property (nonatomic, strong)	IBOutlet UIView							*content;
+@property (nonatomic, strong)			 SimpleSettingsViewController	*ss;
+@property (nonatomic, strong)			 InfoViewController				*info;
 
 @end

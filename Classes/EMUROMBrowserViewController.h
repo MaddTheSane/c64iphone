@@ -29,7 +29,7 @@ class Prefs;
 	Prefs *prefs;
 }
 
-@property (nonatomic, retain) NSArray		*roms, *indexTitles;
-@property (nonatomic, retain) NSIndexPath	*selectedIndexPath;
+@property (nonatomic, strong) NSArray		*roms, *indexTitles;
+@property (nonatomic, strong) NSIndexPath	*selectedIndexPath;
 
 @end

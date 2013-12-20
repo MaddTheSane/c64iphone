@@ -39,12 +39,12 @@
 
 - (IBAction)toggleHasTrainer:(UIButton*)sender;
 
-@property (nonatomic, retain)	IBOutlet UIImageView			*coverArt;
-@property (nonatomic, retain)	IBOutlet UILabel				*gameTitle;
-@property (nonatomic, retain)	IBOutlet UIButton				*run;
-@property (nonatomic, retain)	IBOutlet UIButton				*details;
+@property (nonatomic, strong)	IBOutlet UIImageView			*coverArt;
+@property (nonatomic, strong)	IBOutlet UILabel				*gameTitle;
+@property (nonatomic, strong)	IBOutlet UIButton				*run;
+@property (nonatomic, strong)	IBOutlet UIButton				*details;
 
-@property (nonatomic, retain)	IBOutlet UILabel				*enableTrainer;
-@property (nonatomic, retain)	IBOutlet UIButton				*enableTrainerSwitch;
+@property (nonatomic, strong)	IBOutlet UILabel				*enableTrainer;
+@property (nonatomic, strong)	IBOutlet UIButton				*enableTrainerSwitch;
 
 @end

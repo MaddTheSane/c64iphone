@@ -43,24 +43,16 @@
 	MMDownloadManager *mgr = [MMDownloadManager defaultManager];
 	[mgr downloadURL:[NSURL URLWithString:@"http://c64.manomio.com/index.php/api_v1/gameStatus/"] 
 			 succeed:^(id<MMDownloadResponse> data) {
-				 [self autorelease];
 				 NSArray *results = [data.asString JSONValue];
 				 self.productsCallback(results, YES);
 			 } 
 				fail:^(NSError* error) {
-					[self autorelease];
 					if (_failBlock)
 						_failBlock(error);
 				}];
 	
 	return self;
 	
-}
-
-- (void)dealloc {
-	self.productsCallback = nil;
-	
-	[super dealloc];
 }
 
 @synthesize productsCallback=_productsCallback;

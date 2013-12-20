@@ -30,7 +30,7 @@ static GameDisabledList* g_gameIgnoreList = nil;
 
 @interface GameDisabledList()
 
-@property (nonatomic, retain) NSArray* inactiveGames;
+@property (nonatomic, strong) NSArray* inactiveGames;
 
 @end
 
@@ -53,12 +53,6 @@ static GameDisabledList* g_gameIgnoreList = nil;
 		self.inactiveGames = [NSArray array];
 	
 	return self;
-}
-
-- (void)dealloc {
-	self.inactiveGames = nil;
-	
-	[super dealloc];
 }
 
 - (NSArray*)getDisabledIdsWithBlock:(void(^)(NSArray* ids))block {

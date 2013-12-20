@@ -25,7 +25,7 @@
 @synthesize part1, part2;
 
 - (id)init {
-	[super init];
+	if (!(self = [super init])) return nil;
 	
 	part1 = (uint8*)malloc(SNAPSHOT_SIZE_1);
 	part2 = (uint8*)malloc(SNAPSHOT_SIZE_2);
@@ -56,7 +56,6 @@
 - (void)dealloc {
 	free(part1);
 	free(part2);
-	[super dealloc];
 }
 
 @end

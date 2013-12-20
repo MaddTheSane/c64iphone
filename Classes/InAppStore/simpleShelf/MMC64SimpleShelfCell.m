@@ -37,10 +37,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
 #define kImageTag		1000
 #define kLabelTag		1010
 #define kProgressTag	1020
@@ -132,7 +128,6 @@
 		pv.frame = CGRectMake(0, 0, 70, 10);
 		pv.center = v.center;
 		[self addSubview:pv];
-		[pv release];
 	}
 
 	if (p.installing) {

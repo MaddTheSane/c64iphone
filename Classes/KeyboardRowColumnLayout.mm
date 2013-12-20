@@ -60,11 +60,4 @@
 	}
 }
 
-- (void)dealloc {
-	self.widths		= nil;
-	self.columns	= nil;
-    [super dealloc];
-}
-
-
 @end

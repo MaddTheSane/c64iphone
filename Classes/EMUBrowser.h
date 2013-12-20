@@ -24,8 +24,8 @@
 	NSArray *extensions;
 }
 
-@property (nonatomic, retain) NSString* basePath;
-@property (nonatomic, retain) NSArray* extensions;
+@property (nonatomic, strong) NSString* basePath;
+@property (nonatomic, strong) NSArray* extensions;
 
 - (id)initWithBasePath:(NSString *)theBasePath;
 - (NSMutableArray*)getFiles;

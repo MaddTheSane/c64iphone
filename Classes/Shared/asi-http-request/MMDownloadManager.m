@@ -20,7 +20,6 @@
 #import "MMDownloadManager.h"
 #import "ASINetworkQueue.h"
 #import "ASIHTTPRequest.h"
-#import <PLBlocks/Block.h>
 
 @interface MMRequest : ASIHTTPRequest<MMDownloadResponse> {
 	SuccessCallback			_succeedBlock;
@@ -55,7 +54,7 @@
 	self = [super init];
 	if (!self) return nil;
 	
-	_networkQueue = [[ASINetworkQueue queue] retain];
+	_networkQueue = [ASINetworkQueue queue];
 	
 	return self;
 }
@@ -64,7 +63,6 @@
 	MMRequest *req = [[MMRequest alloc] initWithURL:url successBlock:succeedBlock failBlock:failBlock];
 	
 	[_networkQueue addOperation:req];
-	[req release];
 	
 	[_networkQueue go];
 }
@@ -107,13 +105,6 @@
 
 - (void)doFailBlock {
 	_failBlock(self.error);
-}
-
-- (void)dealloc {
-	self.succeedBlock = nil;
-	self.failBlock = nil;
-	
-	[super dealloc];
 }
 
 #pragma mark -

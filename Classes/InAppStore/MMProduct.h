@@ -33,13 +33,13 @@
 
 - (id)initWithDictionary:(NSDictionary*)dict andProduct:(SKProduct*)product;
 
-@property (nonatomic, readonly, retain) SKProduct*	product;
-@property (nonatomic, readonly) NSString* imagePath;
-@property (nonatomic, readonly) NSString* productIdentifier;
-@property (nonatomic, readonly) NSString* title;
-@property (nonatomic, readonly) NSString* productDescription;
-@property (nonatomic, readonly) NSString* status;
-@property (nonatomic, readonly) NSString* publisherNotes;
+@property (nonatomic, readonly, strong) SKProduct*	product;
+@property (weak, nonatomic, readonly) NSString* imagePath;
+@property (weak, nonatomic, readonly) NSString* productIdentifier;
+@property (weak, nonatomic, readonly) NSString* title;
+@property (weak, nonatomic, readonly) NSString* productDescription;
+@property (weak, nonatomic, readonly) NSString* status;
+@property (weak, nonatomic, readonly) NSString* publisherNotes;
 @property (nonatomic, readonly) BOOL isFree;
 
 // installation

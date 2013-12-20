@@ -47,7 +47,7 @@ enum ControlsToolbarState {
 }
 
 @property (nonatomic) ControlsToolbarState							state;
-@property (nonatomic, retain) id<ControlsToolbarChangedDelegate>	delegate;
+@property (nonatomic, strong) id<ControlsToolbarChangedDelegate>	delegate;
 @property (nonatomic) BOOL											showGameMode;
 
 - (IBAction)selected:(UIButton*)sender;

@@ -80,8 +80,8 @@
 }
 
 - (void)releaseData {
-	[indexTitles release];
-	[roms release];
+	indexTitles = nil;
+	roms = nil;
 }
 
 - (void)gamePackChanged {
@@ -195,7 +195,6 @@
 
 - (void)dealloc {
 	[self releaseData];
-    [super dealloc];
 }
 
 

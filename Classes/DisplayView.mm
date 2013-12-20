@@ -81,7 +81,7 @@ void OnFrodoInitialized(Frodo *frodo) {
 #elif FRODO_DISPLAY_FORMAT == DISPLAY_FORMAT_32BIT || FRODO_DISPLAY_FORMAT == DISPLAY_FORMAT_16BIT
 	
 	CGImageRef image = theC64->TheDisplay->GetImageBuffer();
-	layer.contents = (id)image;
+	layer.contents = (__bridge id)image;
 	if (ThePrefs.BordersOn)
 		layer.contentsRect = CGRectMake(32.0/DISPLAY_X, 35.0/DISPLAY_Y, 320.0/DISPLAY_X, 217.0/DISPLAY_Y);
 	else
@@ -90,10 +90,5 @@ void OnFrodoInitialized(Frodo *frodo) {
 #endif
 	 
 }
-
-- (void)dealloc {
-	[super dealloc];
-}
-
 
 @end

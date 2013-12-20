@@ -24,19 +24,12 @@
 @synthesize sectionName, files;
 
 - (id)initWithSectionName:(NSString*)theSectionName {
-	[super init];
+	if (!(self = [super init])) return nil;
 	
 	self.sectionName	= theSectionName;
 	self.files			= [[NSMutableArray alloc] init];
 	
 	return self;
-}
-
-- (void)dealloc {
-	self.sectionName	= nil;
-	self.files			= nil;
-	
-	[super dealloc];
 }
 
 @end

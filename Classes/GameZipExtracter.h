@@ -26,9 +26,9 @@
 	NSArray					*images;
 }
 
-@property (nonatomic, retain)	NSString*					basePath;
-@property (nonatomic, retain)	NSMutableDictionary*		packs;
-@property (nonatomic, retain)	NSArray*					images;
+@property (nonatomic, strong)	NSString*					basePath;
+@property (nonatomic, strong)	NSMutableDictionary*		packs;
+@property (nonatomic, strong)	NSArray*					images;
 
 -(id)initWithData:(NSData*)data andSignature:(NSData*)signature;
 -(NSString*)findFileNamed:(NSString*)fileName inArray:(NSArray*)theArray;

@@ -11,11 +11,11 @@
 
 // Private stuff
 @interface ASINetworkQueue ()
-	@property (assign) int requestsCount;
-	@property (assign) unsigned long long uploadProgressBytes;
-	@property (assign) unsigned long long uploadProgressTotalBytes;
-	@property (assign) unsigned long long downloadProgressBytes;
-	@property (assign) unsigned long long downloadProgressTotalBytes;
+	@property int requestsCount;
+	@property unsigned long long uploadProgressBytes;
+	@property unsigned long long uploadProgressTotalBytes;
+	@property unsigned long long downloadProgressBytes;
+	@property unsigned long long downloadProgressTotalBytes;
 @end
 
 @implementation ASINetworkQueue
@@ -32,7 +32,7 @@
 
 + (id)queue
 {
-	return [[[self alloc] init] autorelease];
+	return [[self alloc] init];
 }
 
 - (void)dealloc
@@ -41,8 +41,6 @@
 	for (ASIHTTPRequest *request in [self operations]) {
 		[request setQueue:nil];
 	}
-	[userInfo release];
-	[super dealloc];
 }
 
 - (BOOL)isNetworkActive

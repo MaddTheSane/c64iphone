@@ -42,9 +42,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[fireArea release];
-	[stickArea release];
-    [super dealloc];
 }
 
 - (void)defaultsChanged:(NSNotification*)notification {
@@ -93,7 +90,6 @@
 	UIView* tmp = [UIImageView newViewFromImageResource:@"ls-instructions-fullscreenarea.png"];
 	tmp.center = CGPointMake(240, 270);
 	[self addSubview:tmp];
-	[tmp release];
 }
 
 @end

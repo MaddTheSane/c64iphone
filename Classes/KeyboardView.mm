@@ -59,7 +59,7 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 + (KeyboardView*)createFromLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath {
 	NSArray* rows = [layout objectForKey:@"rows"];
 	if (!rows) {
-		DLog([NSString stringWithFormat:@"Unable to find rows key in layout %@", [layout objectForKey:@"layout-name"]]);
+		DLog(@"%@", [NSString stringWithFormat:@"Unable to find rows key in layout %@", [layout objectForKey:@"layout-name"]]);
 		return nil;
 	}
 	
@@ -76,8 +76,6 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 			KeyboardRowAutoLayoutView *rowView = [[KeyboardRowAutoLayoutView alloc] initWithFrame:CGRectMake(0, frameY, 320, kKeyboardRowHeight) 
 																						   andRow:kr];
 			[view addSubview:rowView];
-			[rowView release];
-			[kr release];
 		} else if ([[row valueForKey:@"layout-mode"] isEqualToString:@"column"]) {
 			NSArray *widths = [row valueForKey:@"column-widths"];
 			NSArray *columns = [row valueForKey:@"columns"];
@@ -86,7 +84,6 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 			KeyboardRowColumnLayout *rowView = [[KeyboardRowColumnLayout alloc] initWithFrame:CGRectMake(0, frameY, 320, kKeyboardRowHeight)
 																				   andColumns:keyColumns andWidths:widths];
 			[view addSubview:rowView];
-			[rowView release];
 		} else if ([[row valueForKey:@"layout-mode"] isEqualToString:@"absolute"]) {
 			NSArray *keyboardKeys = [row valueForKey:@"keys"];
 			
@@ -94,7 +91,6 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 			[KeyboardView loadKeysFromArray:keyboardKeys intoSection:array ofKeyboard:view andBasePath:basePath];
 			KeyboardRowAbsoluteLayout *rowView = [[KeyboardRowAbsoluteLayout alloc] initWithFrame:CGRectMake(0, 0, 320, 150) andKeys:array];
 			[view addSubview:rowView];
-			[rowView release];
 		}
 	
 		NSNumber *rowHeight = [row valueForKey:@"height"];
@@ -109,7 +105,7 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 
 
 + (void)loadKeysFromArray:(NSArray*)keys intoSection:(NSMutableArray*)section ofKeyboard:(KeyboardView*)keyboard andBasePath:(NSString*)basePath {
-	static NSCharacterSet *commaSet = [[NSCharacterSet characterSetWithCharactersInString:@","] retain];
+	static NSCharacterSet *commaSet = [NSCharacterSet characterSetWithCharactersInString:@","];
 
 	for(NSDictionary *keyDict in keys) {
 		NSString* code = [keyDict valueForKey:@"code"];
@@ -134,9 +130,8 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 			
 			KeyView *view = [[KeyView alloc] initWithCode:key->code withUpName:smallName withDownName:largeName andTopLeft:topLeftPoint andBasePath:basePath];
 			[section addObject:view];
-			[view release];
 		} else {
-			DLog([NSString stringWithFormat:@"Warning: could not find key for %@", code]);
+			DLog(@"Warning: could not find key for %@", code);
 		}
 
 	}
@@ -151,10 +146,9 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 			[KeyboardView loadKeysFromArray:key_ar intoSection:keys ofKeyboard:keyboard andBasePath:basePath];
 		}
 		[cols addObject:keys];
-		[keys release];			
 	}
 	
-	return [cols autorelease];
+	return cols;
 }
 
 #pragma mark KeyboardView Instance methods
@@ -169,10 +163,6 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
     return self;
 }
 
-- (void)dealloc {
-	self.delegate = nil;
-    [super dealloc];
-}
 
 - (void)stopKeyDownTimer {
 	if (keyDownDelay) {
@@ -199,7 +189,7 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 
 - (void)lockPushedKey {
 	if (current) {
-		DLog([NSString stringWithFormat:@"lockPushedKey: key down '%d'", current.keyCode]);
+		DLog(@"lockPushedKey: key down '%d'", current.keyCode);
 		[delegate keyDown:current.keyCode];
 		keyLocked = YES;
 	}
@@ -292,19 +282,17 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 	// this was about 50% on the iPhone, than directly loading via [UIImage imageWithContentsOfFile:...]
 	NSData *data = [[NSData alloc] initWithContentsOfFile:[[basePath stringByAppendingPathComponent:upName] stringByAppendingString:@".png"]];
 	up			= [UIImage imageWithData:data];
-	[data release];
 	if (!up) {
-		up		= [[UIImage imageNamed:@"key_blank_small.png"] retain];
-		DLog([NSString stringWithFormat:@"Missing small key image '%@'", upName]);
+		up		= [UIImage imageNamed:@"key_blank_small.png"];
+		DLog(@"Missing small key image '%@'", upName);
 	}
 	
 	if (downName) {
 		data		= [[NSData alloc] initWithContentsOfFile:[[basePath stringByAppendingPathComponent:downName] stringByAppendingString:@".png"]];
-		down		= [[UIImage imageWithData:data] retain];
-		[data release];
+		down		= [UIImage imageWithData:data];
 		if (!down) {
-			down	= [[UIImage imageNamed:@"key_blank_large.png"] retain];
-			DLog([NSString stringWithFormat:@"Missing large key image '%@'", downName]);
+			down	= [UIImage imageNamed:@"key_blank_large.png"];
+			DLog(@"Missing large key image '%@'", downName);
 		}
 	}
 	
@@ -337,11 +325,4 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 	return up.size.height;
 }
 
-- (void)dealloc {
-	[up release];
-	[down release];
-	[super dealloc];
-}
-
 @end
-

@@ -30,7 +30,7 @@
 
 @interface MMC64SimpleShelfController()
 
-@property (nonatomic, retain) NSArray*	products;
+@property (nonatomic, strong) NSArray*	products;
 
 - (void)reloadDataFromServer;
 - (void)imageBarValueChanged:(ImageBarControl*)bar;
@@ -65,17 +65,6 @@
 	refreshButton.hidden = NO;
 #endif
 	
-}
-
-- (void)dealloc {
-	self.activityIndicator = nil;
-	self.topBar = nil;
-	self.products = nil;
-	self.noInternetWarning = nil;
-	[_allProducts release];
-	[_productDetails release];
-	[_imageBar release];
-    [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -147,7 +136,7 @@ NSMutableArray* selectMatching(NSArray* src, BOOL(^pred)(id item)) {
 			[paidItems addObject:[NSArray array]];
 		}
 		
-		_allProducts = [[NSMutableArray arrayWithObjects:paidItems, freeItems, nil] retain];
+		_allProducts = [NSMutableArray arrayWithObjects:paidItems, freeItems, nil];
 		self.products = [_allProducts objectAtIndex:_imageBar.selectedSegmentIndex];
 		[self.tableView reloadData];
 		[_activityIndicator stopAnimating];
@@ -163,7 +152,6 @@ NSMutableArray* selectMatching(NSArray* src, BOOL(^pred)(id item)) {
 - (IBAction)more:(id)sender {
 	GoodiesViewController* v = [[GoodiesViewController alloc] init];
 	[self.navigationController pushViewController:v animated:YES];
-	[v release];
 }
 
 - (void)imageBarValueChanged:(ImageBarControl*)bar {

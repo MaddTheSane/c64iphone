@@ -25,7 +25,6 @@
 	NSData *imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resourceName 
 																							   ofType:nil]];
 	UIImage *image = [UIImage imageWithData:imageData];
-	[imageData release];
 	return image;
 }
 
@@ -37,7 +36,6 @@
 	NSData *imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resourceName 
 																							   ofType:nil]];
 	UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageWithData:imageData]];
-	[imageData release];
 	return view;	
 }
 
@@ -47,11 +45,11 @@
 
 - (NSString *)encodeForURL {
 	NSString *reserved = @":/?#[]@!$&'()*+;=";
-    return [NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8)) autorelease];
+    return (__bridge_transfer id)(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
 }
 
 - (NSString *) decodeFromURL {
-	return [NSMakeCollectable(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8)) autorelease];
+	return (__bridge_transfer id)(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8));
 }
 
 @end
@@ -81,7 +79,7 @@
 	[view setImage:image forState:UIControlStateNormal];
 	if (selectedImageName)
 		[view setImage:[UIImage imageFromResource:selectedImageName] forState:UIControlStateSelected];
-	return [view retain];
+	return view;
 }
 
 

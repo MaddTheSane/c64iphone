@@ -27,7 +27,7 @@
 	MMProduct						*_mmProduct;
 	SKPaymentTransaction			*_transaction;
 	enum tagProductInstallState		_state;
-	id<MMProductInstallDelegate>	_delegate;
+	id<MMProductInstallDelegate>	__weak _delegate;
 	
 	// download state
 	long long						_expectedDownloadSize;
@@ -37,7 +37,7 @@
 
 @property (nonatomic, readonly) float downloadPercent;
 @property (nonatomic, readonly) enum tagProductInstallState state;
-@property (nonatomic, assign) id<MMProductInstallDelegate> delegate;
+@property (nonatomic, weak) id<MMProductInstallDelegate> delegate;
 
 - (id)initWithProduct:(MMProduct*)product
 		  transaction:(SKPaymentTransaction*)transaction;

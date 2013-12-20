@@ -145,8 +145,7 @@ const double kButtonYPosition = 0.0;
 		buttonJoystick.tag = ControlsStateJoystick;
 	}
 	
-	[currentButtons release];
-	currentButtons = [[NSArray arrayWithObjects:buttonControls, buttonJoystick, nil] retain];
+	currentButtons = [NSArray arrayWithObjects:buttonControls, buttonJoystick, nil];
 }
 
 - (void)ensureStandardModeButtons {
@@ -173,8 +172,7 @@ const double kButtonYPosition = 0.0;
 		buttonJoystick.tag = ControlsStateJoystick;
 	}	
 
-	[currentButtons release];
-	currentButtons = [[NSArray arrayWithObjects:buttonAlpha, buttonNumeric, buttonFunction, buttonJoystick, nil] retain];
+	currentButtons = [NSArray arrayWithObjects:buttonAlpha, buttonNumeric, buttonFunction, buttonJoystick, nil];
 }
 
 const int UIControlStateAllNormal = (UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled);
@@ -190,16 +188,6 @@ const int UIControlStateAllNormal = (UIControlStateNormal | UIControlStateHighli
 
 - (CGSize)getSizeFromImage:(UIButton*)button {
 	return button.currentImage.size;
-}
-
-- (void)dealloc {
-	[buttonAlpha release];
-	[buttonNumeric release];
-	[buttonFunction release];
-	[buttonJoystick release];
-	[buttonControls release];
-	
-    [super dealloc];
 }
 
 @end

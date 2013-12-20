@@ -184,12 +184,13 @@ uint8 D64Drive::Open(int channel, char *filename)
 		return ST_OK;
 	}
 
-	if (filename[0] == '$')
+	if (filename[0] == '$'){
 		if (channel)
 			return open_file_ts(channel, 18, 0);
 		else
 			return open_directory(filename+1);
-
+	}
+	
 	if (filename[0] == '#')
 		return open_direct(channel, filename);
 

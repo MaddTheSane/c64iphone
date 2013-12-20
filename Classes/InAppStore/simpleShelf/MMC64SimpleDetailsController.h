@@ -34,12 +34,12 @@
 	GameDetailsController*		_moreDetailsController;
 }
 
-@property (nonatomic, retain) IBOutlet EGOImageView* coverArtImage;
-@property (nonatomic, retain) IBOutlet UIButton* buyButton;
-@property (nonatomic, retain) IBOutlet UILabel* productTitle;
-@property (nonatomic, retain) IBOutlet UILabel* productDescription;
-@property (nonatomic, retain) IBOutlet UILabel* publisherNotes;
-@property (nonatomic, retain) IBOutlet UILabel* price;
+@property (nonatomic, strong) IBOutlet EGOImageView* coverArtImage;
+@property (nonatomic, strong) IBOutlet UIButton* buyButton;
+@property (nonatomic, strong) IBOutlet UILabel* productTitle;
+@property (nonatomic, strong) IBOutlet UILabel* productDescription;
+@property (nonatomic, strong) IBOutlet UILabel* publisherNotes;
+@property (nonatomic, strong) IBOutlet UILabel* price;
 
 - (void)setProduct:(MMProduct*)product;
 

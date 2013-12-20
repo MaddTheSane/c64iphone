@@ -28,7 +28,6 @@ static DebugSupport *instance;
 	NSString *prompt = [NSString stringWithFormat:@"Attach Debuger, PID %d", getpid()];
 	UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Debug" message:prompt delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 	[view show];
-	[view release];
 	
 	while(waiting) {
 		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.25, false);

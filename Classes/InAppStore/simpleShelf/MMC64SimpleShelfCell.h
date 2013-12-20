@@ -27,13 +27,13 @@
 @end
 
 @interface MMC64SimpleShelfCell : UITableViewCell {
-	id<MMC64SimpleShelfDelegate>		_delegate;
+	id<MMC64SimpleShelfDelegate>		__weak _delegate;
 	NSArray								*_products;
 }
 
 - (void)setProductArray:(NSArray*)products;
 - (IBAction)didSelectProduct:(id)sender;
 
-@property (nonatomic, assign) id<MMC64SimpleShelfDelegate> delegate;
+@property (nonatomic, weak) id<MMC64SimpleShelfDelegate> delegate;
 
 @end

@@ -32,11 +32,6 @@
 	return [super init];
 }
 
-- (void)dealloc {
-	self.path = nil;
-	[super dealloc];
-}
-
 - (NSString*)description {
 	return self.path;
 }

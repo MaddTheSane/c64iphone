@@ -60,11 +60,11 @@ const int kJoystickTop			= 7;
         [self addSubview:background];
 
 		for (int i = 0; i < sizeof(joystick_files) / sizeof(joystick_files[0]); i++) {
-			joystick_images[i] = [[UIImage imageNamed:[NSString stringWithCString:joystick_files[i]]] retain];
+			joystick_images[i] = [UIImage imageNamed:@(joystick_files[i])];
 		}
 
 		for (int i = 0; i < sizeof(firebutton_files) / sizeof(firebutton_files[0]); i++) {
-			firebutton_images[i] = [[UIImage imageNamed:[NSString stringWithCString:firebutton_files[i]]] retain];
+			firebutton_images[i] = [UIImage imageNamed:@(firebutton_files[i])];
 		}
 		
 		fireButton = [[UIImageView alloc] initWithFrame:FireButtonRect(0)];
@@ -84,9 +84,6 @@ const int kJoystickTop			= 7;
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[fireButton release];
-	[joystick release];
-    [super dealloc];
 }
 
 - (void)defaultsChanged:(NSNotification *)notification {

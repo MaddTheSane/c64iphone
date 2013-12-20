@@ -29,8 +29,8 @@
 	UIView							*currentView;
 }
 
-@property (nonatomic, retain)	id<UIEnhancedKeyboardDelegate>	delegate;
-@property (nonatomic, retain)	UIView							*currentView;
+@property (nonatomic, strong)	id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, strong)	UIView							*currentView;
 
 - (void)setKeyboardLayout:(NSString*)layout;
 

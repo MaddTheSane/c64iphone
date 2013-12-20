@@ -29,7 +29,7 @@
 - (void)processProductsResult;
 
 @property (nonatomic, copy)		ProductsCallback productsCallback;
-@property (nonatomic, retain)	NSDictionary* mmProducts;
+@property (nonatomic, strong)	NSDictionary* mmProducts;
 
 @end
 
@@ -64,18 +64,11 @@
 				fail:^(NSError* error) {
 					_productsCallback(nil, NO);
 					
-					[self autorelease];
 				}];
 	
 	return self;
 }
 
-- (void)dealloc {
-	self.productsCallback = nil;
-	self.mmProducts = nil;
-	
-	[super dealloc];
-}
 
 #if TARGET_IPHONE_SIMULATOR
 
@@ -88,12 +81,10 @@
 		[prodDict setObject:prodId forKey:kProductIdentifierKey];
 		MMProduct *mmprod = [[MMProduct alloc] initWithDictionary:prodDict andProduct:nil];
 		[pl addObject:mmprod];
-		[mmprod release];
 	}
 	
 	_productsCallback(pl, YES);
 
-	[self autorelease];
 }
 
 #else
@@ -119,7 +110,6 @@
 		NSDictionary *prodDict = [_mmProducts objectForKey:prod.productIdentifier];
 		MMProduct *mmprod = [[MMProduct alloc] initWithDictionary:prodDict andProduct:prod];
 		[pl addObject:mmprod];
-		[mmprod release];
 	}
 	
 	// add invalid product IDs
@@ -128,14 +118,11 @@
 		[prodDict setObject:prodId forKey:kProductIdentifierKey];
 		MMProduct *mmprod = [[MMProduct alloc] initWithDictionary:prodDict andProduct:nil];
 		[pl addObject:mmprod];
-		[mmprod release];
 	}
 		
 	_productsCallback(pl, YES);
 	
 	// cleanup
-	[request autorelease];
-	[self autorelease];
 }
 
 #pragma mark -

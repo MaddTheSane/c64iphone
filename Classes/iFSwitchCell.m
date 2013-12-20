@@ -30,11 +30,4 @@
 	return self;
 }
 
-- (void)dealloc {
-	self.label = nil;
-	self.theSwitch = nil;
-	[super dealloc];
-}
-
-
 @end

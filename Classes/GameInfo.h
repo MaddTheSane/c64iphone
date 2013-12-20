@@ -72,30 +72,30 @@ enum tagApplicationType {
 	} _pref_flags;
 	
 	NSDictionary			*keyboard;
-	NSString				*keyboardLayoutName;
+	NSString				*__weak keyboardLayoutName;
 }
 
-@property (nonatomic, retain)	NSString			*coverArtPath;
-@property (nonatomic, retain)	NSString			*gameTitle;
-@property (nonatomic, retain)	NSString			*gameId;
+@property (nonatomic, strong)	NSString			*coverArtPath;
+@property (nonatomic, strong)	NSString			*gameTitle;
+@property (nonatomic, strong)	NSString			*gameId;
 @property (nonatomic)			enum tagApplicationType	applicationType;
-@property (nonatomic, retain)	NSString			*basePath;
+@property (nonatomic, strong)	NSString			*basePath;
 // represents the shared images path for this gameInfo
-@property (readonly)			NSString			*sharedImagesPath;
-@property (nonatomic, retain)	NSArray				*paths;
-@property (nonatomic, retain)	NSString			*initialState;
-@property (nonatomic, retain)	NSString			*trainerState;
-@property (nonatomic, retain)	NSString			*runtimeScript;
-@property (nonatomic, retain)	NSString			*info1Title;
-@property (nonatomic, retain)	NSString			*info1;
-@property (nonatomic, retain)	NSString			*info2Title;
-@property (nonatomic, retain)	NSString			*info2;
-@property (nonatomic, retain)	NSString			*info3Title;
-@property (nonatomic, retain)	NSString			*info3;
-@property (nonatomic, retain)	NSString			*info4Title;
-@property (nonatomic, retain)	NSString			*info4;
-@property (nonatomic, retain)	NSString			*description;
-@property (nonatomic, retain)	NSString			*previewImages;
+@property (weak, readonly)			NSString			*sharedImagesPath;
+@property (nonatomic, strong)	NSArray				*paths;
+@property (nonatomic, strong)	NSString			*initialState;
+@property (nonatomic, strong)	NSString			*trainerState;
+@property (nonatomic, strong)	NSString			*runtimeScript;
+@property (nonatomic, strong)	NSString			*info1Title;
+@property (nonatomic, strong)	NSString			*info1;
+@property (nonatomic, strong)	NSString			*info2Title;
+@property (nonatomic, strong)	NSString			*info2;
+@property (nonatomic, strong)	NSString			*info3Title;
+@property (nonatomic, strong)	NSString			*info3;
+@property (nonatomic, strong)	NSString			*info4Title;
+@property (nonatomic, strong)	NSString			*info4;
+@property (nonatomic, strong)	NSString			*description;
+@property (nonatomic, strong)	NSString			*previewImages;
 @property (nonatomic)			NSUInteger			version;
 @property (nonatomic, readonly)	BOOL				bordersOn;
 @property (nonatomic, readonly) BOOL				autoSave;
@@ -103,10 +103,10 @@ enum tagApplicationType {
 @property (nonatomic)			BOOL				isInactive;
 
 @property (nonatomic)			BOOL				useTrainer;
-@property (nonatomic, readonly) NSString			*launchState;
+@property (weak, nonatomic, readonly) NSString			*launchState;
 
-@property (nonatomic, retain)	NSDictionary		*keyboard;
-@property (nonatomic, readonly)	NSString			*keyboardLayoutName;
+@property (nonatomic, strong)	NSDictionary		*keyboard;
+@property (weak, nonatomic, readonly)	NSString			*keyboardLayoutName;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 - (id)initWithContentsOfGameInfoFile:(NSString*)gameInfoPath isBundlePath:(BOOL)isBundlePath;

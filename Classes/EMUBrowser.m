@@ -50,7 +50,7 @@
 	
 	[list addObjectsFromArray:[self getFilesForPath:[[NSBundle mainBundle] bundlePath]]];
 	
-	return [list autorelease];
+	return list;
 }
 
 - (NSMutableArray*)getFilesForPath:(NSString *)thePath {
@@ -61,15 +61,8 @@
 	for (NSString *pname in files) {
 		id obj = [[EMUFileInfo alloc] initFromPath:[thePath stringByAppendingPathComponent:pname]];
 		[list addObject:obj];
-		[obj release];
 	}
-	return [list autorelease];
-}
-
--(void)dealloc {
-	self.extensions = nil;
-	self.basePath = nil;
-	[super dealloc];
+	return list;
 }
 
 @end

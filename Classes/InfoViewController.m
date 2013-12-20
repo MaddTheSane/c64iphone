@@ -28,7 +28,6 @@
 	UIWebView *newWebView = [[UIWebView alloc] initWithFrame:frame];
 	[self.view addSubview:newWebView];
 	self.webView = newWebView;
-	[newWebView release];
 	NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"info.html"]]];
 	[webView loadRequest:req];
 }
@@ -37,11 +36,5 @@
 	[webView removeFromSuperview];
 	self.webView = nil;	
 }
-
-- (void)dealloc {
-	self.webView = nil;
-    [super dealloc];
-}
-
 
 @end

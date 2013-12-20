@@ -23,6 +23,6 @@
 	UISegmentedControl		*segment;
 }
 
-@property (nonatomic, retain) IBOutlet UISegmentedControl *segment;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *segment;
 
 @end

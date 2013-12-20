@@ -47,8 +47,8 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_mmProduct = [product retain];
-	_transaction = [transaction retain];
+	_mmProduct = product;
+	_transaction = transaction;
 	_state = MMProductInstallStateIdle;
 	
 	return self;
@@ -56,11 +56,6 @@
 
 - (void)dealloc {
 	_mmProduct.installing = NO;
-	[_downloadData release];
-	[_mmProduct release];
-	[_transaction release];
-	
-	[super dealloc];
 }
 
 - (void)install {
@@ -70,42 +65,40 @@
 }
 
 - (void)installTask {
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	
-	[self setState:MMProductInstallStateDownloading];
-	BOOL fileLoded = [self sendRequest];
-	if (fileLoded) {	
-		[self setState:MMProductInstallStateExtracting];
-		BOOL res = [self extractDownload:_downloadData];
-		
-		
-		[self setState:MMProductInstallStateIdle];
-		
-		if (res == YES) {
-			if (_transaction) {
-				// Remove the transaction from the payment queue.
-				[[SKPaymentQueue defaultQueue] finishTransaction:_transaction];
+	@autoreleasepool {
+		[self setState:MMProductInstallStateDownloading];
+		BOOL fileLoded = [self sendRequest];
+		if (fileLoded) {	
+			[self setState:MMProductInstallStateExtracting];
+			BOOL res = [self extractDownload:_downloadData];
+			
+			
+			[self setState:MMProductInstallStateIdle];
+			
+			if (res == YES) {
+				if (_transaction) {
+					// Remove the transaction from the payment queue.
+					[[SKPaymentQueue defaultQueue] finishTransaction:_transaction];
+				}
+				[self performSelectorOnMainThread:@selector(completeTask) withObject:nil waitUntilDone:NO];
 			}
-			[self performSelectorOnMainThread:@selector(completeTask) withObject:nil waitUntilDone:NO];
+		} else {
+			[self performSelectorOnMainThread:@selector(updateVersion) withObject:nil waitUntilDone:NO];
 		}
-	} else {
-		[self performSelectorOnMainThread:@selector(updateVersion) withObject:nil waitUntilDone:NO];
-	}
 
-	[pool release];
+	}
 	
 	// TODO: probably won't release this 
-	[self release];
 }
 
 - (void)completeTask {
-	[[[[UIAlertView alloc] initWithTitle:@"Install complete" message:@"Your games are ready to play!" 
-								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+	[[[UIAlertView alloc] initWithTitle:@"Install complete" message:@"Your games are ready to play!" 
+								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 - (void)updateVersion {
-	[[[[UIAlertView alloc] initWithTitle:@"Install error" message:@"Please download the latest version of C64 to install this game" 
-								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+	[[[UIAlertView alloc] initWithTitle:@"Install error" message:@"Please download the latest version of C64 to install this game" 
+								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 - (void)setState:(enum tagProductInstallState)newState {
@@ -126,7 +119,7 @@
 	NSString* packFile = [[NSBundle mainBundle] pathForResource:_mmProduct.productIdentifier ofType:@"zip"];
 	id mgr = [NSFileManager defaultManager];
 	if ([mgr fileExistsAtPath:packFile]) {
-		_downloadData = [[NSData dataWithContentsOfFile:packFile] retain];
+		_downloadData = [NSData dataWithContentsOfFile:packFile];
 		return YES;
 	}
 	
@@ -151,18 +144,18 @@
 	if (!sigFile && !packFile)
 		return NO;
 	
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 	
-	NSData *packData = [NSData dataWithContentsOfFile:packFile];
-	NSData *sigData = [NSData dataWithContentsOfFile:sigFile];
-	
-	[self setState:MMProductInstallStateInstalling];
-	BOOL res = [GameInstaller installPackWithData:packData andSignature:sigData andProgressDelegate:nil];
-	DLog(@"Successfully extracted game pack: %@", res ? @"YES" : @"NO");
-	
-	[pool release];
-	
-	return res;
+		NSData *packData = [NSData dataWithContentsOfFile:packFile];
+		NSData *sigData = [NSData dataWithContentsOfFile:sigFile];
+		
+		[self setState:MMProductInstallStateInstalling];
+		BOOL res = [GameInstaller installPackWithData:packData andSignature:sigData andProgressDelegate:nil];
+		DLog(@"Successfully extracted game pack: %@", res ? @"YES" : @"NO");
+		
+		
+		return res;
+	}
 }
 
 #pragma mark -

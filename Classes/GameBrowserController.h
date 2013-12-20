@@ -34,8 +34,8 @@
 	id<GameBrowserDetailsViewDelegate>          detailsDelegate;
 }
 
-@property (nonatomic, retain)	GamePack							*gamePack;
-@property (nonatomic, retain)	id<GameBrowserDetailsViewDelegate>	detailsDelegate;
+@property (nonatomic, strong)	GamePack							*gamePack;
+@property (nonatomic, strong)	id<GameBrowserDetailsViewDelegate>	detailsDelegate;
 
 - (IBAction)runGame:(UIButton*)sender;
 - (IBAction)showDetails:(UIButton*)sender;

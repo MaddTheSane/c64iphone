@@ -31,7 +31,7 @@ NSString* kPublisherNotes = @"publisher_notes";
 
 @interface MMProduct()
 
-@property (nonatomic, retain) NSDictionary*	mmData;
+@property (nonatomic, strong) NSDictionary*	mmData;
 
 @end
 
@@ -42,17 +42,11 @@ NSString* kPublisherNotes = @"publisher_notes";
 	if (!self) return nil;
 	
 	self.mmData = dict;
-	_product = [product retain];
+	_product = product;
 	
 	return self;
 }
 
-- (void)dealloc {
-	[_product release];
-	self.mmData = nil;
-	
-	[super dealloc];
-}
 
 - (NSString*)imagePath {
 	return [_mmData objectForKey:kCoverImageKey];

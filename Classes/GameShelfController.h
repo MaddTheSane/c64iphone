@@ -31,7 +31,7 @@
 	ImageBarControl					*_imageBar;
 }
 
-@property (nonatomic, retain)	IBOutlet GameBrowserController			*gameBrowserController;
-@property (nonatomic, retain)			 NewsletterSignUpViewController	*newsletterSignUpViewController;
+@property (nonatomic, strong)	IBOutlet GameBrowserController			*gameBrowserController;
+@property (nonatomic, strong)			 NewsletterSignUpViewController	*newsletterSignUpViewController;
 
 @end

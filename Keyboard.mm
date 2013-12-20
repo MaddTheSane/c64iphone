@@ -27,7 +27,6 @@ Keyboard::Keyboard() {
 }
 
 Keyboard::~Keyboard() {
-	[_lock release];
 }
 
 void Keyboard::QueueKeyEvent(KeyCode code, KeyState state) {

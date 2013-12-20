@@ -33,7 +33,6 @@ static PKIFileVerification* __manomioShared;
 	if (!__manomioShared) {
 		NSData *keyData = [[NSData alloc] initWithBytesNoCopy:manomio_data length:sizeof(manomio_data) freeWhenDone:NO];
 		__manomioShared = [[PKIFileVerification alloc] initWithCertificateData:keyData];
-		[keyData release];
 	}
 
 	return __manomioShared;

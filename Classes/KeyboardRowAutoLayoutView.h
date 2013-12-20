@@ -33,7 +33,7 @@ enum KeyAlignment {
 	NSMutableArray				*right;
 }
 
-@property (nonatomic, retain) NSMutableArray *left, *centre, *right;
+@property (nonatomic, strong) NSMutableArray *left, *centre, *right;
 
 - (id) init;
 - (CGFloat) calculateWidthFor:(KeyAlignment)alignment;
@@ -44,7 +44,7 @@ enum KeyAlignment {
 	KeyboardRow					*row;
 }
 
-@property (nonatomic, retain)	KeyboardRow		*row;
+@property (nonatomic, strong)	KeyboardRow		*row;
 
 - (id)initWithFrame:(CGRect)frame andRow:(KeyboardRow*)theRow;
 

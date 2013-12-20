@@ -21,9 +21,4 @@
 
 @implementation MainTabBarController
 
-- (void)dealloc {
-    [super dealloc];
-}
-
-
 @end

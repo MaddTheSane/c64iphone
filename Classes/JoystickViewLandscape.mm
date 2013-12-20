@@ -69,10 +69,6 @@ CGFloat kOffsetWhenFixed			= 40.0;
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[arrows release];
-	[arrowDirection release];
-    [super dealloc];
 }
 
 - (void)defaultsChanged:(NSNotification*)notification {
@@ -204,6 +200,8 @@ CGFloat kOffsetWhenFixed			= 40.0;
 			break;
 		case DPadUpLeft:
 			transform = CGAffineTransformConcat(transform, CGAffineTransformMakeRotation(degreesToRadian(315)));
+			break;
+		default:
 			break;
 	}
 	

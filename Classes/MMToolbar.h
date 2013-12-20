@@ -30,7 +30,7 @@
 	NSUInteger						selectedIndex;
 }
 
-@property (nonatomic, retain)	id<MMToolbarChangedDelegate>	delegate;
+@property (nonatomic, strong)	id<MMToolbarChangedDelegate>	delegate;
 @property (nonatomic)			NSUInteger						selectedIndex;
 
 - (id)initWithFrame:(CGRect)frame upImages:(NSArray*)upImages downImages:(NSArray*)downImages;

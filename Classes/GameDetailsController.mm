@@ -68,11 +68,4 @@ static NSString*	gameInfoBaseUrl = @"http://c64.manomio.com/index.php/iphone/gam
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
 }
 
-- (void)dealloc {
-	self.gameId = nil;
-	self.webView = nil;
-    [super dealloc];
-}
-
-
 @end

@@ -19,7 +19,7 @@
 
 #import <string>
 #import "frodo_lua.h"
-#import "OpenFeintLuaModule.h"
+//#import "OpenFeintLuaModule.h"
 #import "frodo.h"
 #import "CPUC64.h"
 #import "C64AppLuaModule.h"
@@ -266,7 +266,7 @@ lua_State* lua_openFrodo(const char* script) {
 	
 	luaopen_base(L);
 	luaopen_cpulib(L);
-	luaopen_openfeintlib(L);
+	//luaopen_openfeintlib(L);
 	luaopen_C64lib(L);
 	
 	if (script) {

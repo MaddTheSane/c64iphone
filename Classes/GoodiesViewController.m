@@ -41,7 +41,6 @@ NSString* baseUrl	= @"http://c64.manomio.com/index.php/iphone/othergames/";
 	[self.view addSubview:newWebView];
 	self.webView = newWebView;
 	self.webView.delegate = self;
-	[newWebView release];
 	
 	if (![UIApplication hasNetworkConnectionToHost:hostName]) {
 		NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"goodiesViewNoConnection.html"]]];
@@ -88,7 +87,6 @@ NSString* baseUrl	= @"http://c64.manomio.com/index.php/iphone/othergames/";
 	view.center = webView.center;
 	[view startAnimating];
 	self.activityIndicator = view;
-	[view release];
 	[webView addSubview:self.activityIndicator];
 }
 
@@ -116,13 +114,5 @@ NSString* baseUrl	= @"http://c64.manomio.com/index.php/iphone/othergames/";
 	
 	return YES;
 }
-
-- (void)dealloc {
-	self.toolBar			= nil;
-	self.activityIndicator	= nil;
-	self.webView			= nil;
-    [super dealloc];
-}
-
 
 @end

@@ -32,10 +32,10 @@ struct tagPrefs;
 	BOOL			changed;
 }
 
-@property (nonatomic, retain)	IBOutlet UIButton		*showFullKeyboard;
-@property (nonatomic, retain)	IBOutlet UIButton		*joystickOnRight;
-@property (nonatomic, retain)	IBOutlet UIButton		*fixedJoystick;
-@property (nonatomic, retain)	IBOutlet UILabel		*version;
+@property (nonatomic, strong)	IBOutlet UIButton		*showFullKeyboard;
+@property (nonatomic, strong)	IBOutlet UIButton		*joystickOnRight;
+@property (nonatomic, strong)	IBOutlet UIButton		*fixedJoystick;
+@property (nonatomic, strong)	IBOutlet UILabel		*version;
 
 
 - (IBAction)downloadAllPurchases:(id)sender;

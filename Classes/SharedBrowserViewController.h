@@ -26,7 +26,7 @@
 	NSURL				*_url;
 }
 
-@property (nonatomic, retain) IBOutlet UIWebView		*webView;
+@property (nonatomic, strong) IBOutlet UIWebView		*webView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil url:(NSURL*)url;
 

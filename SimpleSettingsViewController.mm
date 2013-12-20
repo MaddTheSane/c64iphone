@@ -27,7 +27,7 @@
 
 typedef struct tagPrefs {
 	Prefs	*prefs;
-};
+} tagPrefs;
 
 @interface SimpleSettingsViewController()
 
@@ -103,10 +103,6 @@ typedef struct tagPrefs {
 		delete opaque_prefs->prefs;
 		delete opaque_prefs;
 	}
-	
-	self.showFullKeyboard = nil;
-	self.fixedJoystick = nil;
-    [super dealloc];
 }
 
 

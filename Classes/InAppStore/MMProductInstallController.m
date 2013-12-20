@@ -48,8 +48,8 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_mmProduct = [product retain];
-	_transaction = [transaction retain];
+	_mmProduct = product;
+	_transaction = transaction;
 	_state = MMProductInstallStateIdle;
 	_downloadData = [NSMutableData new];
 	
@@ -58,11 +58,6 @@
 
 - (void)dealloc {
 	_mmProduct.installing = NO;
-	[_downloadData release];
-	[_mmProduct release];
-	[_transaction release];
-
-	[super dealloc];
 }
 
 - (void)install {
@@ -72,16 +67,15 @@
 }
 
 - (void)installTask {
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	BOOL res;
+	@autoreleasepool {
+		[self setState:MMProductInstallStateDownloading];
+		[self sendRequest];
+		
+		[self setState:MMProductInstallStateExtracting];
+		res = [self extractDownload:_downloadData];
+	}
 	
-	[self setState:MMProductInstallStateDownloading];
-	[self sendRequest];
-	
-	[self setState:MMProductInstallStateExtracting];
-	BOOL res = [self extractDownload:_downloadData];
-	
-	[pool release];
-			
 	[self setState:MMProductInstallStateIdle];
 	
 	if (res == YES) {
@@ -92,13 +86,11 @@
 		[self performSelectorOnMainThread:@selector(completeTask) withObject:nil waitUntilDone:NO];
 	}
 
-	// TODO: probably won't release this 
-	[self release];
 }
 
 - (void)completeTask {
-	[[[[UIAlertView alloc] initWithTitle:@"Download complete" message:@"Your games are ready to play!" 
-								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+	[[[UIAlertView alloc] initWithTitle:@"Download complete" message:@"Your games are ready to play!" 
+								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 - (void)setState:(enum tagProductInstallState)newState {
@@ -152,7 +144,6 @@ enum {
 	// wait whilst download proceeds
 	while (CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, NO) == kCFRunLoopRunTimedOut && _downloadState < kDownloadStateFinished);
 	
-	[connection release];
 }
 
 #pragma mark -
@@ -166,7 +157,7 @@ enum {
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	_expectedDownloadSize = [response expectedContentLength];
 	_downloadState = kDownloadStateInProgress;
-	DLog(@"expected length: %d", _expectedDownloadSize);
+	DLog(@"expected length: %lld", _expectedDownloadSize);
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
@@ -211,7 +202,7 @@ enum {
         output[index + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
     }
 	
-    return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+    return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
 #pragma mark -
@@ -232,18 +223,18 @@ enum {
 	if (!sigFile && !packFile)
 		return NO;
 	
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 	
-	NSData *packData = [NSData dataWithContentsOfFile:packFile];
-	NSData *sigData = [NSData dataWithContentsOfFile:sigFile];
-	
-	[self setState:MMProductInstallStateInstalling];
-	BOOL res = [GameInstaller installPackWithData:packData andSignature:sigData andProgressDelegate:nil];
-	DLog(@"Successfully extracted game pack: %@", res ? @"YES" : @"NO");
-	
-	[pool release];
-	
-	return res;
+		NSData *packData = [NSData dataWithContentsOfFile:packFile];
+		NSData *sigData = [NSData dataWithContentsOfFile:sigFile];
+		
+		[self setState:MMProductInstallStateInstalling];
+		BOOL res = [GameInstaller installPackWithData:packData andSignature:sigData andProgressDelegate:nil];
+		DLog(@"Successfully extracted game pack: %@", res ? @"YES" : @"NO");
+		
+		
+		return res;
+	}
 }
 
 #pragma mark -

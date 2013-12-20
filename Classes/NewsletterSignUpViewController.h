@@ -32,10 +32,10 @@
 	UIActivityIndicatorView	*_activity;
 }
 
-@property(nonatomic, retain) IBOutlet UITextField				*email;
-@property(nonatomic, retain) IBOutlet UIScrollView				*scrollView;
-@property(nonatomic, retain) IBOutlet UIView					*contentView;
-@property(nonatomic, retain) IBOutlet UIActivityIndicatorView	*activity;
+@property(nonatomic, strong) IBOutlet UITextField				*email;
+@property(nonatomic, strong) IBOutlet UIScrollView				*scrollView;
+@property(nonatomic, strong) IBOutlet UIView					*contentView;
+@property(nonatomic, strong) IBOutlet UIActivityIndicatorView	*activity;
 
 
 @end

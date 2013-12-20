@@ -29,8 +29,8 @@
 	BOOL					_isShopView;
 }
 
-@property (nonatomic, retain)	NSString			*gameId;
-@property (nonatomic, retain)	IBOutlet UIWebView	*webView;
+@property (nonatomic, strong)	NSString			*gameId;
+@property (nonatomic, strong)	IBOutlet UIWebView	*webView;
 
 - (IBAction)goBack:(UIButton*)sender;
 - (id)initWithGameId:(NSString*)gameId isShopView:(BOOL)isShopView;

@@ -24,8 +24,8 @@
 	NSMutableArray *files;
 }
 
-@property (nonatomic, retain) NSString *sectionName;
-@property (nonatomic, retain) NSMutableArray *files;
+@property (nonatomic, strong) NSString *sectionName;
+@property (nonatomic, strong) NSMutableArray *files;
 
 - (id)initWithSectionName:(NSString*)theSectionName;
 

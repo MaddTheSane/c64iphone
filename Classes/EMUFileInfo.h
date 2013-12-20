@@ -31,7 +31,7 @@
 /*!
  The full path to the image file
  */
-@property (nonatomic, retain) NSString *path;
+@property (nonatomic, strong) NSString *path;
 
 - (id)initFromPath:(NSString*)thePath;
 - (NSString*)fileName;

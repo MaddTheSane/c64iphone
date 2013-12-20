@@ -45,30 +45,25 @@ const double	kButtonAnimationRate		= 1.0;
         // Initialization code
 		UIImageView *view = [UIImageView newViewFromImageResource:@"Default.png"];
 		self.baseImage = view;
-		[view release];
 		
 		view = [UIImageView newViewFromImageResource:@"splash-window.png"];
 		self.welcomeImage = view;
-		[view release];
 		self.welcomeImage.center = CGPointMake(160, 240);
 		
 		view = [UIImageView newViewFromImageResource:@"splash-button1.png"];
 		self.button1 = view;
-		[view release];
 		[welcomeImage addSubview:self.button1];
 		self.button1.center = kButtonCentre;
 
 		view = [UIImageView newViewFromImageResource:@"splash-button2.png"];
 		self.button2 = view;
 		self.button2.hidden = YES;
-		[view release];
 		[welcomeImage addSubview:self.button2];
 		self.button2.center = kButtonCentre;
 		
 		view = [UIImageView newViewFromImageResource:@"splash-button_on.png"];
 		self.button_on = view;
 		self.button_on.hidden = YES;
-		[view release];
 		[welcomeImage addSubview:self.button_on];
 		self.button_on.center = kButtonCentre;
 		
@@ -80,7 +75,6 @@ const double	kButtonAnimationRate		= 1.0;
 		NSString *soundFile = [[NSBundle mainBundle] pathForResource:@"sound_click3.wav" ofType:nil];
 		NSData *soundData = [[NSData alloc] initWithContentsOfFile:soundFile];
 		clickSound = [[AVAudioPlayer alloc] initWithData:soundData error:nil];
-		[soundData release];
 	}
     return self;
 }
@@ -175,13 +169,6 @@ NSString *kWelcomeImageAnimationKeyPath = @"transform.scale";
 
 - (void)dealloc {
 	g_application.splashScreenActive = NO;
-	self.baseImage = nil;
-	self.welcomeImage = nil;
-	self.button1 = nil;
-	self.button2 = nil;
-	self.button_on = nil;
-	[clickSound release];
-    [super dealloc];
 }
 
 

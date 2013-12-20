@@ -39,9 +39,9 @@
 	IBOutlet MMC64SimpleShelfCell	*newCell;
 }
 
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView* activityIndicator;
-@property (nonatomic, retain) IBOutlet UIView* topBar;
-@property (nonatomic, retain) IBOutlet UIView* noInternetWarning;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView* activityIndicator;
+@property (nonatomic, strong) IBOutlet UIView* topBar;
+@property (nonatomic, strong) IBOutlet UIView* noInternetWarning;
 
 - (IBAction)clearAndReload:(id)sender;
 - (IBAction)more:(id)sender;

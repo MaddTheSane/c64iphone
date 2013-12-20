@@ -99,21 +99,21 @@ enum tagActiveKeyboardType {
 @property (nonatomic)			Frodo						*emulator;
 @property (nonatomic)			tagEmulatorState			emulatorState;
 
-@property (nonatomic, retain)	DisplayView					*displayView;
-@property (nonatomic, retain)	InputControllerView			*inputController;
-@property (nonatomic, retain)	UIView						*keyboardView;
-@property (nonatomic, retain)	CommodoreKeyboard			*commodoreKeyboard;
-@property (nonatomic, retain)	CustomKeyboard				*customKeyboard;
-@property (nonatomic, retain)	id<MultiLayoutKeyboardView>	currentKeyboard;
-@property (nonatomic, retain)	UIImageView					*keyboardBackground;
+@property (nonatomic, strong)	DisplayView					*displayView;
+@property (nonatomic, strong)	InputControllerView			*inputController;
+@property (nonatomic, strong)	UIView						*keyboardView;
+@property (nonatomic, strong)	CommodoreKeyboard			*commodoreKeyboard;
+@property (nonatomic, strong)	CustomKeyboard				*customKeyboard;
+@property (nonatomic, strong)	id<MultiLayoutKeyboardView>	currentKeyboard;
+@property (nonatomic, strong)	UIImageView					*keyboardBackground;
 
-@property (nonatomic, retain)	JoystickView				*joystickView;
-@property (nonatomic, retain)	JoystickViewLandscape		*landscapeJoystickView;
-@property (nonatomic, retain)	UIImageView					*portraitSkinView;
-@property (nonatomic, retain)	UIImageView					*skinImage;
-@property (nonatomic, retain)	UIImageView					*portraitNoBasic;
-@property (nonatomic, retain)	UIImageView					*skinImageNoBasic;
-@property (nonatomic, retain)	ControlsToolbarView			*toolbar;
+@property (nonatomic, strong)	JoystickView				*joystickView;
+@property (nonatomic, strong)	JoystickViewLandscape		*landscapeJoystickView;
+@property (nonatomic, strong)	UIImageView					*portraitSkinView;
+@property (nonatomic, strong)	UIImageView					*skinImage;
+@property (nonatomic, strong)	UIImageView					*portraitNoBasic;
+@property (nonatomic, strong)	UIImageView					*skinImageNoBasic;
+@property (nonatomic, strong)	ControlsToolbarView			*toolbar;
 
 
 - (void)startEmulator;

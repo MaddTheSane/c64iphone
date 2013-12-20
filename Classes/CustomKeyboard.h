@@ -24,7 +24,7 @@
 	id<UIEnhancedKeyboardDelegate>	delegate;
 }
 
-@property (nonatomic, retain)	id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, strong)	id<UIEnhancedKeyboardDelegate>	delegate;
 
 - (id)initWithFrame:(CGRect)frame andLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath;
 

@@ -62,19 +62,12 @@
 	if (self == nil) return nil;
 	
 	_getProductsLoading = NO;
-	_getProductsCallbacks = [[NSMutableArray array] retain];
+	_getProductsCallbacks = [NSMutableArray new];
 	
 	// Attempt to load the product from the App Store, which will trigger any pending downloads.
 	[self getAvailableProducts:nil];
 	
 	return self;
-}
-
-- (void)dealloc {
-	[_cachedProducts release];
-	[_getProductsCallbacks release];
-	
-	[super dealloc];
 }
 
 - (void)getAvailableProducts:(ProductsCallback)block {
@@ -93,13 +86,12 @@
 			[[MMProductsRequest alloc] 
 			 initWithBlock:^(NSArray *prods, BOOL succeeded) {
 				 if (succeeded) {
-					 _cachedProducts = [prods retain];
+					 _cachedProducts = prods;
 					 [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
 				 }
 				 
 				 if (blockCopy) {
 					 blockCopy(prods, succeeded);
-					 [blockCopy release];
 				 }
 
 				 // process all callbacks

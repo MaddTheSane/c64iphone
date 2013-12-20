@@ -101,9 +101,4 @@ const int UIControlStateAllNormal = (UIControlStateNormal | UIControlStateHighli
 	return button.currentImage.size;
 }
 
-- (void)dealloc {
-	self.delegate = nil;
-	[super dealloc];
-}
-
 @end

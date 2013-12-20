@@ -71,15 +71,4 @@
 	}
 }
 
-- (void)dealloc {
-	self.coverArt		= nil;
-	self.gameTitle		= nil;
-	self.enableTrainer	= nil;
-	self.enableTrainerSwitch = nil;
-	self.run			= nil;
-	
-    [super dealloc];
-}
-
-
 @end

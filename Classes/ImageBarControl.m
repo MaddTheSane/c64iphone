@@ -80,7 +80,7 @@ CGSize getSizeFromImage(UIButton *button) {
 	[view setImage:[UIImage imageFromResource:selectedImageName] forState:UIControlStateSelected];
 	[view addTarget:self action:@selector(buttonSelected:) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:view];
-	return [view retain];
+	return view;
 }
 
 - (NSUInteger)numberOfSegments {
@@ -109,7 +109,6 @@ CGSize getSizeFromImage(UIButton *button) {
 		button.tag = i/2;
 		totalWidth += getSizeFromImage(button).width;
 		[_segments addObject:button];
-		[button release];
 	}
 	
 	// FIXME: This height should be calculated
@@ -124,11 +123,6 @@ CGSize getSizeFromImage(UIButton *button) {
 		self.selectedSegmentIndex = index;
 		[self sendActionsForControlEvents:UIControlEventValueChanged];
 	}
-}
-
-- (void)dealloc {
-	[_segments release];
-    [super dealloc];
 }
 
 @end

@@ -103,11 +103,6 @@
 	}
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
-
 @end
 
 #pragma mark KeyboardRow
@@ -117,15 +112,8 @@
 @synthesize left, centre, right;
 
 - (id)init {
-	[super init];
+	if (!(self = [super init])) return nil;
 	return self;
-}
-
-- (void)dealloc {
-	[left release];
-	[centre release];
-	[right release];
-	[super dealloc];
 }
 
 - (NSMutableArray*)left {

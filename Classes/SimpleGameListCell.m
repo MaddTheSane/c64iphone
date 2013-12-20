@@ -50,9 +50,6 @@
 	_label.text = value;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 @end

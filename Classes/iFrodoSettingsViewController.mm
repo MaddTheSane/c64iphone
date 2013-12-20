@@ -52,7 +52,7 @@ enum {
 
 - (void)viewDidLoad {
 	self.title = @"Settings";
-	sections = [[NSArray arrayWithObjects:@"General", @"Drive", @"Controllers", @"Emulation", @"SID", @"Audio Latency", @"Debug", nil] retain];
+	sections = [NSArray arrayWithObjects:@"General", @"Drive", @"Controllers", @"Emulation", @"SID", @"Audio Latency", @"Debug", nil];
 	prefs = new Prefs();
 	prefs->Load(Frodo::prefs_path());
 	
@@ -337,9 +337,6 @@ int findIndex(int* vals, int val) {
 
 - (void)dealloc {
 	delete prefs;
-	[sections release];
-	[super dealloc];
 }
-
 
 @end

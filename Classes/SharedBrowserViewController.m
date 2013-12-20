@@ -28,7 +28,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil url:(NSURL*)url {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         // Custom initialization
-		_url = [url retain];
+		_url = url;
 		
     }
     return self;
@@ -66,12 +66,5 @@
 	
 	// Release any cached data, images, etc that aren't in use.
 }
-
-- (void)dealloc {
-	[_url release];
-	self.webView = nil;
-    [super dealloc];
-}
-
 
 @end

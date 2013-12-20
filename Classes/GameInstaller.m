@@ -44,71 +44,73 @@
 }
 
 + (BOOL)installPackWithData:(NSData*)data andSignature:(NSData*)signature andProgressDelegate:(id<MMProgressReport>)delegate {
-	NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
-	@try {
-		GameZipExtracter *ext = [[[GameZipExtracter alloc] initWithData:data andSignature:signature] autorelease];
-		if (!ext) {
-			return NO;
-		}
+	@autoreleasepool {
 		
-		NSFileManager *mgr = [NSFileManager defaultManager];
-		
-		// ensure games folder
-		if (![mgr fileExistsAtPath:GAMES_FOLDER]) {
-			[mgr createDirectoryAtPath:GAMES_FOLDER attributes:nil];
-		}
-		
-		// install images
-		NSString	*imagesPath = [[GamePack globalGamePack] sharedImagesPath];
-		[GameInstaller copyImages:[ext.basePath stringByAppendingPathComponent:@"images"] dstPath:imagesPath];
-		
-		// install games
-		float increment = 1.0 / [ext.packs count];
-		float currentProgress = 0.0f;
-		for (NSString *key in ext.packs) {
-			currentProgress += increment;
-			[delegate setProgress:currentProgress];
-			
-			NSArray		*files = [ext.packs objectForKey:key];
-			NSString	*gameInfoFile = [ext findFileNamed:@"gameInfo.plist" inArray:files];
-			if (gameInfoFile == nil) {
-				NSLog(@"Incorrect install archive, missing gameInfo.plist");
-				continue;
-			}
-			GameInfo	*newInfo = [[[GameInfo alloc] initWithContentsOfGameInfoFile:gameInfoFile isBundlePath:NO] autorelease];
-			NSLog(@"Installing game, id='%@'", newInfo.gameId);
-			[delegate setMessage:[NSString stringWithFormat:@"Enabling %@", newInfo.gameTitle]];
-			CFRunLoopRunInMode(kCFRunLoopDefaultMode, 25.0 / 1000.0, false);
-			
-			GameInfo	*existingInfo = [[GamePack globalGamePack] findByGameId:newInfo.gameId];
-			
-			// TODO: Need to change to a prompt to allow option to override all games
-			// game is already installed or is a newer version
-			//if (existingInfo && newInfo.version <= existingInfo.version) {
-			//	NSLog(@"A newer version of the archive is already installed, skipping");
-			//	continue;
-			//}
-			
-			if (existingInfo) {
-				[existingInfo uninstall];
-			}
-			
-			NSString	*installPath = [GAMES_FOLDER stringByAppendingPathComponent:newInfo.gameId];			
-			NSError		*error;
-			BOOL result = [mgr copyItemAtPath:newInfo.basePath toPath:installPath error:&error];
-			
-			if (!result) {
-				NSLog(@"Unable to move install archive, %@", error);
+		@try {
+			GameZipExtracter *ext = [[GameZipExtracter alloc] initWithData:data andSignature:signature];
+			if (!ext) {
 				return NO;
 			}
 			
-			newInfo.basePath = installPath;
-			[[GamePack globalGamePack] addGameInfo:newInfo];
+			NSFileManager *mgr = [NSFileManager defaultManager];
+			
+			// ensure games folder
+			if (![mgr fileExistsAtPath:GAMES_FOLDER]) {
+				[mgr createDirectoryAtPath:GAMES_FOLDER attributes:nil];
+			}
+			
+			// install images
+			NSString	*imagesPath = [[GamePack globalGamePack] sharedImagesPath];
+			[GameInstaller copyImages:[ext.basePath stringByAppendingPathComponent:@"images"] dstPath:imagesPath];
+			
+			// install games
+			float increment = 1.0 / [ext.packs count];
+			float currentProgress = 0.0f;
+			for (NSString *key in ext.packs) {
+				currentProgress += increment;
+				[delegate setProgress:currentProgress];
+				
+				NSArray		*files = [ext.packs objectForKey:key];
+				NSString	*gameInfoFile = [ext findFileNamed:@"gameInfo.plist" inArray:files];
+				if (gameInfoFile == nil) {
+					NSLog(@"Incorrect install archive, missing gameInfo.plist");
+					continue;
+				}
+				GameInfo	*newInfo = [[GameInfo alloc] initWithContentsOfGameInfoFile:gameInfoFile isBundlePath:NO];
+				NSLog(@"Installing game, id='%@'", newInfo.gameId);
+				[delegate setMessage:[NSString stringWithFormat:@"Enabling %@", newInfo.gameTitle]];
+				CFRunLoopRunInMode(kCFRunLoopDefaultMode, 25.0 / 1000.0, false);
+				
+				GameInfo	*existingInfo = [[GamePack globalGamePack] findByGameId:newInfo.gameId];
+				
+				// TODO: Need to change to a prompt to allow option to override all games
+				// game is already installed or is a newer version
+				//if (existingInfo && newInfo.version <= existingInfo.version) {
+				//	NSLog(@"A newer version of the archive is already installed, skipping");
+				//	continue;
+				//}
+				
+				if (existingInfo) {
+					[existingInfo uninstall];
+				}
+				
+				NSString	*installPath = [GAMES_FOLDER stringByAppendingPathComponent:newInfo.gameId];
+				NSError		*error;
+				BOOL result = [mgr copyItemAtPath:newInfo.basePath toPath:installPath error:&error];
+				
+				if (!result) {
+					NSLog(@"Unable to move install archive, %@", error);
+					return NO;
+				}
+				
+				newInfo.basePath = installPath;
+				[[GamePack globalGamePack] addGameInfo:newInfo];
+			}
+		} @finally {
+			
 		}
-	} @finally {
-		[localPool release];
+		return YES;
 	}
-	return YES;
 }
 
 @end

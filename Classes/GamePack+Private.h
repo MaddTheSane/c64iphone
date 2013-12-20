@@ -20,8 +20,8 @@
 
 @interface GamePack()
 
-@property (nonatomic, retain) NSArray* disabledIds;
-@property (nonatomic, retain) NSMutableDictionary* gameInfoPrefs;
+@property (nonatomic, strong) NSArray* disabledIds;
+@property (nonatomic, strong) NSMutableDictionary* gameInfoPrefs;
 
 - (void)loadGames;
 

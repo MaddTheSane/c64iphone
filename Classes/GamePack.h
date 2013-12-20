@@ -47,9 +47,9 @@
 
 #pragma mark -
 #pragma mark Instance Members
-@property (nonatomic, retain)		NSMutableArray		*gameInfoList;
+@property (nonatomic, strong)		NSMutableArray		*gameInfoList;
 @property (nonatomic, readonly)		GameInfo			*currentGame;
-@property (nonatomic, readonly)		NSArray				*favourites;
+@property (weak, nonatomic, readonly)		NSArray				*favourites;
 @property (readonly)				NSString			*sharedImagesPath;
 
 - (GameInfo*)findByGameId:(NSString*)gameId;

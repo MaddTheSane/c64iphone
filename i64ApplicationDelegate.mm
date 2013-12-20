@@ -28,13 +28,11 @@
 #import "DebugSupport.h"
 #import "ValidationCheck.h"
 #import "ValidationCheck+Encryption.h"
-#import "FlurryAPI.h"
+//#import "FlurryAPI.h"
 #import "C64Defaults.h"
 #import "MMStoreManager.h"
 
 #import "manomio_keys.h"
-#import "OpenFeint.h"
-#import "OpenFeint+Dashboard.h"
 
 #ifdef _INTERNAL
 #import "FTPDService.h"
@@ -53,24 +51,7 @@ const int kEmulationViewControllerIndex = 1;
 @synthesize gameBrowser, splashScreenActive;
 
 void uncaughtExceptionHandler(NSException *exception) {
-    [FlurryAPI logError:@"Uncaught" message:@"Crash!" exception:exception];
-}
-
-- (void)initializeOpenfeint {
-	
-	NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-									 [NSNumber numberWithInt:UIInterfaceOrientationPortrait], OpenFeintSettingDashboardOrientation,
-									 @"C64", OpenFeintSettingShortDisplayName,
-									 [NSNumber numberWithBool:YES], OpenFeintSettingDisableUserGeneratedContent, 
-									 [NSNumber numberWithBool:YES], OpenFeintSettingPromptToPostAchievementUnlock,
-									 // [NSNumber numberWithBool:YES], OpenFeintSettingAlwaysAskForApprovalInDebug,
-									 nil];
-	
-    [OpenFeint initializeWithProductKey:MM_OPENFEINT_PRODUCTKEY
-                              andSecret:MM_OPENFEINT_PRODUCTSECRET
-                         andDisplayName:@"Commodore 64"
-                            andSettings:settings    // see OpenFeintSettings.h
-                           andDelegates:[OFDelegatesContainer containerWithOpenFeintDelegate:self]];              // see OFDelegatesContainer.h
+    //[FlurryAPI logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
@@ -79,7 +60,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[MMStoreManager defaultStore];
 	
 	check2(60);
-	[FlurryAPI startSession:MM_FLURRY_APPID];
+	//[FlurryAPI startSession:MM_FLURRY_APPID];
 	
 	// ensures defaults are initialized
 	[C64Defaults shared];
@@ -93,7 +74,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[window addSubview:mainController.view];
 	UIView *view = [[SplashScreen alloc] initWithFrame:[window frame]];
 	[window addSubview:view];
-	[view release];
 	self.splashScreenActive = YES;
 	[window makeKeyAndVisible];
 	
@@ -104,7 +84,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	emulator = [mainController.viewControllers objectAtIndex:kEmulationViewControllerIndex];
 	
-	[self initializeOpenfeint];
+	//[self initializeOpenfeint];
 	[self performSelectorInBackground:@selector(reportAppOpenToAdMob) withObject:nil];
 	
 #ifdef _INTERNAL
@@ -126,7 +106,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
 	if (viewController.tabBarItem.tag == 1001) {
-		[OpenFeint launchDashboardWithListLeaderboardsPage];
+		//[OpenFeint launchDashboardWithListLeaderboardsPage];
 		return NO;
 	}
 	
@@ -139,9 +119,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 		@"Please choose a game by selecting the RUN/PLAY button" : 
 		@"Please choose a game by selecting the RUN/PLAY button from the\nMy Games tab";
 	
-	[[[[UIAlertView alloc] initWithTitle:@"Want to play?"
+	[[[UIAlertView alloc] initWithTitle:@"Want to play?"
 							   message:msg
-								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+								delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 	return NO;
 }
 
@@ -154,7 +134,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	if (mainController.selectedIndex == kEmulationViewControllerIndex)
 		[emulator resumeEmulator];
 	
-	[OpenFeint applicationDidBecomeActive];
+	//[OpenFeint applicationDidBecomeActive];
 }
 
 - (void)dashboardWillAppear {
@@ -166,35 +146,35 @@ void uncaughtExceptionHandler(NSException *exception) {
 	if (mainController.selectedIndex == kEmulationViewControllerIndex)
 		[emulator pauseEmulator];
 	
-	[OpenFeint applicationWillResignActive];
+	//[OpenFeint applicationWillResignActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	[OpenFeint shutdown];
+	//[OpenFeint shutdown];
 }
 
 #pragma mark -
 #pragma mark Admob Tracking
 
 - (void)reportAppOpenToAdMob {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // we're in a new thread here, so we need our own autorelease pool
+	@autoreleasepool { // we're in a new thread here, so we need our own autorelease pool
 	// Have we already reported an app open?
-	NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	NSString *appOpenPath = [documentsDirectory stringByAppendingPathComponent:@"admob_app_open"];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if(![fileManager fileExistsAtPath:appOpenPath]) {
-		// Not yet reported -- report now
-		NSString *appOpenEndpoint =[NSString stringWithFormat:@"http://a.admob.com/f0?isu=%@&app_id=%@",
-									[[UIDevice currentDevice] uniqueIdentifier], @"305504539"];
-		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:appOpenEndpoint]];
-		NSURLResponse *response;
-		NSError *error;
-		NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-		if((!error) && ([(NSHTTPURLResponse *)response statusCode] == 200) && ([responseData length] > 0)) {
-			[fileManager createFileAtPath:appOpenPath contents:nil attributes:nil]; // successful report, mark it as such
+		NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+		NSString *appOpenPath = [documentsDirectory stringByAppendingPathComponent:@"admob_app_open"];
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if(![fileManager fileExistsAtPath:appOpenPath]) {
+			// Not yet reported -- report now
+			NSString *appOpenEndpoint =[NSString stringWithFormat:@"http://a.admob.com/f0?isu=%@&app_id=%@",
+										@"112233", @"305504539"];
+			NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:appOpenEndpoint]];
+			NSURLResponse *response;
+			NSError *error;
+			NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			if((!error) && ([(NSHTTPURLResponse *)response statusCode] == 200) && ([responseData length] > 0)) {
+				[fileManager createFileAtPath:appOpenPath contents:nil attributes:nil]; // successful report, mark it as such
+			}
 		}
 	}
-	[pool release];
 }
 
 @end

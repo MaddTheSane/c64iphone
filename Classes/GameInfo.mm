@@ -113,11 +113,9 @@
 								propertyListFromData:plistXML
 								mutabilityOption:NSPropertyListMutableContainersAndLeaves
 								format:&format errorDescription:&errorDesc];
-	[plistXML release];
 	
 	if (!temp) {
-		NSLog(errorDesc);
-		[errorDesc release];
+		NSLog(@"%@", errorDesc);
 		return nil;
 	}
 	
@@ -238,7 +236,7 @@
 
 - (NSString*)coverArtPath {
 	if (!cachedCoverArtFullPath) {
-		cachedCoverArtFullPath = [[basePath stringByAppendingPathComponent:coverArtPath] retain];
+		cachedCoverArtFullPath = [basePath stringByAppendingPathComponent:coverArtPath];
 	}
 	
 	return cachedCoverArtFullPath;
@@ -280,29 +278,6 @@
 	ReadBoolean(bordersOn, @"BordersOn");
 	ReadBoolean(joystickSwap, @"JoystickSwap");
 	ReadBoolean(emul1541Proc, @"Emul1541Proc");
-}
-
-- (void)dealloc {
-	[cachedCoverArtFullPath release];
-	self.coverArtPath = nil;
-	self.gameTitle = nil;
-	self.gameId = nil;
-	self.basePath = nil;
-	self.paths = nil;
-	self.initialState = nil;
-	self.info1Title = nil;
-	self.info1 = nil;
-	self.info2Title = nil;
-	self.info2 = nil;
-	self.info3Title = nil;
-	self.info3 = nil;
-	self.info4Title = nil;
-	self.info4 = nil;
-	self.description = nil;
-	self.previewImages = nil;
-	self.keyboard = nil;
-	
-	[super dealloc];
 }
 
 @end

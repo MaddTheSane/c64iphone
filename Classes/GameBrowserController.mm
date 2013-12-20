@@ -129,13 +129,4 @@
 	[self.detailsDelegate showDetails:sender.tag];
 }
 
-- (void)dealloc {
-	[topCellImage release];
-	[cellImage release];
-	self.detailsDelegate = nil;
-    [super dealloc];
-}
-
-
 @end
-

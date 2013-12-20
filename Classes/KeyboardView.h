@@ -35,7 +35,7 @@ const CGFloat kDefaultPaddingBetweenKeys		= 0.0;
 
 + (KeyboardView*)createFromLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath;
 
-@property (nonatomic, retain)		id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, strong)		id<UIEnhancedKeyboardDelegate>	delegate;
 
 @end
 

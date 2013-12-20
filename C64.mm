@@ -1120,6 +1120,7 @@ uint8 C64::poll_joystick(int port)
 		case DPadDownLeft: j = 0xfd & 0xfb; break;
 		case DPadLeft: j = 0xfb; break;
 		case DPadUpLeft: j = 0xfe & 0xfb; break;
+		default: break;
 	}
 	
 	if (TheJoyStick->buttonOneState() == FireButtonDown)

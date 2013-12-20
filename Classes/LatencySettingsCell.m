@@ -30,10 +30,4 @@
     return self;
 }
 
-- (void)dealloc {
-	self.segment = nil;
-    [super dealloc];
-}
-
-
 @end

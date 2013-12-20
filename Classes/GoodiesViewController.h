@@ -25,9 +25,9 @@
 	UIActivityIndicatorView		*activityIndicator;
 }
 
-@property (nonatomic, retain)	UIWebView				*webView;
-@property (nonatomic, retain)	IBOutlet UIToolbar		*toolBar;
-@property (nonatomic, retain)	UIActivityIndicatorView	*activityIndicator;
+@property (nonatomic, strong)	UIWebView				*webView;
+@property (nonatomic, strong)	IBOutlet UIToolbar		*toolBar;
+@property (nonatomic, strong)	UIActivityIndicatorView	*activityIndicator;
 
 - (IBAction)goToLink:(UIBarButtonItem*)sender;
 

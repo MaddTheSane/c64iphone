@@ -41,7 +41,7 @@
 #import "C64Defaults.h"
 #import "LandscapeOverlay.h"
 
-#import "FlurryAPI.h"
+//#import "FlurryAPI.h"
 static NSString *rungameEvent_start			= @"RunGame.start";
 static NSString *rungameEvent_stop			= @"RunGame.stop";
 
@@ -223,7 +223,6 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 	
     self.view = view;
 	view.userInteractionEnabled = NO;
-    [view release];
 	
 	// monitor device rotation
 	[self shouldMonitorDeviceRotation:YES];
@@ -242,18 +241,6 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	self.portraitSkinView	= nil;
-	self.skinImage			= nil;
-	self.keyboardView		= nil;
-	self.currentKeyboard	= nil;
-	self.commodoreKeyboard	= nil;
-	self.customKeyboard		= nil;
-	self.keyboardBackground = nil;
-	self.displayView		= nil;
-	self.inputController	= nil;
-	[ls_overlay release];
-	[super dealloc];	
 }
 
 - (void)shouldMonitorDeviceRotation:(BOOL)value {
@@ -323,6 +310,9 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 			case ControlsStateFunction:
 				[self.currentKeyboard setKeyboardLayout:kKeyboardLayoutExtended];
 				break;
+				
+			default:
+				break;
 		}
 	}
 }
@@ -333,7 +323,6 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 	CommodoreKeyboard *view = [[CommodoreKeyboard alloc] initWithFrame:kKeyboardFramePortraitInView];
 	view.delegate = self;
 	self.commodoreKeyboard = view;
-	[view release];
 }
 
 - (void)removeCurrentKeyboardFromView {
@@ -376,7 +365,6 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 			CustomKeyboard *view = [[CustomKeyboard alloc] initWithFrame:kKeyboardFramePortraitInView andLayout:layout andBasePath:info.sharedImagesPath];
 			view.delegate = self;
 			self.customKeyboard = view;
-			[view release];
 		}
 		
 		customKeyboardName = layoutName;
@@ -620,10 +608,12 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 - (void)viewWillAppear:(BOOL)animated {
 	check1(18);
 	GameInfo *info = [GamePack globalGamePack].currentGame;
+#if 0
 	if (info)
 		[FlurryAPI logEvent:rungameEvent_start withParameters:[NSDictionary dictionaryWithObject:info.gameTitle forKey:@"game"]];
 	else
 		[FlurryAPI logEvent:rungameEvent_start];
+#endif
 
 	[self initializeKeyboard];
 }
@@ -648,7 +638,7 @@ const double kDefaultControlsOverlayAnimationDuration	= 100.0 / 1000.0;	// 100 m
 
 - (void)viewWillDisappear:(BOOL)animated {
 	check3(31);
-	[FlurryAPI logEvent:rungameEvent_stop];
+	//[FlurryAPI logEvent:rungameEvent_stop];
 
 	//GameInfo *info = [GamePack globalGamePack].currentGame;
 	//if (!info) return;
@@ -710,7 +700,6 @@ NSString* getCurrentStateName() {
 		if (state.validVersion) {
 			UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Save Game" message:@"Resume previous game?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Yes", @"No", nil];
 			[view show];
-			[view release];
 		}
 	}
 }
@@ -740,7 +729,7 @@ NSString* getCurrentStateName() {
 - (void)saveState:(NSString*)fileName {
 	NSAssert(emulator, @"Emulator must be launched and paused");
 	
-	C64State *state = [[[C64State alloc] init] autorelease];
+	C64State *state = [[C64State alloc] init];
 	emulator->TheC64->SaveSnapshot(state.part1, state.part2);
 	[NSKeyedArchiver archiveRootObject:state toFile:fileName];
 }
@@ -785,15 +774,14 @@ NSString* getCurrentStateName() {
 	while (![emulationThread isFinished]) {
 		usleep(100);
 	}
-	[emulationThread release];
 }
 
 - (void)runEmulator {
 	self.emulatorState = EmulatorRunning;
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[NSThread setThreadPriority:0.7];
-	emulator->ReadyToRun();
-	[pool release];
+	@autoreleasepool {
+		[NSThread setThreadPriority:0.7];
+		emulator->ReadyToRun();
+	}
 }
 
 - (void)pauseEmulator {

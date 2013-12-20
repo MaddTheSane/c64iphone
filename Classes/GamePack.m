@@ -41,7 +41,7 @@ GamePack	*g_GamePack;
 
 	[self loadGames];
 	
-	_sharedImagesPath = [SHARED_IMAGES_FOLDER retain];
+	_sharedImagesPath = SHARED_IMAGES_FOLDER;
 		
 	return self;
 }
@@ -96,7 +96,6 @@ GamePack	*g_GamePack;
 		
 		GameInfo *info = [[GameInfo alloc] initWithContentsOfGameInfoFile:[path stringByAppendingPathComponent:file] isBundlePath:YES];
 		[gameInfoList addObject:info];
-		[info release];
 	}
 }
 
@@ -112,7 +111,6 @@ GamePack	*g_GamePack;
 		if (![self.disabledIds containsObject:info.gameId])
 			[gameInfoList addObject:info];
 		
-		[info release];
 		[dirEnum skipDescendents];
 	}
 }
@@ -137,9 +135,7 @@ GamePack	*g_GamePack;
 }
 
 - (void)setCurrentGame:(GameInfo*)info {
-	if (currentGame)
-		[currentGame release];
-	currentGame = [info retain];
+	currentGame = info;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kGameChangedNotification object:nil];
 }
@@ -206,7 +202,7 @@ GamePack	*g_GamePack;
 			[_favouritesSet addObject:[self findByGameId:gameId]];
 		}
 	}
-	_favouritesList = [[[_favouritesSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+	_favouritesList = [[_favouritesSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (BOOL)isFavourite:(GameInfo*)gameInfo {
@@ -223,9 +219,7 @@ GamePack	*g_GamePack;
 	
 	
 	[favs writeToFile:kFavouritesFileName atomically:YES];
-	[favs release];
-	[_favouritesList release];
-	_favouritesList = [[[_favouritesSet allObjects] sortedArrayUsingSelector:@selector(compare:)] retain];
+	_favouritesList = [[_favouritesSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (void)addFavourite:(GameInfo*)gameInfo {

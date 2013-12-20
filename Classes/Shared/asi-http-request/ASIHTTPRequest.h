@@ -51,10 +51,10 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 	NSURL *url; 
 	
 	// The delegate, you need to manage setting and talking to your delegate in your subclasses
-	id delegate;
+	id __weak delegate;
 	
 	// A queue delegate that should *ALSO* be notified of delegate message (used by ASINetworkQueue)
-	id queue;
+	id __weak queue;
 	
 	// HTTP method to use (GET / POST / PUT / DELETE / HEAD). Defaults to GET
 	NSString *requestMethod;
@@ -148,10 +148,10 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 	NSString *proxyDomain;
 	
 	// Delegate for displaying upload progress (usually an NSProgressIndicator, but you can supply a different object and handle this yourself)
-	id uploadProgressDelegate;
+	id __weak uploadProgressDelegate;
 	
 	// Delegate for displaying download progress (usually an NSProgressIndicator, but you can supply a different object and handle this yourself)
-	id downloadProgressDelegate;
+	id __weak downloadProgressDelegate;
 	
 	// Whether we've seen the headers of the response yet
     BOOL haveExaminedHeaders;
@@ -569,75 +569,75 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 
 #pragma mark ===
 
-@property (retain) NSString *username;
-@property (retain) NSString *password;
-@property (retain) NSString *domain;
+@property (strong) NSString *username;
+@property (strong) NSString *password;
+@property (strong) NSString *domain;
 
-@property (retain) NSString *proxyUsername;
-@property (retain) NSString *proxyPassword;
-@property (retain) NSString *proxyDomain;
+@property (strong) NSString *proxyUsername;
+@property (strong) NSString *proxyPassword;
+@property (strong) NSString *proxyDomain;
 
-@property (retain) NSString *proxyHost;
-@property (assign) int proxyPort;
+@property (strong) NSString *proxyHost;
+@property int proxyPort;
 
-@property (retain,setter=setURL:) NSURL *url;
-@property (assign) id delegate;
-@property (assign) id queue;
-@property (assign) id uploadProgressDelegate;
-@property (assign) id downloadProgressDelegate;
-@property (assign) BOOL useKeychainPersistance;
-@property (assign) BOOL useSessionPersistance;
-@property (retain) NSString *downloadDestinationPath;
-@property (retain) NSString *temporaryFileDownloadPath;
-@property (assign) SEL didFinishSelector;
-@property (assign) SEL didFailSelector;
-@property (retain,readonly) NSString *authenticationRealm;
-@property (retain,readonly) NSString *proxyAuthenticationRealm;
-@property (retain) NSError *error;
-@property (assign,readonly) BOOL complete;
-@property (retain,readonly) NSDictionary *responseHeaders;
-@property (retain) NSMutableDictionary *requestHeaders;
-@property (retain) NSMutableArray *requestCookies;
-@property (retain,readonly) NSArray *responseCookies;
-@property (assign) BOOL useCookiePersistance;
-@property (retain) NSDictionary *requestCredentials;
-@property (retain) NSDictionary *proxyCredentials;
-@property (assign,readonly) int responseStatusCode;
-@property (retain,readonly) NSString *responseStatusMessage;
-@property (retain,readonly) NSMutableData *rawResponseData;
-@property (assign) NSTimeInterval timeOutSeconds;
-@property (retain) NSString *requestMethod;
-@property (retain) NSMutableData *postBody;
-@property (assign,readonly) unsigned long long contentLength;
-@property (assign) unsigned long long postLength;
-@property (assign) BOOL shouldResetProgressIndicators;
-@property (retain) ASIHTTPRequest *mainRequest;
-@property (assign) BOOL showAccurateProgress;
-@property (assign,readonly) unsigned long long totalBytesRead;
-@property (assign,readonly) unsigned long long totalBytesSent;
-@property (assign) NSStringEncoding defaultResponseEncoding;
-@property (assign,readonly) NSStringEncoding responseEncoding;
-@property (assign) BOOL allowCompressedResponse;
-@property (assign) BOOL allowResumeForFileDownloads;
-@property (retain) NSDictionary *userInfo;
-@property (retain) NSString *postBodyFilePath;
-@property (assign) BOOL shouldStreamPostDataFromDisk;
-@property (assign) BOOL didCreateTemporaryPostDataFile;
-@property (assign) BOOL useHTTPVersionOne;
-@property (assign, readonly) unsigned long long partialDownloadSize;
-@property (assign) BOOL shouldRedirect;
-@property (assign) BOOL validatesSecureCertificate;
-@property (assign) BOOL shouldCompressRequestBody;
-@property (assign) BOOL needsProxyAuthentication;
-@property (retain) NSURL *PACurl;
-@property (retain) NSString *authenticationScheme;
-@property (retain) NSString *proxyAuthenticationScheme;
-@property (assign) BOOL shouldPresentAuthenticationDialog;
-@property (assign) BOOL shouldPresentProxyAuthenticationDialog;
-@property (assign) BOOL authenticationChallengeInProgress;
-@property (assign) BOOL shouldPresentCredentialsBeforeChallenge;
-@property (assign, readonly) int authenticationRetryCount;
-@property (assign, readonly) int proxyAuthenticationRetryCount;
-@property (assign) BOOL haveBuiltRequestHeaders;
-@property (assign, nonatomic) BOOL haveBuiltPostBody;
+@property (strong,setter=setURL:) NSURL *url;
+@property (weak, nonatomic) id delegate;
+@property (weak, nonatomic) id queue;
+@property (weak, nonatomic) id uploadProgressDelegate;
+@property (weak, nonatomic) id downloadProgressDelegate;
+@property BOOL useKeychainPersistance;
+@property BOOL useSessionPersistance;
+@property (strong) NSString *downloadDestinationPath;
+@property (strong) NSString *temporaryFileDownloadPath;
+@property SEL didFinishSelector;
+@property SEL didFailSelector;
+@property (strong,readonly) NSString *authenticationRealm;
+@property (strong,readonly) NSString *proxyAuthenticationRealm;
+@property (strong) NSError *error;
+@property (readonly) BOOL complete;
+@property (strong,readonly) NSDictionary *responseHeaders;
+@property (strong) NSMutableDictionary *requestHeaders;
+@property (strong) NSMutableArray *requestCookies;
+@property (strong,readonly) NSArray *responseCookies;
+@property BOOL useCookiePersistance;
+@property (strong) NSDictionary *requestCredentials;
+@property (strong) NSDictionary *proxyCredentials;
+@property (readonly) int responseStatusCode;
+@property (strong,readonly) NSString *responseStatusMessage;
+@property (strong,readonly) NSMutableData *rawResponseData;
+@property NSTimeInterval timeOutSeconds;
+@property (strong) NSString *requestMethod;
+@property (strong) NSMutableData *postBody;
+@property (readonly) unsigned long long contentLength;
+@property unsigned long long postLength;
+@property BOOL shouldResetProgressIndicators;
+@property (strong) ASIHTTPRequest *mainRequest;
+@property BOOL showAccurateProgress;
+@property (readonly) unsigned long long totalBytesRead;
+@property (readonly) unsigned long long totalBytesSent;
+@property NSStringEncoding defaultResponseEncoding;
+@property (readonly) NSStringEncoding responseEncoding;
+@property BOOL allowCompressedResponse;
+@property BOOL allowResumeForFileDownloads;
+@property (strong) NSDictionary *userInfo;
+@property (strong) NSString *postBodyFilePath;
+@property BOOL shouldStreamPostDataFromDisk;
+@property BOOL didCreateTemporaryPostDataFile;
+@property BOOL useHTTPVersionOne;
+@property (readonly) unsigned long long partialDownloadSize;
+@property BOOL shouldRedirect;
+@property BOOL validatesSecureCertificate;
+@property BOOL shouldCompressRequestBody;
+@property BOOL needsProxyAuthentication;
+@property (strong) NSURL *PACurl;
+@property (strong) NSString *authenticationScheme;
+@property (strong) NSString *proxyAuthenticationScheme;
+@property BOOL shouldPresentAuthenticationDialog;
+@property BOOL shouldPresentProxyAuthenticationDialog;
+@property BOOL authenticationChallengeInProgress;
+@property BOOL shouldPresentCredentialsBeforeChallenge;
+@property (readonly) int authenticationRetryCount;
+@property (readonly) int proxyAuthenticationRetryCount;
+@property BOOL haveBuiltRequestHeaders;
+@property (nonatomic) BOOL haveBuiltPostBody;
 @end

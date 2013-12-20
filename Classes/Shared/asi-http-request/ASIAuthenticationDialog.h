@@ -22,7 +22,7 @@ typedef enum _ASIAuthenticationType {
 + (void)presentAuthenticationDialogForRequest:(ASIHTTPRequest *)request;
 + (void)presentProxyAuthenticationDialogForRequest:(ASIHTTPRequest *)request;
 
-@property (retain) ASIHTTPRequest *request;
-@property (retain) UIActionSheet *loginDialog;
-@property (assign) ASIAuthenticationType type;
+@property (strong) ASIHTTPRequest *request;
+@property (strong) UIActionSheet *loginDialog;
+@property ASIAuthenticationType type;
 @end

@@ -25,7 +25,7 @@
 	UILabel *label;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel				*label;
-@property (nonatomic, retain) IBOutlet UISegmentedControl	*theSegment;
+@property (nonatomic, strong) IBOutlet UILabel				*label;
+@property (nonatomic, strong) IBOutlet UISegmentedControl	*theSegment;
 
 @end

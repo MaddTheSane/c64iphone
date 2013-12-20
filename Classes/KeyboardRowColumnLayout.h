@@ -26,8 +26,8 @@
 	NSArray				*widths;
 }
 
-@property (nonatomic, retain)	NSArray		*columns;
-@property (nonatomic, retain)	NSArray		*widths;
+@property (nonatomic, strong)	NSArray		*columns;
+@property (nonatomic, strong)	NSArray		*widths;
 
 - (id)initWithFrame:(CGRect)frame andColumns:(NSArray*)theColumns andWidths:(NSArray*)theWidths;
 

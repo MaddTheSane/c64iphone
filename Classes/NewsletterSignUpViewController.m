@@ -143,7 +143,6 @@
 }
 
 - (void)sendDone {
-	[_connection release];
 	_connection = nil;
 	[_activity stopAnimating];
 }
@@ -165,19 +164,19 @@
 		return;
 	}
 	
-	[[[[UIAlertView alloc] initWithTitle:@"Success!" 
+	[[[UIAlertView alloc] initWithTitle:@"Success!" 
 								message:@"You'll receive a confirmation email to complete your subscription." 
 							   delegate:nil 
 					  cancelButtonTitle:@"OK" 
-					  otherButtonTitles:nil] autorelease] show];
+					  otherButtonTitles:nil] show];
 }
 		
 - (void)unableToComplete {
-	[[[[UIAlertView alloc] initWithTitle:@"We're Sorry" 
+	[[[UIAlertView alloc] initWithTitle:@"We're Sorry" 
 								 message:@"Sorry, but we're unable to submit your request at this time.  Please try again later." 
 								delegate:nil 
 					   cancelButtonTitle:@"OK" 
-					   otherButtonTitles:nil] autorelease] show];	
+					   otherButtonTitles:nil] show];	
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -187,11 +186,5 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[_email resignFirstResponder];
 }
-
-- (void)dealloc {
-	self.email = nil;
-    [super dealloc];
-}
-
 
 @end

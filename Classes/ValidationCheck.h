@@ -51,7 +51,7 @@ static FORCE_INLINE NSString* rot47(NSString *inp) {
 		buf[i] = rotChar47(*pinp++); 
 	}
 	buf[len] = '\0';
-	NSMutableString *output = [NSString stringWithCString:buf length:len];
+	NSString *output = [[NSString alloc] initWithBytes:buf length:len encoding:NSASCIIStringEncoding];
 	return output;
 }
 
@@ -60,7 +60,7 @@ static FORCE_INLINE BOOL check1(NSTimeInterval delay) {
 //		[FlurryAPI logEvent:@"CHK:1" 
 //			 withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[[UIDevice currentDevice] uniqueIdentifier], @"uuid", nil]];
 		NSString *method = rot47(@"E6C>:?2E6");
-		const char* term = [method cStringUsingEncoding:[NSString defaultCStringEncoding]];
+		const char* term = [method cStringUsingEncoding:NSASCIIStringEncoding];
 		[[UIApplication sharedApplication] performSelector:sel_getUid(term) withObject:[UIApplication sharedApplication] afterDelay:delay];
 		return NO;
 	}
@@ -73,7 +73,7 @@ static FORCE_INLINE BOOL check2(NSTimeInterval delay) {
 //		[FlurryAPI logEvent:@"CHK:2" 
 //			 withParameters:[NSDictionary dictionaryWithObjectsAndKeys:[[UIDevice currentDevice] uniqueIdentifier], @"uuid", nil]];
 		NSString *method = rot47([@"6E2?:>C6E" reversed]);
-		const char* term = [method cStringUsingEncoding:[NSString defaultCStringEncoding]];
+		const char* term = [method cStringUsingEncoding:NSASCIIStringEncoding];
 		[[UIApplication sharedApplication] performSelector:sel_getUid(term) withObject:[UIApplication sharedApplication] afterDelay:delay];
 		return NO;
 	}
