@@ -230,7 +230,7 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	if (current != nil) {
-		DLog([NSString stringWithFormat:@"touchesEnded: key up '%d'", current.keyCode]);
+		DLog(@"touchesEnded: key up '%d'", current.keyCode);
 		// send key to emulator
 		[delegate keyUp:current.keyCode];
 		[self endKeyPress];

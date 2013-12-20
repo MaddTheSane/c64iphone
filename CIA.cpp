@@ -391,7 +391,7 @@ uint8 MOS6526_2::ReadRegister(uint16 adr)
 // Write to port B, check for lightpen interrupt
 inline void MOS6526_1::check_lp(void)
 {
-	if ((prb | ~ddrb) & 0x10 != prev_lp)
+	if (((prb | ~ddrb) & 0x10) != prev_lp)
 		the_vic->TriggerLightpen();
 	prev_lp = (prb | ~ddrb) & 0x10;
 }

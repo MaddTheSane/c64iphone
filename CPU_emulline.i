@@ -1343,7 +1343,7 @@ redo_trap:
 				v_flag = (tmp ^ a) & 0x40;
 				if ((tmp & 0x0f) + (tmp & 0x01) > 5)
 					a = a & 0xf0 | (a + 6) & 0x0f;
-				if (c_flag = ((tmp + (tmp & 0x10)) & 0x1f0) > 0x50)
+				if ((c_flag = ((tmp + (tmp & 0x10)) & 0x1f0) > 0x50))
 					a += 0x60;
 			}
 			ENDOP(2);

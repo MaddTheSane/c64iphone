@@ -65,10 +65,12 @@ IEC::IEC(C64Display *display) : the_display(display)
 	drive = NULL;	// Important because UpdateLEDs is called from the drive constructors (via set_error)
 
 	if (!ThePrefs.Emul1541Proc)
+	{
 		if (ThePrefs.DriveType == DRVTYPE_D64)
 			drive = new D64Drive(this, ThePrefs.DrivePath);
 		else
 			drive = new T64Drive(this, ThePrefs.DrivePath);
+	}
 
 	listener_active = talker_active = false;
 	listening = false;
