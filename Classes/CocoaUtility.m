@@ -22,9 +22,7 @@
 @implementation UIImage(Loading)
 
 + (UIImage*)imageFromResource:(NSString*)resourceName {
-	NSData *imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resourceName 
-																							   ofType:nil]];
-	UIImage *image = [UIImage imageWithData:imageData];
+	UIImage *image = [UIImage imageNamed:resourceName];
 	return image;
 }
 
@@ -33,9 +31,7 @@
 @implementation UIImageView(UIImageHelpers)
 
 + (UIImageView*)newViewFromImageResource:(NSString*)resourceName {
-	NSData *imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resourceName 
-																							   ofType:nil]];
-	UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageWithData:imageData]];
+	UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:resourceName]];
 	return view;	
 }
 
@@ -45,11 +41,11 @@
 
 - (NSString *)encodeForURL {
 	NSString *reserved = @":/?#[]@!$&'()*+;=";
-    return (__bridge_transfer id)(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, (CFStringRef)reserved, kCFStringEncodingUTF8));
 }
 
 - (NSString *) decodeFromURL {
-	return (__bridge_transfer id)(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8));
+	return CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8));
 }
 
 @end

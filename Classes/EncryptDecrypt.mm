@@ -70,14 +70,13 @@ static void Decrypt(NSData *src, NSString **dst, NSString *key) {
 	char *dstData = (char *)malloc(128);
 	char *p = dstData;
 	
-	const int len = [src length];
+	const NSInteger len = [src length];
 	for(int i = 0; i < len; i++) {
 		*p++ = *srcData++ ^ keyDigest[i % CC_MD5_DIGEST_LENGTH];
 	}
 	
 	realloc(dstData, len);
-	*dst = [NSString stringWithCString:dstData length:len];
-	free(dstData);
+	*dst = [[NSString alloc] initWithBytesNoCopy:dstData length:len encoding:NSASCIIStringEncoding freeWhenDone:YES];
 }
 
 NSString* EncryptChallenge(NSString *challenge, NSString *key) {

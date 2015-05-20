@@ -27,7 +27,7 @@
 
 // fast wi-fi connection
 +(BOOL)hasActiveWiFiConnection {
-	SCNetworkReachabilityFlags	flags;
+	SCNetworkReachabilityFlags	flags = 0;
 	SCNetworkReachabilityRef    reachabilityRef;
 	BOOL                        gotFlags;
 	
@@ -36,7 +36,7 @@
 		gotFlags = SCNetworkReachabilityGetFlags(reachabilityRef, &flags);
 		CFRelease(reachabilityRef);
 	} else
-		gotFlags = 0;
+		gotFlags = NO;
 	
 	if (!gotFlags) {
 		return NO;
@@ -59,7 +59,7 @@
 }
 
 +(BOOL)hasNetworkConnectionToHost:(NSString*)hostName {
-    SCNetworkReachabilityFlags  flags;
+    SCNetworkReachabilityFlags  flags = 0;
     SCNetworkReachabilityRef	reachabilityRef;
     BOOL                        gotFlags;
     
@@ -68,7 +68,7 @@
 		gotFlags = SCNetworkReachabilityGetFlags(reachabilityRef, &flags);
 		CFRelease(reachabilityRef);
 	} else
-		gotFlags = 0;
+		gotFlags = NO;
     
     if (!gotFlags || (flags == 0) ) {
         return NO;

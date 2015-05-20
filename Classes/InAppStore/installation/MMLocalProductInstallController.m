@@ -119,7 +119,7 @@
 	NSString* packFile = [[NSBundle mainBundle] pathForResource:_mmProduct.productIdentifier ofType:@"zip"];
 	id mgr = [NSFileManager defaultManager];
 	if ([mgr fileExistsAtPath:packFile]) {
-		_downloadData = [NSData dataWithContentsOfFile:packFile];
+		_downloadData = [NSMutableData dataWithContentsOfFile:packFile];
 		return YES;
 	}
 	

@@ -407,11 +407,12 @@ void DigitalRenderer::calc_filter(void)
 		g2 += 0.1;
 	
 	// Stabilize filter
-	if (fabs(g1) >= g2 + 1.0)
+	if (fabs(g1) >= g2 + 1.0) {
 		if (g1 > 0.0)
 			g1 = g2 + 0.99;
 		else
 			g1 = -(g2 + 0.99);
+	}
 	
 	// Calculate roots (filter characteristic) and input attenuation
 	switch (f_type) {
