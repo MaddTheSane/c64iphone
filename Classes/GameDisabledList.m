@@ -21,6 +21,8 @@
 #import "GameDisabledList.h"
 #import "MMProductStatusRequest.h"
 
+#include <cmath>
+
 static GameDisabledList* g_gameIgnoreList = nil;
 
 #define INACTIVE_GAMES_FILE		[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/inactiveGames.plist"]
@@ -57,8 +59,8 @@ static GameDisabledList* g_gameIgnoreList = nil;
 
 - (NSArray*)getDisabledIdsWithBlock:(void(^)(NSArray* ids))block {
 	NSDate *last = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingLastDisabledIdsCheck];
-	if (!last || abs([last timeIntervalSinceNow]) > kSecondsIn24Hours) {
-		[[MMProductStatusRequest alloc] initWithSuccessBlock:^(NSArray *prods, BOOL succeeded) {
+	if (!last || std::abs([last timeIntervalSinceNow]) > kSecondsIn24Hours) {
+		MMProductStatusRequest *tmp = [[MMProductStatusRequest alloc] initWithSuccessBlock:^(NSArray *prods, BOOL succeeded) {
 			if (!succeeded) return;
 			
 			// only update the checked date if the request was successful
