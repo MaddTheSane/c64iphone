@@ -1,11 +1,14 @@
 # XCode noise
-build/*
+build/
 *.pbxuser
 *.mode1v3
 *.pyc 
 *~.nib/ 
 *.perspective 
 *.perspectivev3
+xcuserdata/
+project.xcworkspace/
+*.xccheckout
 
 # old school
 .svn
@@ -13,6 +16,3 @@ build/*
 # osx noise
 .DS_store
 profile
-*/xcuserdata
-project.xcworkspace/
-*.xccheckout
