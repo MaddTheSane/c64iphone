@@ -35,7 +35,9 @@
 
 const double kButtonYPosition = 0.0;
 
-@synthesize delegate, state, showGameMode;
+@synthesize delegate;
+@synthesize state;
+@synthesize showGameMode;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

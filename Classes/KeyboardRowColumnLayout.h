@@ -29,6 +29,6 @@
 @property (nonatomic, strong)	NSArray		*columns;
 @property (nonatomic, strong)	NSArray		*widths;
 
-- (id)initWithFrame:(CGRect)frame andColumns:(NSArray*)theColumns andWidths:(NSArray*)theWidths;
+- (instancetype)initWithFrame:(CGRect)frame andColumns:(NSArray*)theColumns andWidths:(NSArray*)theWidths;
 
 @end

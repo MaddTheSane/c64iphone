@@ -19,10 +19,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KeyboardRowAbsoluteLayout : UIView {
+@interface KeyboardRowAbsoluteLayout : UIView
 
-}
-
-- (id)initWithFrame:(CGRect)frame andKeys:(NSArray*)keys;
+- (instancetype)initWithFrame:(CGRect)frame andKeys:(NSArray*)keys;
 
 @end

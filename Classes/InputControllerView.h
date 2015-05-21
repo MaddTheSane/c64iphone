@@ -40,8 +40,6 @@
 	
 	float								_deadZone;		// represents the deadzone radius, where the DPad state will be considered DPadCenter
 	
-	id<InputControllerChangedDelegate>	__weak delegate;
-	
 	UIAccelerationValue					*accel;
 	BOOL								useAccel;
 	BOOL								isLandscape;

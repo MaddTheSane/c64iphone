@@ -27,7 +27,7 @@
 
 /*! Initialize a set of items, which should be strings representing the image resources
  */
-- (id)initWithItems:(NSArray*)items;
+- (instancetype)initWithItems:(NSArray*)items;
 
 @property(nonatomic,readonly)	NSUInteger numberOfSegments;
 @property(nonatomic)			NSInteger selectedSegmentIndex;

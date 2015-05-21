@@ -21,7 +21,7 @@
 
 @protocol MultiLayoutKeyboardView
 
-@property (nonatomic, retain)	id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, weak)	id<UIEnhancedKeyboardDelegate>	delegate;
 
 @optional
 

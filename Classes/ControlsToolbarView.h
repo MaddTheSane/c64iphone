@@ -24,7 +24,7 @@
 - (void)changed;
 @end
 
-enum ControlsToolbarState {
+typedef NS_ENUM(short, ControlsToolbarState) {
 	ControlsStateAlpha		= 1000,
 	ControlsStateNumeric	= 1001,
 	ControlsStateFunction	= 1002,
@@ -41,13 +41,12 @@ enum ControlsToolbarState {
 	IBOutlet UIButton					*buttonControls;
 
 	ControlsToolbarState				state;
-	id<ControlsToolbarChangedDelegate>	delegate;
 	BOOL								showGameMode;
 	NSArray								*currentButtons;
 }
 
 @property (nonatomic) ControlsToolbarState							state;
-@property (nonatomic, strong) id<ControlsToolbarChangedDelegate>	delegate;
+@property (nonatomic, weak) id<ControlsToolbarChangedDelegate>		delegate;
 @property (nonatomic) BOOL											showGameMode;
 
 - (IBAction)selected:(UIButton*)sender;

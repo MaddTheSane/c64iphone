@@ -28,8 +28,8 @@
 #endif
 }
 
-- (id)initWithCertificate:(NSString*)fileName;
-- (id)initWithCertificateData:(NSData*)data;
+- (instancetype)initWithCertificate:(NSString*)fileName;
+- (instancetype)initWithCertificateData:(NSData*)data;
 - (BOOL)verifyFile:(NSString*)fileName withSignature:(NSString*)signatureFileName;
 - (BOOL)verifyData:(NSData*)data withSignature:(NSData*)signatureData;
 

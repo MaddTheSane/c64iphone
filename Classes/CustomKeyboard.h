@@ -20,12 +20,10 @@
 #import <UIKit/UIKit.h>
 #import "MultiLayoutKeyboardViewProtocol.h"
 
-@interface CustomKeyboard : UIView<UIEnhancedKeyboardDelegate, MultiLayoutKeyboardView> {
-	id<UIEnhancedKeyboardDelegate>	delegate;
-}
+@interface CustomKeyboard : UIView<UIEnhancedKeyboardDelegate, MultiLayoutKeyboardView>
 
-@property (nonatomic, strong)	id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, weak)	id<UIEnhancedKeyboardDelegate>	delegate;
 
-- (id)initWithFrame:(CGRect)frame andLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath;
+- (instancetype)initWithFrame:(CGRect)frame andLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath;
 
 @end

@@ -231,6 +231,11 @@ static NSMutableDictionary		*sharedDictionary	= nil;
 	return sharedDictionary[aKey];
 }
 
+- (id) objectForKeyedSubscript:(NSString*)key
+{
+	return sharedDictionary[key];
+}
+
 - (NSMutableDictionary *) securedDictionary {
 	return sharedDictionary;
 }

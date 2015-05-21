@@ -32,30 +32,31 @@ static C64Defaults *g_c64Defaults;
 
 + (C64Defaults*)shared {
 	if (!g_c64Defaults)
-		g_c64Defaults = [C64Defaults new];
+		g_c64Defaults = [[C64Defaults alloc] init];
 	
 	return g_c64Defaults;
 }
 
 + (void)initialize {
-	if (self != [C64Defaults class]) return;
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	//NSString* currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-	//NSString* defVersion = [defaults stringForKey:kSettingDefaultsVersion];
-	//if ([currentVersion isEqualToString:defVersion]) return;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		
-	NSDictionary* resourceDict = @{
-								kSettingFullScreenModeDisplaySkin: @NO,
-								   kSettingIsJoystickOnRight: @NO,
-								   kSettingTouchStickDeadZone: @30.0f,
-								   kSettingControlsMode: @1};
-	
-	[defaults registerDefaults:resourceDict];
-	
-	//[defaults setObject:currentVersion forKey:kSettingDefaultsVersion];
-	[defaults synchronize];	
+		//NSString* currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+		//NSString* defVersion = [defaults stringForKey:kSettingDefaultsVersion];
+		//if ([currentVersion isEqualToString:defVersion]) return;
+		
+		NSDictionary* resourceDict = @{
+									   kSettingFullScreenModeDisplaySkin: @NO,
+									   kSettingIsJoystickOnRight: @NO,
+									   kSettingTouchStickDeadZone: @30.0f,
+									   kSettingControlsMode: @1};
+		
+		[defaults registerDefaults:resourceDict];
+		
+		//[defaults setObject:currentVersion forKey:kSettingDefaultsVersion];
+		[defaults synchronize];
+	});
 }
 
 #pragma mark -

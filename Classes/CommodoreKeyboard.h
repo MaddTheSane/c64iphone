@@ -24,12 +24,11 @@
 @class KeyboardView;
 
 @interface CommodoreKeyboard : UIView<UIEnhancedKeyboardDelegate, MultiLayoutKeyboardView> {
-	id<UIEnhancedKeyboardDelegate>	delegate;
 	NSMutableDictionary				*keyboardViews;
 	UIView							*currentView;
 }
 
-@property (nonatomic, strong)	id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, weak)		id<UIEnhancedKeyboardDelegate>	delegate;
 @property (nonatomic, strong)	UIView							*currentView;
 
 - (void)setKeyboardLayout:(NSString*)layout;

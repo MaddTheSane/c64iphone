@@ -17,6 +17,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Commodore64KeyCodes.h"
+
 #define ADD_KEY(key) { #key, KeyCode_##key, #key },
 #define ADD_KEY2(key, name) { #key, KeyCode_##key, #name },
 

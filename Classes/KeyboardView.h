@@ -28,14 +28,13 @@ const CGFloat kDefaultPaddingBetweenKeys		= 0.0;
 @interface KeyboardView : UIView {
 	KeyView							*current;
 	UIImageView						*pushed;
-	id<UIEnhancedKeyboardDelegate>	delegate;
 	BOOL							keyLocked;
 	NSTimer							*keyDownDelay;
 }
 
 + (KeyboardView*)createFromLayout:(NSDictionary*)layout andBasePath:(NSString*)basePath;
 
-@property (nonatomic, strong)		id<UIEnhancedKeyboardDelegate>	delegate;
+@property (nonatomic, weak)			id<UIEnhancedKeyboardDelegate>	delegate;
 
 @end
 
@@ -47,14 +46,14 @@ const CGFloat kDefaultPaddingBetweenKeys		= 0.0;
 	CGRect					oldRect;
 }
 
-@property (nonatomic, readonly) float	normalWidth;
-@property (nonatomic, readonly) float	normalHeight;
+@property (nonatomic, readonly) CGFloat	normalWidth;
+@property (nonatomic, readonly) CGFloat	normalHeight;
 @property (nonatomic)			int		keyCode;
 @property (nonatomic, readonly)	UIImage *up;
 @property (nonatomic, readonly)	UIImage *down;
 @property (nonatomic)			BOOL	pushed;
 
-- (id)initWithCode:(int)code withUpName:(NSString*)upName withDownName:(NSString*)downName andTopLeft:(CGPoint)topLeft andBasePath:(NSString*)basePath;
+- (instancetype)initWithCode:(int)code withUpName:(NSString*)upName withDownName:(NSString*)downName andTopLeft:(CGPoint)topLeft andBasePath:(NSString*)basePath;
 
 @end
 

@@ -29,7 +29,7 @@
 +(BOOL)hasActiveWiFiConnection {
 	SCNetworkReachabilityFlags	flags = 0;
 	SCNetworkReachabilityRef    reachabilityRef;
-	BOOL                        gotFlags;
+	BOOL                        gotFlags = nil;
 	
 	reachabilityRef = SCNetworkReachabilityCreateWithName(CFAllocatorGetDefault(), [@"www.apple.com" UTF8String]);
 	if (reachabilityRef) {
@@ -61,7 +61,7 @@
 +(BOOL)hasNetworkConnectionToHost:(NSString*)hostName {
     SCNetworkReachabilityFlags  flags = 0;
     SCNetworkReachabilityRef	reachabilityRef;
-    BOOL                        gotFlags;
+    BOOL                        gotFlags = NO;
     
     reachabilityRef = SCNetworkReachabilityCreateWithName(CFAllocatorGetDefault(), [hostName UTF8String]);
     if (reachabilityRef) {

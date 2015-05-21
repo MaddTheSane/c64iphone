@@ -317,11 +317,11 @@ const double	kKeyDelayInterval = (200.0 / 1000.0);
 	}
 }
 
-- (float)normalWidth {
+- (CGFloat)normalWidth {
 	return up.size.width;
 }
 
-- (float)normalHeight {
+- (CGFloat)normalHeight {
 	return up.size.height;
 }
 

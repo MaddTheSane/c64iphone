@@ -21,31 +21,25 @@
 
 @class KeyView;
 
-enum KeyAlignment {
+typedef NS_ENUM(char, KeyAlignment) {
 	KALeft,
 	KACentre,
 	KARight
 };
 
-@interface KeyboardRow : NSObject {
-	NSMutableArray				*left;
-	NSMutableArray				*centre;
-	NSMutableArray				*right;
-}
+@interface KeyboardRow : NSObject
 
 @property (nonatomic, strong) NSMutableArray *left, *centre, *right;
 
-- (id) init;
+- (instancetype) init;
 - (CGFloat) calculateWidthFor:(KeyAlignment)alignment;
 
 @end
 
-@interface KeyboardRowAutoLayoutView : UIView {
-	KeyboardRow					*row;
-}
+@interface KeyboardRowAutoLayoutView : UIView
 
 @property (nonatomic, strong)	KeyboardRow		*row;
 
-- (id)initWithFrame:(CGRect)frame andRow:(KeyboardRow*)theRow;
+- (instancetype)initWithFrame:(CGRect)frame andRow:(KeyboardRow*)theRow;
 
 @end

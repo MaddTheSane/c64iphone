@@ -20,7 +20,7 @@
 #import "KeyboardRowAutoLayoutView.h"
 #import "KeyboardView.h"
 
-@interface KeyboardRowAutoLayoutView(Private)
+@interface KeyboardRowAutoLayoutView()
 
 - (void)doLayout;
 

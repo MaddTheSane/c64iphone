@@ -21,10 +21,11 @@
 
 //! SecuredDictionaryStorage securely saves key / values to the iPhone keychain
 @interface SecuredDictionaryStorage: NSObject 
-+ (SecuredDictionaryStorage *) sharedInstance; 
++ (SecuredDictionaryStorage *)sharedInstance;
 - (void) clearSecuredDictionary;
-- (void) setObject: (id) anObject forKey: (NSString *) aKey; 
-- (void) removeObjectForKey: (NSString *) aKey; 
-- (id) objectForKey: (NSString *) aKey; 
-- (NSMutableDictionary *) securedDictionary; 
+- (void) setObject: (id) anObject forKey:(NSString *) aKey;
+- (void) removeObjectForKey: (NSString *) aKey;
+- (id) objectForKey: (NSString *) aKey;
+- (id) objectForKeyedSubscript:(NSString*)key;
+- (NSMutableDictionary *) securedDictionary;
 @end 

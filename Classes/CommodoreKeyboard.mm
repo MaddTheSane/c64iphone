@@ -21,7 +21,7 @@
 #import "KeyboardView.h"
 #import "debug.h"
 
-@interface CommodoreKeyboard(Private)
+@interface CommodoreKeyboard()
 
 - (void)loadKeyboardViews;
 
@@ -30,7 +30,8 @@
 
 @implementation CommodoreKeyboard
 
-@synthesize delegate, currentView;
+@synthesize delegate;
+@synthesize currentView;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
